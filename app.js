@@ -4,9 +4,11 @@ const {v4} = require('uuid')
 const path = require('path')
 const app = express()
 app.use(cors())
+app.use(express.json())
+
 const PORT = process.env.PORT || 5001
 
-const PRODUCTS = [
+let PRODUCTS = [
     {
         id: v4(),
         name: "Sneakers",
@@ -49,6 +51,29 @@ const PRODUCTS = [
 
 app.get('/api/products', (req, res) => {
     res.status(200).json(PRODUCTS)
+})
+
+// POST
+
+app.post('/api/products', (req, res) => {
+    const product = {...req.body, id: v4(), isFavourable: false }
+    PRODUCTS.push(product)
+    res.status(201).json(product)
+})
+
+// DELETE
+
+app.delete('/api/products', (req, res) => {
+    PRODUCTS = PRODUCTS.filter(product => product.id !== req.params.id)
+    res.status(200).json({massage: 'Product has deleted'})
+})
+
+// PUT
+
+app.put('/api/products/:id', (req, res) => {
+    const index = PRODUCTS.findIndex(product => product.id === req.params.id)
+    PRODUCTS[index] = req.body
+    res.status(200).json(PRODUCTS[index])
 })
 
 
