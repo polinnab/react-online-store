@@ -1,23 +1,23 @@
-import axios from "axios"
-import {get} from "./utils/_apiRequests"
+import FetchedProducts from "./components/products/FetchedProducts";
+import ProductForm from "./components/products/ProductForm";
 
-// for test
-const testrequest = () => {
-  axios.get('http://localhost:5001/api/products')
-  .then(response => {
-    console.log(response)
-  })
-}
-// testrequest()
 
-const products = get('http://localhost:5001/api/products')
-console.log(products)
-// 
+function App({store}) {
 
-function App() {
+
   return (
     <div className="container pt-3">
-      <h1>Hello</h1>
+      <div className="row">
+        <div className="col">
+          <ProductForm />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <h2>Fetched Products</h2>
+          <FetchedProducts />
+        </div>
+      </div>
     </div>
   );
 }

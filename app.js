@@ -24,6 +24,24 @@ const PRODUCTS = [
         ],
         isFavourable: false
 
+    },
+    {
+        id: v4(),
+        name: "Sneakers",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        price: "300.99",
+        images: [
+            {
+                big: "./upload/image-product-1.jpg",
+                thumb: "./upload/image-product-1-thumbnail.jpg"
+            },
+            {
+                big: "./upload/image-product-2.jpg",
+                thumb: "./upload/image-product-2-thumbnail.jpg"
+            }
+        ],
+        isFavourable: false
+
     }
 ]
 
