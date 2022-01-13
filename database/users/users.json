@@ -1,0 +1,17 @@
+[
+	{
+		"id": 1,
+		"name": "name",
+		"email": "email@qw.we",
+		"password": "qwe",
+		"fav": [
+			1
+		],
+		"cart": [
+			{
+				"id": 1,
+				"count": 1
+			}
+		]
+	}
+]

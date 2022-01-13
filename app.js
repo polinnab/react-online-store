@@ -3,6 +3,17 @@ const cors = require('cors')
 const {v4} = require('uuid')
 const path = require('path')
 const app = express()
+const fs = require('fs');
+const brandsFile = './database/categories/brands.json';
+const typesFile = './database/categories/types.json';
+const colorsFile = './database/categories/colors.json';
+const productsFile = './database/products/products.json';
+const usersFile = './database/users/users.json';
+const brands = JSON.parse(fs.readFileSync(brandsFile));
+const types = JSON.parse(fs.readFileSync(typesFile));
+const colors = JSON.parse(fs.readFileSync(colorsFile));
+const users = JSON.parse(fs.readFileSync(usersFile));
+const products = JSON.parse(fs.readFileSync(productsFile))
 app.use(cors())
 app.use(express.json())
 
@@ -50,14 +61,14 @@ let PRODUCTS = [
 // GET
 
 app.get('/api/products', (req, res) => {
-    res.status(200).json(PRODUCTS)
+    res.status(200).json(Products)
 })
 
 // POST
 
 app.post('/api/products', (req, res) => {
-    const product = {...req.body, id: v4(), isFavourable: false }
-    PRODUCTS.push(product)
+    const product = {...req.body, id: v4()}
+    fs.writeFileSync(productsFile, product)
     res.status(201).json(product)
 })
 
