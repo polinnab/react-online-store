@@ -1,24 +1,19 @@
-import FetchedProducts from "./components/products/FetchedProducts";
-import ProductForm from "./components/products/ProductForm";
+import { Route, BrowserRouter, Routes } from "react-router-dom"
+import { ROUTES } from "./shared/utils/_routes"
+import ProductsPage from "./pages/dashboard/ProductsPage";
+import AdminPage from "./pages/admin/AdminPage";
 
 
-function App({store}) {
+function App() {
 
 
   return (
-    <div className="container pt-3">
-      <div className="row">
-        <div className="col">
-          <ProductForm />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <h2>Fetched Products</h2>
-          <FetchedProducts />
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={"/"} exact element={<ProductsPage />} />
+        <Route path={ROUTES.admin} element={<AdminPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
