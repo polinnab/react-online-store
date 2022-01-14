@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { TextField, Button, DialogActions, Alert, IconButton } from '@mui/material';
+import React from 'react';
+import { TextField, Button, DialogActions } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-// import { createBrand } from '../../../utils/axios/productAPI';
 
 const validationSchema = yup.object({
   brand: yup.string('Введите бренд').required('Поле обязательно'),
 });
 
 const DialogBrand = ({ hideDialog }) => {
-  const [showNoty, setShowNoti] = useState(false);
   const formik = useFormik({
     initialValues: {
       brand: '',
@@ -17,7 +15,7 @@ const DialogBrand = ({ hideDialog }) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(JSON.stringify(values.brand, null, 2));
-      setShowNoti(true)
+      hideDialog({ type: 'success', message: 'Бренд успешно добавлен!' })
     },
   });
 
@@ -33,13 +31,6 @@ const DialogBrand = ({ hideDialog }) => {
           </Button>
         </DialogActions>
       </form>
-
-      <Alert
-          severity="success"
-          sx={{ mb: 2 }}
-        >
-          Close me!
-        </Alert>
     </div>
   );
 };
