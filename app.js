@@ -61,10 +61,28 @@ let PRODUCTS = [
 // GET
 
 app.get('/api/products', (req, res) => {
-    res.status(200).json(Products)
+    res.status(200).json(products)
+})
+
+app.get('/api/types', (req, res) => {
+    res.status(200).json(types)
+})
+
+app.get('/api/brands', (req, res) => {
+    res.status(200).json(brands)
+})
+
+app.get('/api/colors', (req, res) => {
+    res.status(200).json(colors)
 })
 
 // POST
+
+app.post('/api/types', (req, res) => {
+    const type = {...req.body, id: v4()}
+    fs.writeFileSync(productsFile, type)
+    res.status(201).json(type)
+})
 
 app.post('/api/products', (req, res) => {
     const product = {...req.body, id: v4()}

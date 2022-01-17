@@ -7,6 +7,9 @@ const validationSchema = yup.object({
   name: yup.string('Введите название').required('Поле обязательно'),
   desc: yup.string('Введите описание').required('Поле обязательно'),
   price: yup.string('Введите цену').required('Поле обязательно'),
+  type: yup.string('Выберите тип').required('Поле обязательно'),
+  brand: yup.string('Выберите бренд').required('Поле обязательно'),
+  color: yup.string('Выберите цвет').required('Поле обязательно'),
 });
 
 const DialogProduct = ({ hideDialog }) => {
@@ -20,7 +23,7 @@ const DialogProduct = ({ hideDialog }) => {
   const colors = [
     {
       id: 1,
-      name: "Brown"
+      name: 'Brown',
     },
   ];
 
@@ -36,9 +39,9 @@ const DialogProduct = ({ hideDialog }) => {
       name: '',
       desc: '',
       price: '',
-      type: types[0].id,
-      brand: brands[0].id,
-      color: colors[0].id
+      type: '',
+      brand: '',
+      color: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -47,23 +50,13 @@ const DialogProduct = ({ hideDialog }) => {
     },
   });
 
-  
-
   return (
     <div>
       <p>Добавить товар</p>
       <form onSubmit={formik.handleSubmit}>
-        <FormControl 
-          variant='standard' 
-          fullWidth
-          >
+        <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Тип</InputLabel>
-          <Select 
-            name='type' 
-            value={formik.values.type} 
-            label='Тип' 
-            onChange={formik.handleChange}
-            >
+          <Select name='type' value={formik.values.type} label='Тип' onChange={formik.handleChange} error={formik.touched.type && Boolean(formik.errors.type)}>
             {types.map((elem) => (
               <MenuItem key={elem.id} value={elem.id}>
                 {elem.name}
@@ -71,9 +64,9 @@ const DialogProduct = ({ hideDialog }) => {
             ))}
           </Select>
         </FormControl>
-        <FormControl variant='standard' fullWidth>
+        <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Бренд</InputLabel>
-          <Select name='brand' value={formik.values.brand} label='Бренд' onChange={formik.handleChange}>
+          <Select name='brand' value={formik.values.brand} label='Бренд' onChange={formik.handleChange} error={formik.touched.brand && Boolean(formik.errors.brand)}>
             {brands.map((elem) => (
               <MenuItem key={elem.id} value={elem.id}>
                 {elem.name}
@@ -83,7 +76,7 @@ const DialogProduct = ({ hideDialog }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth>
           <InputLabel>Цвет</InputLabel>
-          <Select name='color' value={formik.values.color} label='Цвет' onChange={formik.handleChange}>
+          <Select name='color' value={formik.values.color} label='Цвет' onChange={formik.handleChange} error={formik.touched.color && Boolean(formik.errors.color)}>
             {colors.map((elem) => (
               <MenuItem key={elem.id} value={elem.id}>
                 {elem.name}

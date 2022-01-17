@@ -6,12 +6,12 @@
 		"price": "300.99",
 		"images": [
 			{
-				"big": "./upload/image-product-1.jpg",
-				"thumb": "./upload/image-product-1-thumbnail.jpg"
+				"big": "/upload/image-product-1.jpg",
+				"thumb": "/upload/image-product-1-thumbnail.jpg"
 			},
 			{
-				"big": "./upload/image-product-2.jpg",
-				"thumb": "./upload/image-product-2-thumbnail.jpg"
+				"big": "/upload/image-product-2.jpg",
+				"thumb": "/upload/image-product-2-thumbnail.jpg"
 			}
 		],
 		"typeId": 1,
