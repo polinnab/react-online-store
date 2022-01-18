@@ -5,12 +5,14 @@ import { rootSaga } from './saga/rootSaga';
 import dialogSlice from './slices/dialogSlice';
 import productSlice from './slices/productSlice';
 import userSlice from './slices/userSlice';
+import categoriesSlice from './slices/categoriesSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   dialog: dialogSlice,
   products: productSlice,
+  categories: categoriesSlice,
   user: userSlice
 });
 

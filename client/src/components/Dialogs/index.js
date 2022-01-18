@@ -47,10 +47,20 @@ const Dialogs = () => {
     }
   };
 
+  const showNoti = (noti) => {
+    if (noti?.message) {
+      setNoti({
+        type: noti.type,
+        message: noti.message
+      })
+      setOpen(true);
+    }
+  }
+
   return (
     <React.Fragment>
       <Dialog open={dialogVisible} onClose={hideDialog} maxWidth={'md'}>
-        <DialogContent>{dialogName ? <DialogShow hideDialog={hideDialog} /> : ''}</DialogContent>
+        <DialogContent>{dialogName ? <DialogShow hideDialog={hideDialog} showNoti={showNoti} /> : ''}</DialogContent>
       </Dialog>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={noti.type || 'info'} sx={{ width: '100%' }}>

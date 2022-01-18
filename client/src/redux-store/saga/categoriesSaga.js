@@ -1,7 +1,8 @@
-import { get } from './_apiRequests';
+import { get, post, remove } from './_apiRequests';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
-import { all, put } from 'redux-saga/effects';
+import { all, put, takeEvery } from 'redux-saga/effects';
 import { getTypes, getBrands, getColors } from '../slices/categoriesSlice';
+import { sagaActions } from './sagaActions';
 
 function* fetchTypesListWorker(action) {
   const data = yield get(`${LOCAL_HOST}${PORT}/api/types`);
@@ -10,9 +11,19 @@ function* fetchTypesListWorker(action) {
 }
 
 function* addTypesListWorker(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/types`);
+  const options = {
+    name: action.val,
+  };
+  yield post(`${LOCAL_HOST}${PORT}/api/types`, { options: JSON.stringify(options) })
+  yield fetchTypesListWorker()
+}
 
-  yield put(getTypes(data));
+function* removeTypeListWorker(action) {
+  const options = {
+    id: action.val,
+  };
+  yield remove(`${LOCAL_HOST}${PORT}/api/types`, { options: JSON.stringify(options) })
+  yield fetchTypesListWorker()
 }
 
 function* fetchBrandsListWorker(action) {
@@ -28,7 +39,8 @@ function* fetchColorsListWorker(action) {
 }
 
 export function* categoriesSaga() {
-  yield all([fetchTypesListWorker()]);
-  yield all([fetchBrandsListWorker()]);
-  yield all([fetchColorsListWorker()]);
+  yield takeEvery(sagaActions.ADD_TYPE, addTypesListWorker);
+  yield takeEvery(sagaActions.GET_TYPES, fetchTypesListWorker);
+  yield takeEvery(sagaActions.REMOVE_TYPE, removeTypeListWorker);
+  yield all([fetchBrandsListWorker(), fetchColorsListWorker()]);
 }

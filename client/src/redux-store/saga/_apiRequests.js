@@ -30,13 +30,23 @@ export function* get(url, queryParams = {}, params = {}) {
   });
 }
 
-export function* post(url, queryParams = {}, params = {}) {
-  const { headers = {}, ...options } = params;
-  const query = new URLSearchParams(queryParams).toString();
+export function* post(url, params = {}) {
+  const { headers = {'Content-Type': 'application/json'}, options } = params;
 
-  return yield request(`${url}?${query}`, {
+  return yield request(`${url}`, {
     method: 'POST',
-    headers,
-    ...options,
+    body: options,
+    headers
+  });
+}
+
+
+export function* remove(url, params = {}) {
+  const { headers = {'Content-Type': 'application/json'}, options } = params;
+
+  return yield request(`${url}`, {
+    method: 'delete',
+    body: options,
+    headers
   });
 }
