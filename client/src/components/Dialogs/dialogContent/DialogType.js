@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { TextField, Button, DialogActions } from '@mui/material';
-import { sagaActions } from '../../../redux-store/saga/sagaActions';
-import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { categoriesActions } from '../../../redux-store/saga/sagaActions';
 import InfoTable from '../../InfoTable/InfoTable';
 import * as yup from 'yup';
 
@@ -13,10 +13,10 @@ const validationSchema = yup.object({
 const DialogType = ({ hideDialog, showNoti }) => {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.categories.types)
-  const headers = ['Типы', 'Название', 'Удалить']
+  const headers = ['Типы', 'Название', 'Действие']
 
   useEffect(() => {
-    dispatch({type: sagaActions.GET_TYPES})
+    dispatch({type: categoriesActions.GET_CAT, category_name: 'types'})
   }, [dispatch])
 
   const formik = useFormik({
@@ -25,16 +25,15 @@ const DialogType = ({ hideDialog, showNoti }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, {resetForm}) => {
-      dispatch({type: sagaActions.ADD_TYPE, val: values.type})
+      dispatch({type: categoriesActions.ADD_CAT, category_name: 'types', val: values.type})
       showNoti({ type: 'success', message: 'Тип успешно добавлен!' })
       resetForm();
     },
   });
 
   const removeElem = (id) => {
-    dispatch({type: sagaActions.REMOVE_TYPE, val: id})
+    dispatch({type: categoriesActions.REMOVE_CAT, category_name: 'types', val: id})
   }
-
 
   return (
     <div>

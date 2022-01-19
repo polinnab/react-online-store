@@ -1,52 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TextField, Button, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useFormik } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { categoriesActions, productsActions } from '../../../redux-store/saga/sagaActions';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
   name: yup.string('Введите название').required('Поле обязательно'),
   desc: yup.string('Введите описание').required('Поле обязательно'),
   price: yup.string('Введите цену').required('Поле обязательно'),
-  type: yup.string('Выберите тип').required('Поле обязательно'),
-  brand: yup.string('Выберите бренд').required('Поле обязательно'),
-  color: yup.string('Выберите цвет').required('Поле обязательно'),
+  typeId: yup.string('Выберите тип').required('Поле обязательно'),
+  brandId: yup.string('Выберите бренд').required('Поле обязательно'),
+  colorId: yup.string('Выберите цвет').required('Поле обязательно'),
 });
 
-const DialogProduct = ({ hideDialog }) => {
-  const types = [
-    {
-      id: 1,
-      name: 'Sneakers',
-    },
-  ];
+const DialogProduct = ({ hideDialog, showNoti }) => {
+  const dispatch = useDispatch();
+  const {brands, colors, types} = useSelector((state) => state.categories);
 
-  const colors = [
-    {
-      id: 1,
-      name: 'Brown',
-    },
-  ];
-
-  const brands = [
-    {
-      id: 1,
-      name: 'Nike',
-    },
-  ];
+  useEffect(() => {
+    dispatch({ type: categoriesActions.GET_CAT, category_name: 'brands' });
+    dispatch({ type: categoriesActions.GET_CAT, category_name: 'types' });
+    dispatch({ type: categoriesActions.GET_CAT, category_name: 'colors' });
+  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
       name: '',
       desc: '',
       price: '',
-      type: '',
-      brand: '',
-      color: '',
+      typeId: '',
+      brandId: '',
+      colorId: '',
+      images: [
+        {
+          big: '',
+          thumb: ''
+        }
+      ],
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
-      hideDialog({ type: 'success', message: 'Товар успешно добавлен!' });
+    onSubmit: (values, {resetForm}) => {
+      console.log('values', values);
+      dispatch({ type: productsActions.ADD_PRODUCT, product: values });
+      showNoti({ type: 'success', message: 'Товар успешно добавлен!' });
+      resetForm();
     },
   });
 
@@ -56,7 +54,7 @@ const DialogProduct = ({ hideDialog }) => {
       <form onSubmit={formik.handleSubmit}>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Тип</InputLabel>
-          <Select name='type' value={formik.values.type} label='Тип' onChange={formik.handleChange} error={formik.touched.type && Boolean(formik.errors.type)}>
+          <Select name='typeId' value={formik.values.typeId} label='Тип' onChange={formik.handleChange} error={formik.touched.typeId && Boolean(formik.errors.typeId)}>
             {types.map((elem) => (
               <MenuItem key={elem.id} value={elem.id}>
                 {elem.name}
@@ -66,7 +64,7 @@ const DialogProduct = ({ hideDialog }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Бренд</InputLabel>
-          <Select name='brand' value={formik.values.brand} label='Бренд' onChange={formik.handleChange} error={formik.touched.brand && Boolean(formik.errors.brand)}>
+          <Select name='brandId' value={formik.values.brandId} label='Бренд' onChange={formik.handleChange} error={formik.touched.brandId && Boolean(formik.errors.brandId)}>
             {brands.map((elem) => (
               <MenuItem key={elem.id} value={elem.id}>
                 {elem.name}
@@ -76,7 +74,7 @@ const DialogProduct = ({ hideDialog }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth>
           <InputLabel>Цвет</InputLabel>
-          <Select name='color' value={formik.values.color} label='Цвет' onChange={formik.handleChange} error={formik.touched.color && Boolean(formik.errors.color)}>
+          <Select name='colorId' value={formik.values.colorId} label='Цвет' onChange={formik.handleChange} error={formik.touched.colorId && Boolean(formik.errors.colorId)}>
             {colors.map((elem) => (
               <MenuItem key={elem.id} value={elem.id}>
                 {elem.name}

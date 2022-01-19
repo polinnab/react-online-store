@@ -10,11 +10,11 @@ const typesFile = './database/categories/types.json';
 const colorsFile = './database/categories/colors.json';
 const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
-const brands = JSON.parse(fs.readFileSync(brandsFile));
-const types = JSON.parse(fs.readFileSync(typesFile));
-const colors = JSON.parse(fs.readFileSync(colorsFile));
-const users = JSON.parse(fs.readFileSync(usersFile));
-const products = JSON.parse(fs.readFileSync(productsFile))
+let brands = JSON.parse(fs.readFileSync(brandsFile));
+let types = JSON.parse(fs.readFileSync(typesFile));
+let colors = JSON.parse(fs.readFileSync(colorsFile));
+let users = JSON.parse(fs.readFileSync(usersFile));
+let products = JSON.parse(fs.readFileSync(productsFile))
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -65,7 +65,7 @@ app.post('/api/colors', (req, res) => {
 })
 
 app.post('/api/products', (req, res) => {
-    const product = {...req.body, id: v4()}
+    const product = {...req.body.product, id: v4()}
     products.push(product)
     fs.writeFileSync(productsFile, JSON.stringify(products))
     res.status(201).json(product)
@@ -74,16 +74,27 @@ app.post('/api/products', (req, res) => {
 // DELETE
 
 app.delete('/api/products', (req, res) => {
-    products = products.filter(product => product.id !== req.params.id)
-    res.status(200).json({massage: 'Product has deleted'})
+    products = products.filter(product => product.id !== req.body.id)
+    fs.writeFileSync(productsFile, JSON.stringify(products))
+    res.status(200).json({massage: 'Товар был удален'})
 })
 
 app.delete('/api/types', (req, res) => {
-    // const filtredTypes = types.filter(elem => elem.id !== req.body.id)
-    // console.log('filtredTypes', filtredTypes);
-
+    types = types.filter(elem => elem.id !== req.body.id)
     fs.writeFileSync(typesFile, JSON.stringify(types))
     res.status(200).json({massage: 'Тип был удален'})
+})
+
+app.delete('/api/brands', (req, res) => {
+    brands = brands.filter(elem => elem.id !== req.body.id)
+    fs.writeFileSync(brandsFile, JSON.stringify(brands))
+    res.status(200).json({massage: 'Бренд был удален'})
+})
+
+app.delete('/api/colors', (req, res) => {
+    colors = colors.filter(elem => elem.id !== req.body.id)
+    fs.writeFileSync(colorsFile, JSON.stringify(colors))
+    res.status(200).json({massage: 'Цвет был удален'})
 })
 
 // PUT

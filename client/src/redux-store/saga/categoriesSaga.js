@@ -1,46 +1,51 @@
 import { get, post, remove } from './_apiRequests';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
-import { all, put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { getTypes, getBrands, getColors } from '../slices/categoriesSlice';
-import { sagaActions } from './sagaActions';
+import { categoriesActions } from './sagaActions';
 
-function* fetchTypesListWorker(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/types`);
+function* getCategory(action) {
+  const catName = action.category_name;
 
-  yield put(getTypes(data));
+  const data = yield get(`${LOCAL_HOST}${PORT}/api/${catName}`);
+
+  switch (catName) {
+    case 'types':
+      yield put(getTypes(data));
+      break;
+    case 'brands':
+      yield put(getBrands(data));
+      break;
+    case 'colors':
+      yield put(getColors(data));
+      break;
+    default:
+      break;
+  }
 }
 
-function* addTypesListWorker(action) {
+function* addCategory(action) {
+  const catName = action.category_name;
   const options = {
     name: action.val,
   };
-  yield post(`${LOCAL_HOST}${PORT}/api/types`, { options: JSON.stringify(options) })
-  yield fetchTypesListWorker()
+
+  yield post(`${LOCAL_HOST}${PORT}/api/${catName}`, { options: JSON.stringify(options) });
+  yield getCategory(action)
 }
 
-function* removeTypeListWorker(action) {
+function* removeCategory(action) {
+  const catName = action.category_name;
   const options = {
     id: action.val,
   };
-  yield remove(`${LOCAL_HOST}${PORT}/api/types`, { options: JSON.stringify(options) })
-  yield fetchTypesListWorker()
-}
 
-function* fetchBrandsListWorker(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/brands`);
-
-  yield put(getBrands(data));
-}
-
-function* fetchColorsListWorker(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/colors`);
-
-  yield put(getColors(data));
+  yield remove(`${LOCAL_HOST}${PORT}/api/${catName}`, { options: JSON.stringify(options) });
+  yield getCategory(action)
 }
 
 export function* categoriesSaga() {
-  yield takeEvery(sagaActions.ADD_TYPE, addTypesListWorker);
-  yield takeEvery(sagaActions.GET_TYPES, fetchTypesListWorker);
-  yield takeEvery(sagaActions.REMOVE_TYPE, removeTypeListWorker);
-  yield all([fetchBrandsListWorker(), fetchColorsListWorker()]);
+  yield takeEvery(categoriesActions.GET_CAT, getCategory);
+  yield takeEvery(categoriesActions.ADD_CAT, addCategory);
+  yield takeEvery(categoriesActions.REMOVE_CAT, removeCategory);
 }
