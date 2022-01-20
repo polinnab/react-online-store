@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { dialog } from '../../redux-store/slices/dialogSlice';
@@ -12,15 +12,12 @@ const AdminPage = () => {
   const products = useSelector((state) => state.products.products);
   const headers = ['Товары', 'Название', 'Описание', 'Цена', 'Изображение', 'Тип', 'Бренд', 'Цвет', 'Действие'];
 
-  // useEffect(() => {
-  //   dispatch({ type: productsActions.GET_ALL_PRODUCTS });
-  // }, [dispatch]);
-
-  const openDialog = (name) => {
+  const openDialog = (name, data) => {
     dispatch(
       dialog({
         visible: true,
         name,
+        data,
       })
     );
   };
@@ -30,7 +27,8 @@ const AdminPage = () => {
   };
 
   const editElem = (id) => {
-    dispatch({ type: productsActions.EDIT_PRODUCT, val: id });
+    openDialog('product', { type: 'product', id });
+    //dispatch({ type: productsActions.EDIT_PRODUCT, val: id });
   };
 
   return (

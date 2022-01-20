@@ -16,37 +16,63 @@ const validationSchema = yup.object({
 
 const DialogProduct = ({ hideDialog, showNoti }) => {
   const dispatch = useDispatch();
-  const {brands, colors, types} = useSelector((state) => state.categories);
-
+  const { brands, colors, types } = useSelector((state) => state.categories);
+  const products = useSelector((state) => state.products.products);
+  const { dialogData } = useSelector((state) => state.dialog);
+  const product = dialogData?.id ? products.filter((elem) => elem.id === dialogData.id) : []
+  
+  console.log('product', product);
   useEffect(() => {
     dispatch({ type: categoriesActions.GET_CAT, category_name: 'brands' });
     dispatch({ type: categoriesActions.GET_CAT, category_name: 'types' });
     dispatch({ type: categoriesActions.GET_CAT, category_name: 'colors' });
   }, [dispatch]);
 
+
   const formik = useFormik({
     initialValues: {
-      name: '',
-      desc: '',
-      price: '',
-      typeId: '',
-      brandId: '',
-      colorId: '',
+      name: product.length ? product[0]?.name : '',
+      desc: product.length ? product[0].desc : '',
+      price: product.length ? product[0].price : '',
+      typeId: product.length ? product[0].typeId : '',
+      brandId: product.length ? product[0].brandId : '',
+      colorId: product.length ? product[0].colorId : '', 
+      // name: '',
+      // desc: '',
+      // price: '',
+      // typeId: '',
+      // brandId: '',
+      // colorId: '',
       images: [
         {
           big: '',
-          thumb: ''
-        }
+          thumb: '',
+        },
       ],
     },
     validationSchema: validationSchema,
-    onSubmit: (values, {resetForm}) => {
-      console.log('values', values);
+    onSubmit: (values, { resetForm }) => {
+      if (product) {
+        dispatch({ type: productsActions.EDIT_PRODUCT, product: values });
+        showNoti({ type: 'success', message: 'Товар успешно изменен!' });
+        resetForm();
+        return;
+      }
       dispatch({ type: productsActions.ADD_PRODUCT, product: values });
       showNoti({ type: 'success', message: 'Товар успешно добавлен!' });
       resetForm();
     },
   });
+
+  // useEffect(() => {
+  //   if (product.length) {
+  //     for (const i in product[0]) {
+  //       // console.log('i', i);
+  //       // console.log('product 0', product[0][i]);
+  //        formik.values[i] = product[0][i]
+  //     }
+  //   }
+  // }, [])
 
   return (
     <div>
@@ -56,7 +82,7 @@ const DialogProduct = ({ hideDialog, showNoti }) => {
           <InputLabel>Тип</InputLabel>
           <Select name='typeId' value={formik.values.typeId} label='Тип' onChange={formik.handleChange} error={formik.touched.typeId && Boolean(formik.errors.typeId)}>
             {types.map((elem) => (
-              <MenuItem key={elem.id} value={elem.id}>
+              <MenuItem key={elem.id} value={elem.id} >
                 {elem.name}
               </MenuItem>
             ))}
@@ -87,9 +113,15 @@ const DialogProduct = ({ hideDialog, showNoti }) => {
         <TextField label='Цена' variant='standard' value={formik.values.price} type='text' name='price' onChange={formik.handleChange} error={formik.touched.price && Boolean(formik.errors.price)} helperText={formik.touched.price && formik.errors.price} fullWidth />
         <DialogActions style={{ marginTop: '20px' }}>
           <Button onClick={() => hideDialog()}>Закрыть</Button>
-          <Button variant='contained' type='submit'>
-            Добавить товар
-          </Button>
+          {product ? (
+            <Button variant='contained' type='submit'>
+              Изменить товар
+            </Button>
+          ) : (
+            <Button variant='contained' type='submit'>
+              Добавить товар
+            </Button>
+          )}
         </DialogActions>
       </form>
     </div>

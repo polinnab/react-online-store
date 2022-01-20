@@ -36,6 +36,7 @@ const Dialogs = () => {
       dialog({
         visible: false,
         name: dialogName,
+        data: ''
       })
     );
     if (noti?.message) {
