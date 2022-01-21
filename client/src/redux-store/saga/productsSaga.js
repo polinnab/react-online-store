@@ -1,4 +1,4 @@
-import { get, post, remove } from './_apiRequests';
+import { get, post, remove, edit } from './_apiRequests';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
 import { all, put, takeEvery } from 'redux-saga/effects';
 import { getProducts } from '../slices/productSlice';
@@ -27,6 +27,11 @@ function* removeProduct(action) {
   yield getAllProducts();
 }
 
+function* editProduct(action) {
+  yield edit(`${LOCAL_HOST}${PORT}/api/products`, {options:action.options})
+  yield getAllProducts();
+}
+
 
 function* getProduct(action) {
   const data = yield get(`${LOCAL_HOST}${PORT}/api/products`)
@@ -37,6 +42,7 @@ export function* productsSaga() {
   yield all([getAllProducts()])
   // yield takeEvery(productsActions.GET_ALL_PRODUCTS, getAllProducts);
   yield takeEvery(productsActions.ADD_PRODUCT, addProduct);
+  yield takeEvery(productsActions.EDIT_PRODUCT, editProduct);
   yield takeEvery(productsActions.REMOVE_PRODUCT, removeProduct);
 }
 

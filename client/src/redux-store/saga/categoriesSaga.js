@@ -31,7 +31,7 @@ function* addCategory(action) {
   };
 
   yield post(`${LOCAL_HOST}${PORT}/api/${catName}`, { options: JSON.stringify(options) });
-  yield getCategory(action)
+  yield getCategory(action);
 }
 
 function* removeCategory(action) {
@@ -41,11 +41,21 @@ function* removeCategory(action) {
   };
 
   yield remove(`${LOCAL_HOST}${PORT}/api/${catName}`, { options: JSON.stringify(options) });
-  yield getCategory(action)
+  yield getCategory(action);
+}
+
+function* getAllCategories(action) {
+  const cat = [{ category_name: 'types' }, { category_name: 'brands' }, { category_name: 'colors' }];
+
+  for (const elem of cat) {
+    // some item manipulation
+    yield getCategory(elem);
+  }
 }
 
 export function* categoriesSaga() {
   yield takeEvery(categoriesActions.GET_CAT, getCategory);
   yield takeEvery(categoriesActions.ADD_CAT, addCategory);
   yield takeEvery(categoriesActions.REMOVE_CAT, removeCategory);
+  yield takeEvery(categoriesActions.GET_ALL_CAT, getAllCategories);
 }

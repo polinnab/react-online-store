@@ -1,6 +1,7 @@
 export const categoriesActions = {
   ADD_CAT: "ADD_CAT",
   GET_CAT: "GET_CAT",
+  GET_ALL_CAT: "GET_ALL_CAT",
   REMOVE_CAT: "REMOVE_CAT"
 };
 

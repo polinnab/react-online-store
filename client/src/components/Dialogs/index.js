@@ -7,7 +7,7 @@ import DialogColor from './dialogContent/DialogColor';
 import DialogType from './dialogContent/DialogType';
 import DialogProduct from './dialogContent/DialogProduct';
 
-const Dialogs = () => {
+const Dialogs = ({readyData}) => {
   const [open, setOpen] = useState(false);
   const [noti, setNoti] = useState({ type: '', message: '' });
   const dialogVisible = useSelector((state) => state.dialog.dialogShow);
@@ -35,8 +35,7 @@ const Dialogs = () => {
     dispatch(
       dialog({
         visible: false,
-        name: dialogName,
-        data: ''
+        name: dialogName
       })
     );
     if (noti?.message) {
@@ -61,7 +60,7 @@ const Dialogs = () => {
   return (
     <React.Fragment>
       <Dialog open={dialogVisible} onClose={hideDialog} maxWidth={'md'}>
-        <DialogContent>{dialogName ? <DialogShow hideDialog={hideDialog} showNoti={showNoti} /> : ''}</DialogContent>
+        <DialogContent>{dialogName ? <DialogShow hideDialog={hideDialog} showNoti={showNoti} readyData={readyData} /> : ''}</DialogContent>
       </Dialog>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={noti.type || 'info'} sx={{ width: '100%' }}>

@@ -50,3 +50,14 @@ export function* remove(url, params = {}) {
     headers
   });
 }
+
+
+export function* edit(url, params = {}) {
+  const { headers = {'Content-Type': 'application/json'}, options } = params;
+
+  return yield request(`${url}?id=${options.id}`, {
+    method: 'put',
+    body: JSON.stringify(options),
+    headers
+  });
+}

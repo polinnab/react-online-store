@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { dialog } from '../../redux-store/slices/dialogSlice';
 import Dialogs from '../../components/Dialogs';
 import InfoTable from '../../components/InfoTable/InfoTable';
 
-import { productsActions } from '../../redux-store/saga/sagaActions';
+import { productsActions, categoriesActions } from '../../redux-store/saga/sagaActions';
 
 const AdminPage = () => {
   const dispatch = useDispatch();
+  const [editProduct, setEditProduct] = useState([]);
   const products = useSelector((state) => state.products.products);
   const headers = ['Товары', 'Название', 'Описание', 'Цена', 'Изображение', 'Тип', 'Бренд', 'Цвет', 'Действие'];
 
-  const openDialog = (name, data) => {
+  dispatch({ type: categoriesActions.GET_ALL_CAT });
+
+  const openDialog = (name) => {
     dispatch(
       dialog({
         visible: true,
         name,
-        data,
       })
     );
   };
@@ -27,8 +29,8 @@ const AdminPage = () => {
   };
 
   const editElem = (id) => {
-    openDialog('product', { type: 'product', id });
-    //dispatch({ type: productsActions.EDIT_PRODUCT, val: id });
+    setEditProduct(products.filter((elem) => elem.id === id));
+    openDialog('product');
   };
 
   return (
@@ -52,7 +54,7 @@ const AdminPage = () => {
             </Button>
           </Grid>
           <Grid item xs={3} md={1}>
-            <Button variant='contained' onClick={() => openDialog('product')} style={{ width: '100%' }}>
+            <Button variant='contained' onClick={() => {openDialog('product');setEditProduct([])}} style={{ width: '100%' }}>
               Товар
             </Button>
           </Grid>
@@ -60,7 +62,7 @@ const AdminPage = () => {
       </Grid>
 
       <InfoTable headers={headers} body={products} removeElem={removeElem} editElem={editElem} />
-      <Dialogs />
+      <Dialogs readyData={editProduct[0] || null} />
     </React.Fragment>
   );
 };
