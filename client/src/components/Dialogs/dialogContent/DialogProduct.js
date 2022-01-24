@@ -39,6 +39,7 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
       if (product) {
         values.id = product.id;
         dispatch({ type: productsActions.EDIT_PRODUCT, options: values });
+        hideDialog();
         showNoti({ type: 'success', message: 'Товар успешно изменен!' });
         resetForm();
         return;
@@ -51,7 +52,7 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
 
   return (
     <div>
-      <p>Добавить товар</p>
+      <p>{product ? 'Изменить товар': 'Добавить товар'}</p>
       <form onSubmit={formik.handleSubmit}>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Тип</InputLabel>

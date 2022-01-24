@@ -22,7 +22,6 @@ function* request(url, params) {
 export function* get(url, queryParams = {}, params = {}) {
   const { headers = {}, ...options } = params;
   const query = new URLSearchParams(queryParams).toString();
-
   return yield request(`${url}?${query}`, {
     method: 'GET',
     headers,
@@ -55,7 +54,7 @@ export function* remove(url, params = {}) {
 export function* edit(url, params = {}) {
   const { headers = {'Content-Type': 'application/json'}, options } = params;
 
-  return yield request(`${url}?id=${options.id}`, {
+  return yield request(`${url}/${options.id}`, {
     method: 'put',
     body: JSON.stringify(options),
     headers

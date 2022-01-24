@@ -48,7 +48,6 @@ function* getAllCategories(action) {
   const cat = [{ category_name: 'types' }, { category_name: 'brands' }, { category_name: 'colors' }];
 
   for (const elem of cat) {
-    // some item manipulation
     yield getCategory(elem);
   }
 }

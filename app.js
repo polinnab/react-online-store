@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http')
 const cors = require('cors');
 const { v4 } = require('uuid');
 const bodyParser = require('body-parser');
@@ -10,6 +11,8 @@ const typesFile = './database/categories/types.json';
 const colorsFile = './database/categories/colors.json';
 const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
+const httpServer = http.createServer(app);
+const PORT = process.env.PORT || 5001;
 let brands = JSON.parse(fs.readFileSync(brandsFile));
 let types = JSON.parse(fs.readFileSync(typesFile));
 let colors = JSON.parse(fs.readFileSync(colorsFile));
@@ -22,13 +25,22 @@ app.use(
 );
 app.use(cors());
 app.use(express.json());
+httpServer.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+app.use('/upload', express.static('./upload'));
 
-const PORT = process.env.PORT || 5001;
 
 // GET
 
 app.get('/api/products', (req, res) => {
   res.status(200).json(products);
+});
+
+app.get('/api/product', (req, res) => {
+  const id = req.query.id
+  const product = products.filter(elem => elem.id === id)
+  res.status(200).json(...product);
 });
 
 app.get('/api/types', (req, res) => {
@@ -103,11 +115,9 @@ app.delete('/api/colors', (req, res) => {
 
 app.put('/api/products/:id', (req, res) => {
   const index = products.findIndex((product) => product.id === req.params.id);
-  console.log('req', req.body);
-  console.log('req', req.params);
   products[index] = req.body;
-  // fs.writeFileSync(productsFile, JSON.stringify(products))
+  fs.writeFileSync(productsFile, JSON.stringify(products))
   res.status(200).json(products);
 });
 
-app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));

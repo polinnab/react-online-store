@@ -1,1 +1,44 @@
-[{"name":"Sneakers 2","desc":"desc 2","price":"69","typeId":"0d9bea1d-a39f-4eb0-ae74-b0acf8d957e5","brandId":"b72a91ce-e147-447c-8180-c73bec587cfc","colorId":"bb0fd0fd-b5cc-45ee-81d2-9e5bed8ccaf3","images":[{"big":"","thumb":""}],"id":"bf69b9b9-bfeb-4821-8623-cb174f8ff31d"},{"name":"Name","desc":"desc","price":"70","typeId":"4656678c-56d6-41af-ac45-8bc5883d87c9","brandId":"1","colorId":"bb0fd0fd-b5cc-45ee-81d2-9e5bed8ccaf3","images":[{"big":"","thumb":""}],"id":"7fb8d374-4ee5-4579-af36-1967b60046a7"}]
+[
+	{
+		"name": "Sneakers 2",
+		"desc": "desc 2",
+		"price": "72",
+		"typeId": "0d9bea1d-a39f-4eb0-ae74-b0acf8d957e5",
+		"brandId": "b72a91ce-e147-447c-8180-c73bec587cfc",
+		"colorId": "bb0fd0fd-b5cc-45ee-81d2-9e5bed8ccaf3",
+		"images": [
+			{
+				"original": "image-product-1.jpg",
+				"thumbnail": "image-product-1-thumbnail.jpg"
+			},
+			{
+				"original": "image-product-1.jpg",
+				"thumbnail": "image-product-1-thumbnail.jpg"
+			},
+			{
+				"original": "image-product-1.jpg",
+				"thumbnail": "image-product-1-thumbnail.jpg"
+			},
+			{
+				"original": "image-product-1.jpg",
+				"thumbnail": "image-product-1-thumbnail.jpg"
+			}
+		],
+		"id": "bf69b9b9-bfeb-4821-8623-cb174f8ff31d"
+	},
+	{
+		"name": "Name",
+		"desc": "desc",
+		"price": "70",
+		"typeId": "4656678c-56d6-41af-ac45-8bc5883d87c9",
+		"brandId": "4487f90b-5bc4-450f-9412-2bf576c9435b",
+		"colorId": "bb0fd0fd-b5cc-45ee-81d2-9e5bed8ccaf3",
+		"images": [
+			{
+				"original": "image-product-2.jpg",
+				"thumbnail": "image-product-2-thumbnail.jpg"
+			}
+		],
+		"id": "7fb8d374-4ee5-4579-af36-1967b60046a7"
+	}
+]
