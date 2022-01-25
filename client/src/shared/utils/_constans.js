@@ -1,7 +1,6 @@
-export const LOCAL_HOST = 'http://localhost:'
-
-// как достать эту переменную из .env root директории?
-export const PORT = process.env.PORT || 5001
+export const LOCAL_HOST = process.env.REACT_APP_LOCAL_HOST + ':'
+export const PORT = process.env.REACT_APP_SERVER_PORT || 5001
+export const IMAGE_URL = LOCAL_HOST + PORT + '/upload/'
 
 export const admin_route = '/admin'
 export const login_route = '/login'

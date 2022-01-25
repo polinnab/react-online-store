@@ -1,0 +1,14 @@
+.btn {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 10px 20px;
+  text-align: center;
+	font-weight: 600;
+	min-width: 150px;
+	font-size: 18px;
+
+	&--orange {
+		color: #fff;
+		background-color: rgb(255,126,27);
+	}
+}
