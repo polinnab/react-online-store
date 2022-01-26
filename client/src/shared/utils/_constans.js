@@ -1,4 +1,10 @@
-export const LOCAL_HOST = 'http://localhost:'
+export const LOCAL_HOST = process.env.REACT_APP_LOCAL_HOST + ':'
+export const PORT = process.env.REACT_APP_SERVER_PORT || 5001
+export const IMAGE_URL = LOCAL_HOST + PORT + '/upload/'
 
-// как достать эту переменную из .env root директории?
-export const PORT = "5001"
+export const admin_route = '/admin'
+export const login_route = '/login'
+export const register_route = '/registration'
+export const main_route = '/'
+export const product_route = '/product'
+export const basket_route = '/basket'

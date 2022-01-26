@@ -1,14 +1,25 @@
-import { createStore, applyMiddleware } from 'redux'
-import createSagaMiddleware from "@redux-saga/core"
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import createSagaMiddleware from '@redux-saga/core';
 import { rootSaga } from './saga/rootSaga';
-import { rootReduser } from './redux-reducers/rootReducer';
+
+import dialogSlice from './slices/dialogSlice';
+import productSlice from './slices/productSlice';
+import userSlice from './slices/userSlice';
+import categoriesSlice from './slices/categoriesSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
+const rootReducer = combineReducers({
+  dialog: dialogSlice,
+  products: productSlice,
+  categories: categoriesSlice,
+  user: userSlice
+});
 
-export const store = createStore(
-  rootReduser,
-  applyMiddleware(sagaMiddleware)
-)
-
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware]
+},);
 sagaMiddleware.run(rootSaga)
+
+export default store

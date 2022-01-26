@@ -1,0 +1,14 @@
+export const categoriesActions = {
+  ADD_CAT: "ADD_CAT",
+  GET_CAT: "GET_CAT",
+  GET_ALL_CAT: "GET_ALL_CAT",
+  REMOVE_CAT: "REMOVE_CAT"
+};
+
+export const productsActions = {
+  GET_ALL_PRODUCTS: "GET_ALL_PRODUCTS",
+  GET_PRODUCT: "GET_PRODUCT",
+  ADD_PRODUCT: "ADD_PRODUCT",
+  EDIT_PRODUCT: "EDIT_PRODUCT",
+  REMOVE_PRODUCT: "REMOVE_PRODUCT"
+}

@@ -1,18 +1,13 @@
-import { Route, BrowserRouter, Routes } from "react-router-dom"
-import { ROUTES } from "./shared/utils/_routes"
-import ProductsPage from "./pages/dashboard/ProductsPage";
-import AdminPage from "./pages/admin/AdminPage";
-
+import { BrowserRouter } from 'react-router-dom';
+import Layout from './components/Layout/Layout';
+import Router from './router';
 
 function App() {
-
-
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path={"/"} exact element={<ProductsPage />} />
-        <Route path={ROUTES.admin} element={<AdminPage />} />
-      </Routes>
+      <Layout>
+        <Router/>
+      </Layout>
     </BrowserRouter>
   );
 }
