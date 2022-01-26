@@ -3,6 +3,7 @@ import { TextField, Button, DialogActions, FormControl, InputLabel, Select } fro
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { productsActions } from '../../../redux-store/saga/sagaActions';
+import ImageUpload from '../../ImageUpload/ImageUpload';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
@@ -27,28 +28,46 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
       typeId: product?.typeId || '',
       brandId: product?.brandId || '',
       colorId: product?.colorId || '',
-      images: [
-        {
-          big: '',
-          thumb: '',
-        },
-      ],
+      images: [],
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
+      const formData = new FormData();
+      for (const elem in values) {
+        console.log('elem', elem);
+        if (elem === 'images') {
+          const images = new FormData();
+          for (const item in values[elem]) {
+            images.append('images', values[elem][item])
+            
+          }
+          formData.append(elem + '[]', images);
+        } else {
+          formData.append(elem, values[elem]);
+        }
+      }
+     
+      console.log('formdata', values);
+
       if (product) {
-        values.id = product.id;
-        dispatch({ type: productsActions.EDIT_PRODUCT, options: values });
+        // values.id = product.id;
+        formData.append('id', product.id);
+        dispatch({ type: productsActions.EDIT_PRODUCT, options: formData });
         hideDialog();
         showNoti({ type: 'success', message: 'Товар успешно изменен!' });
         resetForm();
         return;
       }
-      dispatch({ type: productsActions.ADD_PRODUCT, product: values });
+      dispatch({ type: productsActions.ADD_PRODUCT, product: formData });
       showNoti({ type: 'success', message: 'Товар успешно добавлен!' });
       resetForm();
     },
   });
+
+  const images = (val) => {
+    formik.values.images = val
+    // console.log('formik', formik.values.images);
+  }
 
   return (
     <div>
@@ -89,7 +108,7 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Картинка</InputLabel>
-          
+          <ImageUpload images={images}/>
         </FormControl>
         <TextField label='Название' variant='standard' value={formik.values.name} type='text' name='name' onChange={formik.handleChange} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} fullWidth style={{ marginBottom: '20px' }} />
         <TextField label='Описание' variant='standard' value={formik.values.desc} type='text' name='desc' onChange={formik.handleChange} error={formik.touched.desc && Boolean(formik.errors.desc)} helperText={formik.touched.desc && formik.errors.desc} fullWidth style={{ marginBottom: '20px' }} />

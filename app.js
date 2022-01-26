@@ -80,8 +80,9 @@ app.post('/api/colors', (req, res) => {
 
 app.post('/api/products', (req, res) => {
   const product = { ...req.body.product, id: v4() };
-  products.push(product);
-  fs.writeFileSync(productsFile, JSON.stringify(products));
+  // products.push(product);
+  console.log('product', product);
+  // fs.writeFileSync(productsFile, JSON.stringify(products));
   res.status(201).json(product);
 });
 
