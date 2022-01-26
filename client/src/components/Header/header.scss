@@ -1,3 +1,38 @@
 header {
-	margin-bottom: 50px;
+  margin-bottom: 50px;
+  color: rgb(115, 116, 119);
+}
+
+.header {
+  &__container {
+    color: rgb(115, 116, 119);
+  }
+
+  &__logo {
+    margin-right: 40px;
+    margin-top: -7px;
+  }
+
+  &__link {
+		height: inherit;
+		padding-bottom: 0 !important;
+		padding-top: 0 !important;
+
+    &:hover {
+      background-color: transparent !important;
+      color: #000;
+    }
+
+    a {
+      font-size: 16px;
+			border-bottom: 3px solid transparent;
+			line-height: 60px;
+
+			&.active,
+      &:hover {
+        color: #000;
+				border-color: rgb(255, 126, 27);
+      }
+    }
+  }
 }

@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { main_route, admin_route, login_route } from '../../shared/utils/_constans';
 import { useSelector } from 'react-redux';
 import './header.scss';
+import logo from '../../assets/images/icons/logo.svg';
 
 const Header = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -28,9 +29,11 @@ const Header = () => {
   return (
     <AppBar color='default' position='static'>
       <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <Typography variant='h6' noWrap component='div' sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
-            <NavLink to={main_route}>LOGO</NavLink>
+        <Toolbar disableGutters className='header__container'>
+          <Typography noWrap component='div' sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+            <NavLink to={main_route} className='header__logo'>
+              <img src={logo} alt='logo' />
+            </NavLink>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -54,21 +57,17 @@ const Header = () => {
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <NavLink to={main_route}>
-                  <Typography textAlign='center'>Products</Typography>
-                </NavLink>
+              <MenuItem onClick={handleCloseNavMenu} className='header__link'>
+                <NavLink to={main_route}>Products</NavLink>
               </MenuItem>
             </Menu>
           </Box>
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            LOGO
+            <img src={logo} alt='logo' />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <MenuItem onClick={handleCloseNavMenu}>
-              <NavLink to={main_route}>
-                <Typography textAlign='center'>Products</Typography>
-              </NavLink>
+            <MenuItem onClick={handleCloseNavMenu} className='header__link'>
+              <NavLink to={main_route}>Products</NavLink>
             </MenuItem>
           </Box>
 
