@@ -87,6 +87,10 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
             ))}
           </Select>
         </FormControl>
+        <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
+          <InputLabel>Картинка</InputLabel>
+          
+        </FormControl>
         <TextField label='Название' variant='standard' value={formik.values.name} type='text' name='name' onChange={formik.handleChange} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} fullWidth style={{ marginBottom: '20px' }} />
         <TextField label='Описание' variant='standard' value={formik.values.desc} type='text' name='desc' onChange={formik.handleChange} error={formik.touched.desc && Boolean(formik.errors.desc)} helperText={formik.touched.desc && formik.errors.desc} fullWidth style={{ marginBottom: '20px' }} />
         <TextField label='Цена' variant='standard' value={formik.values.price} type='text' name='price' onChange={formik.handleChange} error={formik.touched.price && Boolean(formik.errors.price)} helperText={formik.touched.price && formik.errors.price} fullWidth style={{ marginBottom: '20px' }} />
