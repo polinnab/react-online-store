@@ -1,8 +1,21 @@
 const express = require('express');
-const http = require('http')
+const http = require('http');
 const cors = require('cors');
 const { v4 } = require('uuid');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './upload/');
+  },
+  filename: (req, file, cb) => {
+    const index = file.originalname.lastIndexOf('.')
+    const resolution = file.originalname.substring(index)
+    cb(null, v4() + resolution);
+  },
+});
+const upload = multer({ storage });
+const type = upload.array('images');
 const path = require('path');
 const app = express();
 const fs = require('fs');
@@ -30,7 +43,6 @@ httpServer.listen(PORT, () => {
 });
 app.use('/upload', express.static('./upload'));
 
-
 // GET
 
 app.get('/api/products', (req, res) => {
@@ -38,8 +50,8 @@ app.get('/api/products', (req, res) => {
 });
 
 app.get('/api/product', (req, res) => {
-  const id = req.query.id
-  const product = products.filter(elem => elem.id === id)
+  const id = req.query.id;
+  const product = products.filter((elem) => elem.id === id);
   res.status(200).json(...product);
 });
 
@@ -78,8 +90,16 @@ app.post('/api/colors', (req, res) => {
   res.status(201).json(color);
 });
 
-app.post('/api/products', (req, res) => {
-  const product = { ...req.body.product, id: v4() };
+app.post('/api/products', type, (req, res) => {
+  const files = req.files.map((elem) => {
+    return {
+      original: elem.filename,
+      thumbnail: elem.filename,
+    };
+  });
+  const product = { ...req.body, id: v4(), images: files };
+  // console.log('req body', req.files);
+  // console.log('req files', files);
   // products.push(product);
   console.log('product', product);
   // fs.writeFileSync(productsFile, JSON.stringify(products));
@@ -117,7 +137,7 @@ app.delete('/api/colors', (req, res) => {
 app.put('/api/products/:id', (req, res) => {
   const index = products.findIndex((product) => product.id === req.params.id);
   products[index] = req.body;
-  fs.writeFileSync(productsFile, JSON.stringify(products))
+  fs.writeFileSync(productsFile, JSON.stringify(products));
   res.status(200).json(products);
 });
 

@@ -33,21 +33,22 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
       const formData = new FormData();
+
       for (const elem in values) {
-        console.log('elem', elem);
         if (elem === 'images') {
-          const images = new FormData();
           for (const item in values[elem]) {
-            images.append('images', values[elem][item])
-            
+            formData.append(elem, values[elem][item]);
           }
-          formData.append(elem + '[]', images);
         } else {
           formData.append(elem, values[elem]);
         }
       }
      
-      console.log('formdata', values);
+
+      console.log('formdata name -', formData.get('name'));
+      console.log('formdata desc -', formData.get('desc'));
+      console.log('formdata price -', formData.get('price'));
+      console.log('formdata images -', formData.getAll('images'));
 
       if (product) {
         // values.id = product.id;

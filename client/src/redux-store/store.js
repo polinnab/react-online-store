@@ -13,13 +13,13 @@ const rootReducer = combineReducers({
   dialog: dialogSlice,
   products: productSlice,
   categories: categoriesSlice,
-  user: userSlice
+  user: userSlice,
 });
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware]
-},);
-sagaMiddleware.run(rootSaga)
+  middleware: [...getDefaultMiddleware({ thunk: false, serializableCheck: false }), sagaMiddleware],
+});
+sagaMiddleware.run(rootSaga);
 
-export default store
+export default store;
