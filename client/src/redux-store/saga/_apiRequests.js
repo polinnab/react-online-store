@@ -2,7 +2,7 @@ import { call } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* request(url, params) {
-  console.log('params', params);
+  // console.log('params', params);
   try {
     const response = yield call(() => {
       return axios(url, {

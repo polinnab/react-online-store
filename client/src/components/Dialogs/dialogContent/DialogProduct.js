@@ -4,6 +4,8 @@ import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { productsActions } from '../../../redux-store/saga/sagaActions';
 import ImageUpload from '../../ImageUpload/ImageUpload';
+
+import { IMAGE_URL } from '../../../shared/utils/_constans';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
@@ -28,7 +30,7 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
       typeId: product?.typeId || '',
       brandId: product?.brandId || '',
       colorId: product?.colorId || '',
-      images: [],
+      images: product?.images || [],
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -44,10 +46,6 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
         }
       }
      
-
-      console.log('formdata name -', formData.get('name'));
-      console.log('formdata desc -', formData.get('desc'));
-      console.log('formdata price -', formData.get('price'));
       console.log('formdata images -', formData.getAll('images'));
 
       if (product) {
@@ -67,7 +65,6 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
 
   const images = (val) => {
     formik.values.images = val
-    // console.log('formik', formik.values.images);
   }
 
   return (
@@ -109,6 +106,11 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Картинка</InputLabel>
+          {product.images ? (<div>
+            {product.images.map((elem, idx) => <img key={idx} src={IMAGE_URL + elem.thumbnail} alt={elem.thumbnail}/>)}
+            
+          </div>): null}
+          
           <ImageUpload images={images}/>
         </FormControl>
         <TextField label='Название' variant='standard' value={formik.values.name} type='text' name='name' onChange={formik.handleChange} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} fullWidth style={{ marginBottom: '20px' }} />

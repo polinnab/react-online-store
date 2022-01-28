@@ -4,14 +4,13 @@ const cors = require('cors');
 const { v4 } = require('uuid');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const sharp = require('sharp');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './upload/');
+    cb(null, `./upload/${v4}`);
   },
   filename: (req, file, cb) => {
-    const index = file.originalname.lastIndexOf('.')
-    const resolution = file.originalname.substring(index)
-    cb(null, v4() + resolution);
+    cb(null, file.originalname);
   },
 });
 const upload = multer({ storage });
@@ -42,6 +41,7 @@ httpServer.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
 app.use('/upload', express.static('./upload'));
+
 
 // GET
 
@@ -92,19 +92,40 @@ app.post('/api/colors', (req, res) => {
 
 app.post('/api/products', type, (req, res) => {
   const files = req.files.map((elem) => {
+    const thumbnail = 'thumbnail-' + elem.filename;
+    sharp(elem.path)
+      .resize(200, 200)
+      .toFile('upload/' + thumbnail);
     return {
       original: elem.filename,
-      thumbnail: elem.filename,
+      thumbnail,
     };
   });
   const product = { ...req.body, id: v4(), images: files };
-  // console.log('req body', req.files);
-  // console.log('req files', files);
-  // products.push(product);
-  console.log('product', product);
-  // fs.writeFileSync(productsFile, JSON.stringify(products));
+  products.push(product);
+  fs.writeFileSync(productsFile, JSON.stringify(products));
   res.status(201).json(product);
 });
+
+app.post('/api/image', type, (req, res) => {
+  const files = req.files.map((elem) => {
+    console.log('elem', elem);
+    // const thumbnail = 'thumbnail-' + elem.filename;
+    // sharp(elem.path)
+    //   .resize(200, 200)
+    //   .toFile('upload/' + thumbnail);
+    // return {
+    //   original: elem.filename,
+    //   thumbnail,
+    // };
+  });
+  const product = { ...req.body, id: v4(), images: files };
+  products.push(product);
+  fs.writeFileSync(productsFile, JSON.stringify(products));
+  res.status(201).json(product);
+});
+
+
 
 // DELETE
 
