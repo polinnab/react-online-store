@@ -34,36 +34,23 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
-      const formData = new FormData();
-
-      for (const elem in values) {
-        if (elem === 'images') {
-          for (const item in values[elem]) {
-            formData.append(elem, values[elem][item]);
-          }
-        } else {
-          formData.append(elem, values[elem]);
-        }
-      }
-     
-      console.log('formdata images -', formData.getAll('images'));
-
+      console.log('values', values);
       if (product) {
-        // values.id = product.id;
-        formData.append('id', product.id);
-        dispatch({ type: productsActions.EDIT_PRODUCT, options: formData });
+        values.id = product.id;
+        dispatch({ type: productsActions.EDIT_PRODUCT, options: values });
         hideDialog();
         showNoti({ type: 'success', message: 'Товар успешно изменен!' });
         resetForm();
         return;
       }
-      dispatch({ type: productsActions.ADD_PRODUCT, product: formData });
+      dispatch({ type: productsActions.ADD_PRODUCT, product: values });
       showNoti({ type: 'success', message: 'Товар успешно добавлен!' });
       resetForm();
     },
   });
 
   const images = (val) => {
+    console.log('val', val);
     formik.values.images = val
   }
 
@@ -106,12 +93,12 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Картинка</InputLabel>
-          {product.images ? (<div>
+          {/* {product?.images ? (<div>
             {product.images.map((elem, idx) => <img key={idx} src={IMAGE_URL + elem.thumbnail} alt={elem.thumbnail}/>)}
             
-          </div>): null}
+          </div>): null} */}
           
-          <ImageUpload images={images}/>
+          <ImageUpload images={images} editImages={product?.images}/>
         </FormControl>
         <TextField label='Название' variant='standard' value={formik.values.name} type='text' name='name' onChange={formik.handleChange} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} fullWidth style={{ marginBottom: '20px' }} />
         <TextField label='Описание' variant='standard' value={formik.values.desc} type='text' name='desc' onChange={formik.handleChange} error={formik.touched.desc && Boolean(formik.errors.desc)} helperText={formik.touched.desc && formik.errors.desc} fullWidth style={{ marginBottom: '20px' }} />

@@ -7,10 +7,12 @@ const multer = require('multer');
 const sharp = require('sharp');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, `./upload/${v4}`);
+    cb(null, `./upload/`);
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    const index = file.originalname.lastIndexOf('.')
+    const resolution = file.originalname.substring(index)
+    cb(null, v4() + resolution);
   },
 });
 const upload = multer({ storage });
@@ -90,7 +92,14 @@ app.post('/api/colors', (req, res) => {
   res.status(201).json(color);
 });
 
-app.post('/api/products', type, (req, res) => {
+app.post('/api/products', (req, res) => {
+  const product = { ...req.body, id: v4(), images: files };
+  products.push(product);
+  fs.writeFileSync(productsFile, JSON.stringify(products));
+  res.status(201).json(product);
+});
+
+app.post('/api/image', type, (req, res) => {
   const files = req.files.map((elem) => {
     const thumbnail = 'thumbnail-' + elem.filename;
     sharp(elem.path)
@@ -101,28 +110,7 @@ app.post('/api/products', type, (req, res) => {
       thumbnail,
     };
   });
-  const product = { ...req.body, id: v4(), images: files };
-  products.push(product);
-  fs.writeFileSync(productsFile, JSON.stringify(products));
-  res.status(201).json(product);
-});
-
-app.post('/api/image', type, (req, res) => {
-  const files = req.files.map((elem) => {
-    console.log('elem', elem);
-    // const thumbnail = 'thumbnail-' + elem.filename;
-    // sharp(elem.path)
-    //   .resize(200, 200)
-    //   .toFile('upload/' + thumbnail);
-    // return {
-    //   original: elem.filename,
-    //   thumbnail,
-    // };
-  });
-  const product = { ...req.body, id: v4(), images: files };
-  products.push(product);
-  fs.writeFileSync(productsFile, JSON.stringify(products));
-  res.status(201).json(product);
+  res.status(201).json(files);
 });
 
 

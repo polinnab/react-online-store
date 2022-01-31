@@ -13,7 +13,7 @@ export const fetchProduct = async (id) => {
 };
 
 export const uploadImage = async (images) => {
-  const { data } = await axios(LOCAL_HOST + PORT + '/api/images', {
+  const { data } = await axios(LOCAL_HOST + PORT + '/api/image', {
     method: 'post',
     headers: {
 			'Content-Type': 'form/multipart',

@@ -10,12 +10,10 @@ function* getAllProducts(action) {
 }
 
 function* addProduct(action) {
-  const headers = {
-    'Content-Type': 'form/multipart',
-  };
-
-
-  yield post(`${LOCAL_HOST}${PORT}/api/products`, { headers, options: action.product});
+  const options = {
+    product: action.product
+  }
+  yield post(`${LOCAL_HOST}${PORT}/api/products`, { options: JSON.stringify(options)});
   yield getAllProducts();
 }
 
