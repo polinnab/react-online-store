@@ -13,7 +13,6 @@ function* addProduct(action) {
   const options = {
     product: action.product,
   };
-
   yield post(`${LOCAL_HOST}${PORT}/api/products`, { options: JSON.stringify(options) });
   yield getAllProducts();
 }
@@ -22,18 +21,17 @@ function* removeProduct(action) {
   const options = {
     id: action.val,
   };
-
   yield remove(`${LOCAL_HOST}${PORT}/api/products`, { options: JSON.stringify(options) });
   yield getAllProducts();
 }
 
 function* editProduct(action) {
-  yield edit(`${LOCAL_HOST}${PORT}/api/products`, { options: action.options });
+  yield edit(`${LOCAL_HOST}${PORT}/api/products`, { options: action.product });
   yield getAllProducts();
 }
 
 function* getOneProduct(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/product`, {id: action.id});
+  const data = yield get(`${LOCAL_HOST}${PORT}/api/product`, { id: action.id });
   yield put(getProduct(data));
 }
 

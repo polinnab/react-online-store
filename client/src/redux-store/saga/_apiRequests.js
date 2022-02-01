@@ -2,61 +2,52 @@ import { call } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* request(url, params) {
-  const { headers = {}, ...options } = params;
-
   try {
-    const data = yield call(() => {
+    const response = yield call(() => {
       return axios(url, {
-        ...options,
-        headers: {
-          ...headers,
-          Accept: 'application/json',
-        },
+        ...params,
       }).then((res) => res.data);
     });
-    return data;
+    return response;
   } catch (error) {
     console.log(error);
   }
 }
 
 export function* get(url, queryParams = {}, params = {}) {
-  const { headers = {}, ...options } = params;
+  const { headers = { 'Content-Type': 'application/json' } } = params;
   const query = new URLSearchParams(queryParams).toString();
-  return yield request(`${url}${query ? `?` + query: ''}`, {
+  return yield request(`${url}${query ? `?` + query : ''}`, {
     method: 'GET',
     headers,
-    ...options,
   });
 }
 
 export function* post(url, params = {}) {
-  const { headers = {'Content-Type': 'application/json'}, options } = params;
+  const { headers = { 'Content-Type': 'application/json' }, options } = params;
   return yield request(`${url}`, {
     method: 'POST',
     data: options,
-    headers
+    headers,
   });
 }
 
-
 export function* remove(url, params = {}) {
-  const { headers = {'Content-Type': 'application/json'}, options } = params;
+  const { headers = { 'Content-Type': 'application/json' }, options } = params;
 
   return yield request(`${url}`, {
     method: 'delete',
     data: options,
-    headers
+    headers,
   });
 }
 
-
 export function* edit(url, params = {}) {
-  const { headers = {'Content-Type': 'application/json'}, options } = params;
+  const { headers = { 'Content-Type': 'application/json' }, options } = params;
 
   return yield request(`${url}/${options.id}`, {
     method: 'put',
     data: JSON.stringify(options),
-    headers
+    headers,
   });
 }

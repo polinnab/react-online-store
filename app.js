@@ -1,8 +1,22 @@
 const express = require('express');
-const http = require('http')
+const http = require('http');
 const cors = require('cors');
 const { v4 } = require('uuid');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const sharp = require('sharp');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, `./upload/`);
+  },
+  filename: (req, file, cb) => {
+    const index = file.originalname.lastIndexOf('.')
+    const resolution = file.originalname.substring(index)
+    cb(null, v4() + resolution);
+  },
+});
+const upload = multer({ storage });
+const type = upload.array('images');
 const path = require('path');
 const app = express();
 const fs = require('fs');
@@ -38,8 +52,8 @@ app.get('/api/products', (req, res) => {
 });
 
 app.get('/api/product', (req, res) => {
-  const id = req.query.id
-  const product = products.filter(elem => elem.id === id)
+  const id = req.query.id;
+  const product = products.filter((elem) => elem.id === id);
   res.status(200).json(...product);
 });
 
@@ -85,6 +99,22 @@ app.post('/api/products', (req, res) => {
   res.status(201).json(product);
 });
 
+app.post('/api/image', type, (req, res) => {
+  const files = req.files.map((elem) => {
+    const thumbnail = 'thumbnail-' + elem.filename;
+    sharp(elem.path)
+      .resize(200, 200)
+      .toFile('upload/' + thumbnail);
+    return {
+      original: elem.filename,
+      thumbnail,
+    };
+  });
+  res.status(201).json(files);
+});
+
+
+
 // DELETE
 
 app.delete('/api/products', (req, res) => {
@@ -116,7 +146,7 @@ app.delete('/api/colors', (req, res) => {
 app.put('/api/products/:id', (req, res) => {
   const index = products.findIndex((product) => product.id === req.params.id);
   products[index] = req.body;
-  fs.writeFileSync(productsFile, JSON.stringify(products))
+  fs.writeFileSync(productsFile, JSON.stringify(products));
   res.status(200).json(products);
 });
 
