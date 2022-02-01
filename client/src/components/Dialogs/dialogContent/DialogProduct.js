@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { productsActions } from '../../../redux-store/saga/sagaActions';
 import ImageUpload from '../../ImageUpload/ImageUpload';
 
-import { IMAGE_URL } from '../../../shared/utils/_constans';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
