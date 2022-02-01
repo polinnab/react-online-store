@@ -11,9 +11,9 @@ function* getAllProducts(action) {
 
 function* addProduct(action) {
   const options = {
-    product: action.product
-  }
-  yield post(`${LOCAL_HOST}${PORT}/api/products`, { options: JSON.stringify(options)});
+    product: action.product,
+  };
+  yield post(`${LOCAL_HOST}${PORT}/api/products`, { options: JSON.stringify(options) });
   yield getAllProducts();
 }
 
@@ -26,10 +26,7 @@ function* removeProduct(action) {
 }
 
 function* editProduct(action) {
-  const headers = {
-    'Content-Type': 'form/multipart',
-  };
-  yield edit(`${LOCAL_HOST}${PORT}/api/products`, { headers, options: action.options });
+  yield edit(`${LOCAL_HOST}${PORT}/api/products`, { options: action.product });
   yield getAllProducts();
 }
 

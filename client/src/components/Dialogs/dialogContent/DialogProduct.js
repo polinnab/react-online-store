@@ -34,10 +34,9 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log('values', values);
       if (product) {
         values.id = product.id;
-        dispatch({ type: productsActions.EDIT_PRODUCT, options: values });
+        dispatch({ type: productsActions.EDIT_PRODUCT, product: values });
         hideDialog();
         showNoti({ type: 'success', message: 'Товар успешно изменен!' });
         resetForm();
@@ -50,7 +49,6 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
   });
 
   const images = (val) => {
-    console.log('val', val);
     formik.values.images = val
   }
 

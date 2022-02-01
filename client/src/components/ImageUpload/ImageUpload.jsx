@@ -30,7 +30,7 @@ const ImageUpload = ({ images, editImages }) => {
 
 
   useEffect(() => {
-    if (editImages.length) {
+    if (editImages?.length) {
       setPreviewList(editImages)
     }
   }, [editImages])
@@ -42,7 +42,7 @@ const ImageUpload = ({ images, editImages }) => {
   return (
     <div className='image-upload'>
       {previewList.map((elem, idx) => {
-        const file = IMAGE_URL + elem.thumbnail;
+        const file = IMAGE_URL + elem.original;
         return (
           <div key={idx} className='image-upload__preview'>
             <div className='image-upload__remove' onClick={() => removeImage(idx)}>
