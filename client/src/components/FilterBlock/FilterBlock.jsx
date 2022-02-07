@@ -1,49 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import { categoriesActions } from '../../redux-store/saga/sagaActions';
 import './filterblock.scss';
 
-const addCheckField = (count, categories) => {
+const addCheckField = (categories) => {
   const stateCat = {};
-  count.forEach((elem) => {
-    const cat = categories[elem];
-    const filterCat = cat.map((item) => {
+  for (const key in categories) {
+    const cat = categories[key];
+    stateCat[key] = cat.map((item) => {
       const catObj = { ...item };
       catObj.checked = false;
       return catObj;
     });
-    stateCat[elem] = filterCat;
-  });
+  }
 
-	return stateCat
+  return stateCat;
+};
+
+const filterProducts = (categories) => {
+  let search = '';
+
+  for (const key in categories) {
+    const cat = categories[key];
+    const catVal = cat
+      .filter((item) => item.checked === true)
+      .map((item) => item.id)
+      .join(',');
+    if (catVal) {
+      search +=
+        key +
+        '=' +
+        cat
+          .filter((item) => item.checked === true)
+          .map((item) => item.id)
+          .join(',') +
+        '&';
+    }
+  }
 };
 
 const FilterBlock = () => {
-  const params = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchCat = useSelector((state) => state.categories);
   const [state, setState] = useState({});
-	const { brands, colors, types } = state;
+  const { brands, colors, types } = state;
 
   useEffect(() => {
     dispatch({ type: categoriesActions.GET_ALL_CAT });
   }, [dispatch]);
 
   useEffect(() => {
-    const catCount = Object.keys(fetchCat);
-    let catReadyCount = 0;
-
-    for (const i in fetchCat) {
-      if (fetchCat[i].length) {
-        catReadyCount++;
-      }
-    }
-
-    if (catCount.length === catReadyCount) {
-      setState(addCheckField(catCount, fetchCat));
-    }
+    setState(addCheckField(fetchCat));
   }, [fetchCat]);
 
 
@@ -61,6 +71,8 @@ const FilterBlock = () => {
       ...state,
       [cat]: checked,
     });
+
+    navigate({search: filterProducts(state)})
   };
 
   return (

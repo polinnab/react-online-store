@@ -57,6 +57,18 @@ app.get('/api/product', (req, res) => {
   res.status(200).json(...product);
 });
 
+app.get('/api/filter', (req, res) => {
+  const id = req.query.id;
+  console.log('req query', req.query);
+  // const product = products.filter((elem) => elem.id === id);
+  res.status(200).json();
+});
+
+app.get('/api/categories', (req, res) => {
+  const cat = {types, brands, colors}
+  res.status(200).json(cat);
+});
+
 app.get('/api/types', (req, res) => {
   res.status(200).json(types);
 });
@@ -112,6 +124,7 @@ app.post('/api/image', type, (req, res) => {
   });
   res.status(201).json(files);
 });
+
 
 
 
