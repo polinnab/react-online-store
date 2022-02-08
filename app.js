@@ -10,8 +10,8 @@ const storage = multer.diskStorage({
     cb(null, `./upload/`);
   },
   filename: (req, file, cb) => {
-    const index = file.originalname.lastIndexOf('.')
-    const resolution = file.originalname.substring(index)
+    const index = file.originalname.lastIndexOf('.');
+    const resolution = file.originalname.substring(index);
     cb(null, v4() + resolution);
   },
 });
@@ -44,7 +44,6 @@ httpServer.listen(PORT, () => {
 });
 app.use('/upload', express.static('./upload'));
 
-
 // GET
 
 app.get('/api/products', (req, res) => {
@@ -58,14 +57,28 @@ app.get('/api/product', (req, res) => {
 });
 
 app.get('/api/filter', (req, res) => {
-  const id = req.query.id;
-  console.log('req query', req.query);
-  // const product = products.filter((elem) => elem.id === id);
-  res.status(200).json();
+  const filter = req.query;
+  const filtredProducts = [];
+
+  for (const elem in filter) {
+    const categoryField = elem.substring(0, elem.length - 1) + 'Id';
+
+    const product = products.filter((item) => item[categoryField] === filter[elem]);
+
+    filtredProducts.push(...product);
+  }
+
+  const clearArray = filtredProducts.reduce((unique, o) => {
+    if (!unique.some((obj) => obj.id === o.id)) {
+      unique.push(o);
+    }
+    return unique;
+  }, []);
+  res.status(200).json(clearArray);
 });
 
 app.get('/api/categories', (req, res) => {
-  const cat = {types, brands, colors}
+  const cat = { types, brands, colors };
   res.status(200).json(cat);
 });
 
@@ -124,9 +137,6 @@ app.post('/api/image', type, (req, res) => {
   });
   res.status(201).json(files);
 });
-
-
-
 
 // DELETE
 

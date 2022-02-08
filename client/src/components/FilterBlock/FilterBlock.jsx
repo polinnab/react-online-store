@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import { categoriesActions } from '../../redux-store/saga/sagaActions';
+import { productFilter } from '../../shared/utils/_apiRequests';
 import './filterblock.scss';
 
 const addCheckField = (categories) => {
@@ -19,7 +20,7 @@ const addCheckField = (categories) => {
   return stateCat;
 };
 
-const filterProducts = (categories) => {
+const filterProducts = (categories, navigate) => {
   let search = '';
 
   for (const key in categories) {
@@ -31,7 +32,7 @@ const filterProducts = (categories) => {
     if (catVal) {
       search +=
         key +
-        '=' +
+        '='+
         cat
           .filter((item) => item.checked === true)
           .map((item) => item.id)
@@ -39,9 +40,28 @@ const filterProducts = (categories) => {
         '&';
     }
   }
+
+  navigate({search})
+  productFilter(search)
 };
 
+const setChecked = (params, state) => {
+  const keys = Object.keys(state)
+  keys.forEach(elem => {
+    const checkedVal = params.get(elem)?.split(',');
+
+    checkedVal?.forEach(item => {
+      state[elem].forEach(filter => {
+        if (filter.id === item) {
+          filter.checked = true
+        }
+      })
+    });
+  });
+}
+
 const FilterBlock = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchCat = useSelector((state) => state.categories);
@@ -56,6 +76,8 @@ const FilterBlock = () => {
     setState(addCheckField(fetchCat));
   }, [fetchCat]);
 
+ 
+  setChecked(searchParams, state)
 
   const handleChange = (event, cat) => {
     const catName = event.target.name;
@@ -72,8 +94,10 @@ const FilterBlock = () => {
       [cat]: checked,
     });
 
-    navigate({search: filterProducts(state)})
+    filterProducts(state, navigate)
   };
+
+  
 
   return (
     <div className='filter-block'>
