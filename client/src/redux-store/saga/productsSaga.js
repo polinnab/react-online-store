@@ -5,7 +5,7 @@ import { getProducts, getProduct } from '../slices/productSlice';
 import { productsActions } from './sagaActions';
 
 function* getAllProducts(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/products`);
+  const data = yield get(`${LOCAL_HOST}${PORT}/api/products`, {page: action.page, limit: action.limit});
   yield put(getProducts(data));
 }
 
@@ -41,7 +41,8 @@ function* filterProduct(action) {
 }
 
 export function* productsSaga() {
-  yield all([getAllProducts()]);
+  // yield all([getAllProducts()]);
+  yield takeEvery(productsActions.GET_ALL_PRODUCTS, getAllProducts);
   yield takeEvery(productsActions.ADD_PRODUCT, addProduct);
   yield takeEvery(productsActions.EDIT_PRODUCT, editProduct);
   yield takeEvery(productsActions.REMOVE_PRODUCT, removeProduct);

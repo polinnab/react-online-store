@@ -47,6 +47,9 @@ app.use('/upload', express.static('./upload'));
 // GET
 
 app.get('/api/products', (req, res) => {
+  const {page, limit} = req.query
+  const offset = page * limit - limit
+  console.log('offset', offset);
   res.status(200).json(products);
 });
 

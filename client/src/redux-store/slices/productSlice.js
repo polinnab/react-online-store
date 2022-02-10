@@ -4,7 +4,10 @@ const productSlice = createSlice({
   name: 'productSlice',
   initialState: {
     products: [],
-    product: {}
+    product: {},
+    page: 1,
+		totalCount: 0,
+    limit: 1
   },
   reducers: {
     getProducts(state, action) {
@@ -13,8 +16,14 @@ const productSlice = createSlice({
     getProduct(state, action) {
       state.product = {...action.payload};
     },
+    setPage(state, action) {
+			state.page = action.payload
+		},
+		setTotalCount(state, action) {
+			state.totalCount = action.payload
+		}
   },
 });
 
 export default productSlice.reducer;
-export const { getProducts, getProduct } = productSlice.actions;
+export const { getProducts, getProduct, setPage, setTotalCount } = productSlice.actions;
