@@ -10,8 +10,8 @@ const storage = multer.diskStorage({
     cb(null, `./upload/`);
   },
   filename: (req, file, cb) => {
-    const index = file.originalname.lastIndexOf('.')
-    const resolution = file.originalname.substring(index)
+    const index = file.originalname.lastIndexOf('.');
+    const resolution = file.originalname.substring(index);
     cb(null, v4() + resolution);
   },
 });
@@ -44,7 +44,6 @@ httpServer.listen(PORT, () => {
 });
 app.use('/upload', express.static('./upload'));
 
-
 // GET
 
 app.get('/api/products', (req, res) => {
@@ -55,6 +54,49 @@ app.get('/api/product', (req, res) => {
   const id = req.query.id;
   const product = products.filter((elem) => elem.id === id);
   res.status(200).json(...product);
+});
+
+app.get('/api/filter', (req, res) => {
+  const filter = req.query;
+  const allProducts = {};
+  const checkEmpty = Object.keys(filter).length;
+
+  if (checkEmpty) {
+    for (const elem in filter) {
+      const categoryField = elem.substring(0, elem.length - 1) + 'Id';
+      const product = filter[elem]?.split(',').map((item) => products.filter((elem) => elem[categoryField] === item));
+      allProducts[elem] = product.flat();
+    }
+
+    const productCat = Object.keys(allProducts)[0];
+    const catCount = Object.keys(allProducts).length;
+
+    const filtredProducts = allProducts[productCat]?.filter((elem) => {
+      const id = elem.id;
+      let count = 0;
+
+      for (const item in allProducts) {
+        allProducts[item].forEach((elem) => {
+          if (elem.id === id) {
+            count++;
+          }
+        });
+      }
+
+      if (count === catCount) {
+        return elem;
+      }
+    });
+
+    res.status(200).json(filtredProducts);
+  } else {
+    res.status(200).json(products);
+  }
+});
+
+app.get('/api/categories', (req, res) => {
+  const cat = { types, brands, colors };
+  res.status(200).json(cat);
 });
 
 app.get('/api/types', (req, res) => {
@@ -112,8 +154,6 @@ app.post('/api/image', type, (req, res) => {
   });
   res.status(201).json(files);
 });
-
-
 
 // DELETE
 

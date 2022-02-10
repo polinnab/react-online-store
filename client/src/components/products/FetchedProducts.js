@@ -9,7 +9,7 @@ export default function FetchedProducts() {
     return (
       <Grid container spacing={2}>
           {products.map((product) => (
-            <Grid key={product.id} item xs={6} sm={3}>
+            <Grid key={product.id} item xs={6} sm={4}>
               <Product product={product} />
             </Grid>
           ))}
