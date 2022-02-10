@@ -35,10 +35,16 @@ function* getOneProduct(action) {
   yield put(getProduct(data));
 }
 
+function* filterProduct(action) {
+  const data = yield get(`${LOCAL_HOST}${PORT}/api/filter?${action.query}`);
+  yield put(getProducts(data));
+}
+
 export function* productsSaga() {
   yield all([getAllProducts()]);
   yield takeEvery(productsActions.ADD_PRODUCT, addProduct);
   yield takeEvery(productsActions.EDIT_PRODUCT, editProduct);
   yield takeEvery(productsActions.REMOVE_PRODUCT, removeProduct);
   yield takeEvery(productsActions.GET_PRODUCT, getOneProduct);
+  yield takeEvery(productsActions.FILTER_PRODUCT, filterProduct);
 }

@@ -58,23 +58,40 @@ app.get('/api/product', (req, res) => {
 
 app.get('/api/filter', (req, res) => {
   const filter = req.query;
-  const filtredProducts = [];
+  const allProducts = {};
+  const checkEmpty = Object.keys(filter).length;
 
-  for (const elem in filter) {
-    const categoryField = elem.substring(0, elem.length - 1) + 'Id';
-
-    const product = products.filter((item) => item[categoryField] === filter[elem]);
-
-    filtredProducts.push(...product);
-  }
-
-  const clearArray = filtredProducts.reduce((unique, o) => {
-    if (!unique.some((obj) => obj.id === o.id)) {
-      unique.push(o);
+  if (checkEmpty) {
+    for (const elem in filter) {
+      const categoryField = elem.substring(0, elem.length - 1) + 'Id';
+      const product = filter[elem]?.split(',').map((item) => products.filter((elem) => elem[categoryField] === item));
+      allProducts[elem] = product.flat();
     }
-    return unique;
-  }, []);
-  res.status(200).json(clearArray);
+
+    const productCat = Object.keys(allProducts)[0];
+    const catCount = Object.keys(allProducts).length;
+
+    const filtredProducts = allProducts[productCat]?.filter((elem) => {
+      const id = elem.id;
+      let count = 0;
+
+      for (const item in allProducts) {
+        allProducts[item].forEach((elem) => {
+          if (elem.id === id) {
+            count++;
+          }
+        });
+      }
+
+      if (count === catCount) {
+        return elem;
+      }
+    });
+
+    res.status(200).json(filtredProducts);
+  } else {
+    res.status(200).json(products);
+  }
 });
 
 app.get('/api/categories', (req, res) => {

@@ -22,14 +22,3 @@ export const uploadImage = async (images) => {
   });
   return data;
 }
-
-export const productFilter = async (opt) => {
-  const { data } = await axios(LOCAL_HOST + PORT + '/api/filter?' + opt, {
-    method: 'get',
-    headers: {
-			'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  });
-  return data;
-}

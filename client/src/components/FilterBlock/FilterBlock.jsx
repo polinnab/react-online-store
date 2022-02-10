@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
-import { categoriesActions } from '../../redux-store/saga/sagaActions';
-import { productFilter } from '../../shared/utils/_apiRequests';
+import { Checkbox, FormGroup, FormControlLabel, Button } from '@mui/material';
+import { categoriesActions, productsActions } from '../../redux-store/saga/sagaActions';
 import './filterblock.scss';
 
 const addCheckField = (categories) => {
@@ -20,7 +19,7 @@ const addCheckField = (categories) => {
   return stateCat;
 };
 
-const filterProducts = (categories, navigate) => {
+const filterProducts = (categories, navigate, dispatch) => {
   let search = '';
 
   for (const key in categories) {
@@ -32,7 +31,7 @@ const filterProducts = (categories, navigate) => {
     if (catVal) {
       search +=
         key +
-        '='+
+        '=' +
         cat
           .filter((item) => item.checked === true)
           .map((item) => item.id)
@@ -41,24 +40,24 @@ const filterProducts = (categories, navigate) => {
     }
   }
 
-  navigate({search})
-  productFilter(search)
+  navigate({ search });
+  dispatch({ type: productsActions.FILTER_PRODUCT, query: search });
 };
 
 const setChecked = (params, state) => {
-  const keys = Object.keys(state)
-  keys.forEach(elem => {
+  const keys = Object.keys(state);
+  keys.forEach((elem) => {
     const checkedVal = params.get(elem)?.split(',');
 
-    checkedVal?.forEach(item => {
-      state[elem].forEach(filter => {
+    checkedVal?.forEach((item) => {
+      state[elem].forEach((filter) => {
         if (filter.id === item) {
-          filter.checked = true
+          filter.checked = true;
         }
-      })
+      });
     });
   });
-}
+};
 
 const FilterBlock = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -75,9 +74,8 @@ const FilterBlock = () => {
   useEffect(() => {
     setState(addCheckField(fetchCat));
   }, [fetchCat]);
-
- 
-  setChecked(searchParams, state)
+  
+  setChecked(searchParams, state);
 
   const handleChange = (event, cat) => {
     const catName = event.target.name;
@@ -94,42 +92,64 @@ const FilterBlock = () => {
       [cat]: checked,
     });
 
-    filterProducts(state, navigate)
+    filterProducts(state, navigate, dispatch);
   };
 
-  
+  const clearFilters = () => {
+    const uncheck = {}
+    for (const elem in state) {
+      uncheck[elem] = state[elem].map(item => {
+        const cat = {...item}
+        cat.checked = false;
+        return cat
+      })
+    }
+    setSearchParams();
+    setState(uncheck)
+    filterProducts(uncheck, navigate, dispatch);
+  }
 
   return (
     <div className='filter-block'>
       {brands?.length ? (
-        <div className='filter-block__item'>
-          <FormGroup>
-            {brands.map((elem, idx) => {
-              return <FormControlLabel key={idx} control={<Checkbox checked={elem.checked} onChange={(e) => handleChange(e, 'brands')} name={elem.name} />} label={elem.name} />;
-            })}
-          </FormGroup>
-        </div>
+        <React.Fragment>
+          <h3>Brand</h3>
+          <div className='filter-block__item'>
+            <FormGroup>
+              {brands.map((elem, idx) => {
+                return <FormControlLabel key={idx} control={<Checkbox checked={elem.checked} onChange={(e) => handleChange(e, 'brands')} name={elem.name} />} label={elem.name} />;
+              })}
+            </FormGroup>
+          </div>
+        </React.Fragment>
       ) : null}
 
       {types?.length ? (
-        <div className='filter-block__item'>
-          <FormGroup>
-            {types.map((elem, idx) => {
-              return <FormControlLabel key={idx} control={<Checkbox checked={elem.checked} onChange={(e) => handleChange(e, 'types')} name={elem.name} />} label={elem.name} />;
-            })}
-          </FormGroup>
-        </div>
+        <React.Fragment>
+          <h3>Type</h3>
+          <div className='filter-block__item'>
+            <FormGroup>
+              {types.map((elem, idx) => {
+                return <FormControlLabel key={idx} control={<Checkbox checked={elem.checked} onChange={(e) => handleChange(e, 'types')} name={elem.name} />} label={elem.name} />;
+              })}
+            </FormGroup>
+          </div>
+        </React.Fragment>
       ) : null}
 
       {colors?.length ? (
-        <div className='filter-block__item'>
-          <FormGroup>
-            {colors.map((elem, idx) => {
-              return <FormControlLabel key={idx} control={<Checkbox checked={elem.checked} onChange={(e) => handleChange(e, 'colors')} name={elem.name} />} label={elem.name} />;
-            })}
-          </FormGroup>
-        </div>
+        <React.Fragment>
+          <h3>Color</h3>
+          <div className='filter-block__item'>
+            <FormGroup>
+              {colors.map((elem, idx) => {
+                return <FormControlLabel key={idx} control={<Checkbox checked={elem.checked} onChange={(e) => handleChange(e, 'colors')} name={elem.name} />} label={elem.name} />;
+              })}
+            </FormGroup>
+          </div>
+        </React.Fragment>
       ) : null}
+      <Button variant="contained" onClick={clearFilters}>Clear filters</Button>
     </div>
   );
 };
