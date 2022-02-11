@@ -19,7 +19,7 @@ const addCheckField = (categories) => {
   return stateCat;
 };
 
-const filterProducts = (categories, navigate, dispatch) => {
+const filterProducts = (categories, navigate, dispatch, pagination) => {
   let search = '';
 
   for (const key in categories) {
@@ -41,7 +41,7 @@ const filterProducts = (categories, navigate, dispatch) => {
   }
 
   navigate({ search });
-  dispatch({ type: productsActions.FILTER_PRODUCT, query: search });
+  dispatch({ type: productsActions.FILTER_PRODUCT, query: search, pagination });
 };
 
 const setChecked = (params, state) => {
@@ -64,8 +64,10 @@ const FilterBlock = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchCat = useSelector((state) => state.categories);
+  const { page, limit } = useSelector((state) => state.products);
   const [state, setState] = useState({});
   const { brands, colors, types } = state;
+  const filterQuery = new URLSearchParams(searchParams).toString();
 
   useEffect(() => {
     dispatch({ type: categoriesActions.GET_ALL_CAT });
@@ -74,7 +76,13 @@ const FilterBlock = () => {
   useEffect(() => {
     setState(addCheckField(fetchCat));
   }, [fetchCat]);
-  
+
+  useEffect(() => {
+    if (filterQuery.length) {
+      filterProducts(state, navigate, dispatch, { page, limit });
+    }
+  }, [page]);
+
   setChecked(searchParams, state);
 
   const handleChange = (event, cat) => {
@@ -92,22 +100,22 @@ const FilterBlock = () => {
       [cat]: checked,
     });
 
-    filterProducts(state, navigate, dispatch);
+    filterProducts(state, navigate, dispatch, { page, limit });
   };
 
   const clearFilters = () => {
-    const uncheck = {}
+    const uncheck = {};
     for (const elem in state) {
-      uncheck[elem] = state[elem].map(item => {
-        const cat = {...item}
+      uncheck[elem] = state[elem].map((item) => {
+        const cat = { ...item };
         cat.checked = false;
-        return cat
-      })
+        return cat;
+      });
     }
     setSearchParams();
-    setState(uncheck)
-    filterProducts(uncheck, navigate, dispatch);
-  }
+    setState(uncheck);
+    filterProducts(uncheck, navigate, dispatch, { page, limit });
+  };
 
   return (
     <div className='filter-block'>
@@ -149,7 +157,9 @@ const FilterBlock = () => {
           </div>
         </React.Fragment>
       ) : null}
-      <Button variant="contained" onClick={clearFilters}>Clear filters</Button>
+      <Button variant='contained' onClick={clearFilters}>
+        Clear filters
+      </Button>
     </div>
   );
 };

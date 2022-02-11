@@ -44,13 +44,19 @@ httpServer.listen(PORT, () => {
 });
 app.use('/upload', express.static('./upload'));
 
+function pagination(data, page, limit) {
+  const offset = page * limit - limit;
+  return {
+    products: data.slice(offset, offset + limit),
+    totalCount: data.length,
+  };
+}
+
 // GET
 
 app.get('/api/products', (req, res) => {
-  const {page, limit} = req.query
-  const offset = page * limit - limit
-  console.log('offset', offset);
-  res.status(200).json(products);
+  const { page, limit } = req.query;
+  res.status(200).json(pagination(products, page, limit));
 });
 
 app.get('/api/product', (req, res) => {
@@ -61,10 +67,17 @@ app.get('/api/product', (req, res) => {
 
 app.get('/api/filter', (req, res) => {
   const filter = req.query;
+  const { page, limit } = filter;
+  delete filter.page;
+  delete filter.limit;
   const allProducts = {};
   const checkEmpty = Object.keys(filter).length;
+  const offset = page * limit - limit;
 
+  console.log('check empty', checkEmpty);
   if (checkEmpty) {
+    console.log('page', page);
+    console.log('limit', limit);
     for (const elem in filter) {
       const categoryField = elem.substring(0, elem.length - 1) + 'Id';
       const product = filter[elem]?.split(',').map((item) => products.filter((elem) => elem[categoryField] === item));
@@ -91,9 +104,15 @@ app.get('/api/filter', (req, res) => {
       }
     });
 
-    res.status(200).json(filtredProducts);
+    res.status(200).json({
+      products: filtredProducts.slice(offset, offset + limit),
+      totalCount: filtredProducts.length,
+    });
   } else {
-    res.status(200).json(products);
+    res.status(200).json({
+      products: products.slice(offset, offset + limit),
+      totalCount: products.length,
+    });
   }
 });
 

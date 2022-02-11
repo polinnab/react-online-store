@@ -19,7 +19,7 @@ export function* get(url, queryParams = {}, params = {}) {
   const query = new URLSearchParams(queryParams).toString();
   return yield request(`${url}${query ? `?` + query : ''}`, {
     method: 'GET',
-    headers,
+    headers
   });
 }
 
