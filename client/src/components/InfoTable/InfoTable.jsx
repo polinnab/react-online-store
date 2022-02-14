@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableFooter, Paper, TablePagination } from '@mui/material';
 import { IMAGE_URL } from '../../shared/utils/_constans';
 import { DeleteOutline, EditOutlined } from '@mui/icons-material';
+import './infoTable.scss'
 
 const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
   const { brands, colors, types } = useSelector((state) => state.categories);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const tableHeaderCells = headers
     ? headers.map((elem, idx) => (
         <TableCell key={idx} align={idx ? 'right' : 'left'}>
@@ -56,13 +59,33 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
       })
     : null;
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <TableContainer component={Paper} style={{ margin: '20px 0' }}>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
         <TableHead>
           <TableRow>{tableHeaderCells}</TableRow>
         </TableHead>
-        <TableBody>{tableBodyCells}</TableBody>
+        <TableBody>{rowsPerPage > 0 ? tableBodyCells.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : tableBodyCells}</TableBody>
+        <TableFooter className={'table-footer'}>
+          <TableRow>
+            <TablePagination 
+            rowsPerPageOptions={[5, 10, 25]} 
+            count={tableBodyCells.length} 
+            rowsPerPage={rowsPerPage} 
+            page={page} 
+            onPageChange={handleChangePage} 
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage={'Товаров на странице'} />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

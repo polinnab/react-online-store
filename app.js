@@ -45,9 +45,16 @@ httpServer.listen(PORT, () => {
 app.use('/upload', express.static('./upload'));
 
 function pagination(data, page, limit) {
+  if (page === 'NaN' && limit === 'NaN') {
+    return {
+      products: data,
+      totalCount: data.length,
+    };
+  }
   const offset = page * limit - limit;
+  const products = data.slice(offset, offset + limit)
   return {
-    products: data.slice(offset, offset + limit),
+    products,
     totalCount: data.length,
   };
 }
@@ -72,12 +79,9 @@ app.get('/api/filter', (req, res) => {
   delete filter.limit;
   const allProducts = {};
   const checkEmpty = Object.keys(filter).length;
-  const offset = page * limit - limit;
 
-  console.log('check empty', checkEmpty);
+
   if (checkEmpty) {
-    console.log('page', page);
-    console.log('limit', limit);
     for (const elem in filter) {
       const categoryField = elem.substring(0, elem.length - 1) + 'Id';
       const product = filter[elem]?.split(',').map((item) => products.filter((elem) => elem[categoryField] === item));
@@ -104,15 +108,9 @@ app.get('/api/filter', (req, res) => {
       }
     });
 
-    res.status(200).json({
-      products: filtredProducts.slice(offset, offset + limit),
-      totalCount: filtredProducts.length,
-    });
+    res.status(200).json(pagination(filtredProducts, page, limit));
   } else {
-    res.status(200).json({
-      products: products.slice(offset, offset + limit),
-      totalCount: products.length,
-    });
+    res.status(200).json(pagination(products, page, limit));
   }
 });
 
@@ -212,4 +210,3 @@ app.put('/api/products/:id', (req, res) => {
   res.status(200).json(products);
 });
 
-// app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));

@@ -7,7 +7,7 @@ const productSlice = createSlice({
     product: {},
     page: 1,
 		totalCount: 0,
-    limit: 2
+    limit: 6
   },
   reducers: {
     getProducts(state, action) {
