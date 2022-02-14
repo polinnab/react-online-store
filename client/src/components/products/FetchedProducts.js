@@ -1,19 +1,36 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import Product from './Product';
 import { Grid } from '@mui/material';
+import { productsActions } from '../../redux-store/saga/sagaActions';
+import Pagination from '../Pagination/Pagination';
 
 export default function FetchedProducts() {
-  const { products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { products, page, limit } = useSelector((state) => state.products);
+  const filterQuery = new URLSearchParams(searchParams).toString();
+
+  useEffect(() => {
+    if (!filterQuery.length) {
+      dispatch({ type: productsActions.GET_ALL_PRODUCTS, page, limit });
+    }
+  }, [dispatch, page, limit]);
   if (products) {
     return (
-      <Grid container spacing={2}>
+      <React.Fragment>
+        <Grid container spacing={2}>
           {products.map((product) => (
-            <Grid key={product.id} item xs={6} sm={3}>
+            <Grid key={product.id} item xs={6} sm={4}>
               <Product product={product} />
             </Grid>
           ))}
-      </Grid>
+        </Grid>
+        <br />
+        <br />
+        <Pagination />
+      </React.Fragment>
     );
   }
   return <p className='text-center'>No products</p>;

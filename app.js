@@ -1,8 +1,22 @@
 const express = require('express');
-const http = require('http')
+const http = require('http');
 const cors = require('cors');
 const { v4 } = require('uuid');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const sharp = require('sharp');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, `./upload/`);
+  },
+  filename: (req, file, cb) => {
+    const index = file.originalname.lastIndexOf('.');
+    const resolution = file.originalname.substring(index);
+    cb(null, v4() + resolution);
+  },
+});
+const upload = multer({ storage });
+const type = upload.array('images');
 const path = require('path');
 const app = express();
 const fs = require('fs');
@@ -30,17 +44,81 @@ httpServer.listen(PORT, () => {
 });
 app.use('/upload', express.static('./upload'));
 
+function pagination(data, page, limit) {
+  const offset = page * limit - limit;
+  return {
+    products: data.slice(offset, offset + limit),
+    totalCount: data.length,
+  };
+}
 
 // GET
 
 app.get('/api/products', (req, res) => {
-  res.status(200).json(products);
+  const { page, limit } = req.query;
+  res.status(200).json(pagination(products, page, limit));
 });
 
 app.get('/api/product', (req, res) => {
-  const id = req.query.id
-  const product = products.filter(elem => elem.id === id)
+  const id = req.query.id;
+  const product = products.filter((elem) => elem.id === id);
   res.status(200).json(...product);
+});
+
+app.get('/api/filter', (req, res) => {
+  const filter = req.query;
+  const { page, limit } = filter;
+  delete filter.page;
+  delete filter.limit;
+  const allProducts = {};
+  const checkEmpty = Object.keys(filter).length;
+  const offset = page * limit - limit;
+
+  console.log('check empty', checkEmpty);
+  if (checkEmpty) {
+    console.log('page', page);
+    console.log('limit', limit);
+    for (const elem in filter) {
+      const categoryField = elem.substring(0, elem.length - 1) + 'Id';
+      const product = filter[elem]?.split(',').map((item) => products.filter((elem) => elem[categoryField] === item));
+      allProducts[elem] = product.flat();
+    }
+
+    const productCat = Object.keys(allProducts)[0];
+    const catCount = Object.keys(allProducts).length;
+
+    const filtredProducts = allProducts[productCat]?.filter((elem) => {
+      const id = elem.id;
+      let count = 0;
+
+      for (const item in allProducts) {
+        allProducts[item].forEach((elem) => {
+          if (elem.id === id) {
+            count++;
+          }
+        });
+      }
+
+      if (count === catCount) {
+        return elem;
+      }
+    });
+
+    res.status(200).json({
+      products: filtredProducts.slice(offset, offset + limit),
+      totalCount: filtredProducts.length,
+    });
+  } else {
+    res.status(200).json({
+      products: products.slice(offset, offset + limit),
+      totalCount: products.length,
+    });
+  }
+});
+
+app.get('/api/categories', (req, res) => {
+  const cat = { types, brands, colors };
+  res.status(200).json(cat);
 });
 
 app.get('/api/types', (req, res) => {
@@ -85,6 +163,20 @@ app.post('/api/products', (req, res) => {
   res.status(201).json(product);
 });
 
+app.post('/api/image', type, (req, res) => {
+  const files = req.files.map((elem) => {
+    const thumbnail = 'thumbnail-' + elem.filename;
+    sharp(elem.path)
+      .resize(200, 200)
+      .toFile('upload/' + thumbnail);
+    return {
+      original: elem.filename,
+      thumbnail,
+    };
+  });
+  res.status(201).json(files);
+});
+
 // DELETE
 
 app.delete('/api/products', (req, res) => {
@@ -116,7 +208,7 @@ app.delete('/api/colors', (req, res) => {
 app.put('/api/products/:id', (req, res) => {
   const index = products.findIndex((product) => product.id === req.params.id);
   products[index] = req.body;
-  fs.writeFileSync(productsFile, JSON.stringify(products))
+  fs.writeFileSync(productsFile, JSON.stringify(products));
   res.status(200).json(products);
 });
 

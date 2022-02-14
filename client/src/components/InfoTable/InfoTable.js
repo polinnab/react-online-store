@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-
+import { IMAGE_URL } from '../../shared/utils/_constans';
 import { DeleteOutline, EditOutlined } from '@mui/icons-material';
 
 const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
@@ -15,7 +15,7 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
     : null;
   const findCat = (cat, id) => {
     if (cat.length) {
-      const {name} = cat.find((elem) => (elem.id === id ? elem.name : null));
+      const { name } = cat.find((elem) => (elem.id === id ? elem.name : null));
       return name;
     }
   };
@@ -29,7 +29,7 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
             {elem.price ? <TableCell align='right'>{elem.price}</TableCell> : null}
             {elem.images ? (
               <TableCell align='right'>
-                <img src={elem.images[0].big} alt={elem.name} />
+                <img src={IMAGE_URL + elem.images[0].thumbnail} alt={elem.name} />
               </TableCell>
             ) : null}
             {elem.typeId ? <TableCell align='right'>{findCat(types, elem.typeId)}</TableCell> : null}

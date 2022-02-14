@@ -45,10 +45,23 @@ function* removeCategory(action) {
 }
 
 function* getAllCategories(action) {
-  const cat = [{ category_name: 'types' }, { category_name: 'brands' }, { category_name: 'colors' }];
+  const data = yield get(`${LOCAL_HOST}${PORT}/api/categories`);
 
-  for (const elem of cat) {
-    yield getCategory(elem);
+  for (const item in data) {
+    const cat = data[item];
+    switch (item) {
+      case 'types':
+        yield put(getTypes(cat));
+        break;
+      case 'brands':
+        yield put(getBrands(cat));
+        break;
+      case 'colors':
+        yield put(getColors(cat));
+        break;
+      default:
+        break;
+    }
   }
 }
 
