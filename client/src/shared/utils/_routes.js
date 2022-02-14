@@ -1,12 +1,17 @@
 import AdminPage from "../../pages/admin/AdminPage"
 import ProductsPage from "../../pages/dashboard/ProductsPage"
 import ProductPage from '../../pages/product/ProductPage'
-import { admin_route, main_route, product_route } from './_constans'
+import UserPage from "../../pages/user/UserPage"
+import { admin_route, main_route, product_route, user_route } from './_constans'
 
 export const authRoutes = [
 	{
 		path: admin_route,
 		Component: AdminPage
+	},
+	{
+		path: user_route,
+		Component: UserPage
 	}
 ]
 

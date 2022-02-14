@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Avatar, Button, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route } from '../../shared/utils/_constans';
+import { main_route, admin_route, login_route, user_route } from '../../shared/utils/_constans';
 import { useSelector } from 'react-redux';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
 
 const Header = () => {
-  const isAuth = useSelector((state) => state.user.isAuth);
+  const { isAuth, user } = useSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -94,11 +94,20 @@ const Header = () => {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}>
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <NavLink to={admin_route}>
-                      <Typography textAlign='center'>Admin</Typography>
-                    </NavLink>
-                  </MenuItem>
+                  {user.role === 'Admin' ? (
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <NavLink to={admin_route}>
+                        <Typography textAlign='center'>Admin</Typography>
+                      </NavLink>
+                    </MenuItem>
+                  ) : (
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <NavLink to={user_route}>
+                        <Typography textAlign='center'>Account</Typography>
+                      </NavLink>
+                    </MenuItem>
+                  )}
+
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>

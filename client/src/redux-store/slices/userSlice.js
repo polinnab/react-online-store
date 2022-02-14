@@ -5,10 +5,14 @@ const userSlice = createSlice({
   initialState: {
     user: {
 			id: '',
-			name: '',
-			email: '',
+			login: 'User',
+			name: 'User',
+			email: 'user@email.com',
+			phone: '78787878',
+			soc: [],
 			fav: [],
-			cart: []
+			cart: [],
+      role: 'User'
 		},
 		isAuth: true
   },
