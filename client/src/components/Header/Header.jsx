@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Avatar, Button, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route, user_route } from '../../shared/utils/_constans';
+import { main_route, admin_route, login_route, user_route, userCart_route } from '../../shared/utils/_constans';
 import { useSelector } from 'react-redux';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
@@ -69,6 +70,14 @@ const Header = () => {
             <MenuItem onClick={handleCloseNavMenu} className='header__link'>
               <NavLink to={main_route}>Products</NavLink>
             </MenuItem>
+          </Box>
+
+          <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
+            {isAuth ? 
+              <NavLink to={userCart_route}>
+                <ShoppingCartIcon/>
+              </NavLink>
+            : null}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
