@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { basket_route } from '../../shared/utils/_constans';
+import { userCart_route } from '../../shared/utils/_constans';
 import ImageGallery from 'react-image-gallery';
 import { fetchProduct } from '../../shared/utils/_apiRequests';
-import { categoriesActions } from '../../redux-store/saga/sagaActions';
+import { categoriesActions, cartActions } from '../../redux-store/saga/sagaActions';
 import { IMAGE_URL } from '../../shared/utils/_constans';
 import Button from '../../components/Button/Button';
 import 'react-image-gallery/styles/scss/image-gallery.scss'
@@ -42,6 +42,10 @@ const ProductPage = () => {
     }
   }, [brands, product]);
 
+  const addToCart = () => {
+    dispatch({ type: cartActions.ADD_TO_CART, product: product })
+  }
+
   return !isLoad ? (
     <div className='container product-page'>
       <div className='product-page__images'>
@@ -53,7 +57,7 @@ const ProductPage = () => {
         <h2 className='product-page__name'>{product.name}</h2>
         <div className='product-page__desc'>{product.desc}</div>
         <div className='product-page__price'>{product.price}</div>
-        <Button color='orange' type='navlink' to={basket_route}>Buy</Button>
+        <button className='btn btn--orange' onClick={() => addToCart()}>Buy</button>
       </div>
     </div>
   ) : null;
