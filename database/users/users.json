@@ -1,17 +1,1 @@
-[
-	{
-		"id": 1,
-		"name": "name",
-		"email": "email@qw.we",
-		"password": "qwe",
-		"fav": [
-			1
-		],
-		"cart": [
-			{
-				"id": 1,
-				"count": 1
-			}
-		]
-	}
-]
+[{"id":1,"name":"name","email":"email@qw.we","password":"qwe","fav":[1],"cart":[{"id":"bf69b9b9-bfeb-4821-8623-cb174f8ff31d","count":3}]}]
