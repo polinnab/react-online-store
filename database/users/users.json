@@ -1,11 +1,17 @@
 [
 	{
 		"id": 1,
+		"login": "login",
 		"name": "name",
+		"phone": "name",
 		"email": "email@qw.we",
 		"password": "qwe",
+		"role": "User",
+		"soc": [],
 		"fav": [
-			1
+			{
+				"id": 1
+			}
 		],
 		"cart": [
 			{

@@ -25,12 +25,14 @@ const typesFile = './database/categories/types.json';
 const colorsFile = './database/categories/colors.json';
 const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
+const socFile = './database/soc.json';
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 let brands = JSON.parse(fs.readFileSync(brandsFile));
 let types = JSON.parse(fs.readFileSync(typesFile));
 let colors = JSON.parse(fs.readFileSync(colorsFile));
 let users = JSON.parse(fs.readFileSync(usersFile));
+let socList = JSON.parse(fs.readFileSync(socFile));
 let products = JSON.parse(fs.readFileSync(productsFile));
 app.use(
   bodyParser.urlencoded({
@@ -60,6 +62,16 @@ function pagination(data, page, limit) {
 }
 
 // GET
+
+app.get('/api/soc', (req, res) => {
+  res.status(200).json(socList);
+});
+
+app.get('/api/soc', (req, res) => {
+  const id = req.query.id;
+  const soc = socList.filter((elem) => elem.id === id);
+  res.status(200).json(...soc);
+});
 
 app.get('/api/products', (req, res) => {
   const { page, limit } = req.query;
