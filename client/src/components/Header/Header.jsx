@@ -107,12 +107,12 @@ const Header = () => {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}>
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <NavLink to={admin_route}>
                       <Typography textAlign='center'>Admin</Typography>
                     </NavLink>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>
                 </Menu>
