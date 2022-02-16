@@ -9,7 +9,7 @@ import { productsActions, categoriesActions } from '../../redux-store/saga/sagaA
 const AdminPage = () => {
   const dispatch = useDispatch();
   const [editProduct, setEditProduct] = useState([]);
-  const { products, page } = useSelector((state) => state.products);
+  const { products, page, limit } = useSelector((state) => state.products);
   const headers = ['Товары', 'Название', 'Описание', 'Цена', 'Изображение', 'Тип', 'Бренд', 'Цвет', 'Действие'];
 
   useEffect(() => {
