@@ -6,6 +6,7 @@ import DialogBrand from './dialogContent/DialogBrand';
 import DialogColor from './dialogContent/DialogColor';
 import DialogType from './dialogContent/DialogType';
 import DialogProduct from './dialogContent/DialogProduct';
+import DialogAddToCart from './dialogContent/DialogAddToCart';
 
 const Dialogs = ({readyData}) => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,7 @@ const Dialogs = ({readyData}) => {
     brand: DialogBrand,
     product: DialogProduct,
     color: DialogColor,
+    addToCart: DialogAddToCart
   };
 
   const DialogShow = dialogList[dialogName];
