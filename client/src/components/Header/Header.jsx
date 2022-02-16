@@ -104,20 +104,20 @@ const Header = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}>
                   {user.role === 'Admin' ? (
-                    <MenuItem onClick={handleCloseNavMenu}>
+                    <MenuItem onClick={handleCloseUserMenu}>
                       <NavLink to={admin_route}>
                         <Typography textAlign='center'>Admin</Typography>
                       </NavLink>
                     </MenuItem>
                   ) : (
-                    <MenuItem onClick={handleCloseNavMenu}>
+                    <MenuItem onClick={handleCloseUserMenu}>
                       <NavLink to={user_route}>
                         <Typography textAlign='center'>Account</Typography>
                       </NavLink>
                     </MenuItem>
                   )}
 
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>
                 </Menu>
