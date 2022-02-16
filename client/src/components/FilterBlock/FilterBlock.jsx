@@ -19,26 +19,30 @@ const addCheckField = (categories) => {
   return stateCat;
 };
 
-const filterProducts = (categories, navigate, dispatch, pagination) => {
-  let search = '';
+const filterProducts = (categories, navigate, dispatch, pagination, filterQuery) => {
+  let search = filterQuery || '';
 
-  for (const key in categories) {
-    const cat = categories[key];
-    const catVal = cat
-      .filter((item) => item.checked === true)
-      .map((item) => item.id)
-      .join(',');
-    if (catVal) {
-      search +=
-        key +
-        '=' +
-        cat
-          .filter((item) => item.checked === true)
-          .map((item) => item.id)
-          .join(',') +
-        '&';
+  if (!search.length) {
+    for (const key in categories) {
+      const cat = categories[key];
+      const catVal = cat
+        .filter((item) => item.checked === true)
+        .map((item) => item.id)
+        .join(',');
+      if (catVal) {
+        search +=
+          key +
+          '=' +
+          cat
+            .filter((item) => item.checked === true)
+            .map((item) => item.id)
+            .join(',') +
+          '&';
+      }
     }
-  }
+  } else {
+		search += '&'
+	}
 
   navigate({ search });
   dispatch({ type: productsActions.FILTER_PRODUCT, query: search, pagination });
@@ -69,6 +73,8 @@ const FilterBlock = () => {
   const { brands, colors, types } = state;
   const filterQuery = new URLSearchParams(searchParams).toString();
 
+  setChecked(searchParams, state);
+
   useEffect(() => {
     dispatch({ type: categoriesActions.GET_ALL_CAT });
   }, [dispatch]);
@@ -79,11 +85,9 @@ const FilterBlock = () => {
 
   useEffect(() => {
     if (filterQuery.length) {
-      filterProducts(state, navigate, dispatch, { page, limit });
+      filterProducts(state, navigate, dispatch, { page, limit }, filterQuery);
     }
   }, [page]);
-
-  setChecked(searchParams, state);
 
   const handleChange = (event, cat) => {
     const catName = event.target.name;

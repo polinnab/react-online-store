@@ -5,7 +5,7 @@ import { getProducts, getProduct, setTotalCount } from '../slices/productSlice';
 import { productsActions } from './sagaActions';
 
 function* getAllProducts(action) {
-  const data = yield get(`${LOCAL_HOST}${PORT}/api/products`, {page: action.page, limit: action.limit});
+  const data = yield get(`${LOCAL_HOST}${PORT}/api/products`, {page: Number(action.page), limit: Number(action.limit)});
   yield put(getProducts(data.products));
   yield put(setTotalCount(data.totalCount));
 }
@@ -37,7 +37,7 @@ function* getOneProduct(action) {
 }
 
 function* filterProduct(action) {
-  const pagination = `page=${action.pagination.page}&limit=${action.pagination.page}`
+  const pagination = `page=${action.pagination.page}&limit=${action.pagination.limit}`
   const data = yield get(`${LOCAL_HOST}${PORT}/api/filter?${action.query}${pagination}`);
   yield put(getProducts(data.products));
   yield put(setTotalCount(data.totalCount));
