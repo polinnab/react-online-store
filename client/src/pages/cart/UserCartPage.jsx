@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { moneyFormatter } from "../../shared/utils/_methods";
 
 import './userCart.scss';
 
@@ -81,7 +82,10 @@ const UserCartPage = () => {
                                 className='card-img-top' 
                                 style={{width: '100px'}}/>
                          </TableCell>
-                         <TableCell align="left">{product.name}</TableCell>
+                         <TableCell align="left">
+                             {product.name}
+                             <p>${moneyFormatter(product.price)}</p>
+                            </TableCell>
                          <TableCell align="left">
                             <button 
                                 disabled={product.count <= 1} 
