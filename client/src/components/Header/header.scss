@@ -35,4 +35,13 @@ header {
       }
     }
   }
+
+  &__cart-icon:hover {
+    color: black;
+    transition: .3s;
+  }
+}
+
+.MuiBox-root > a {
+  transition: unset;
 }

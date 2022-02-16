@@ -11,6 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
+import './userCart.scss';
+
 const UserCartPage = () => {
 
     const dispatch = useDispatch();
@@ -45,8 +47,8 @@ const UserCartPage = () => {
     }
 
     return(
-        <div style={{display: 'flex', flexDirection: 'column', maxWidth: '60vw'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '30px'}}>
+        <div className='Cart_container'>
+            <div className='Cart_header'>
                 <h1>Cart</h1>
                 <button 
                     className='btn btn-secondary' 
@@ -83,12 +85,12 @@ const UserCartPage = () => {
                          <TableCell align="left">
                             <button 
                                 disabled={product.count <= 1} 
-                                className='Cart__minus'
+                                className='Cart_count-minus'
                                 onClick={() => minusProduct(product)}>
                             -</button> 
-                            <span style={{padding: '0 10px'}}>{product.count}</span>
+                            <span className='Cart_count-text' >{product.count}</span>
                             <button 
-                                className='Cart__plus'
+                                className='Cart_count-plus'
                                 onClick={() => plusProduct(product)}>
                             +</button>
                         </TableCell>
