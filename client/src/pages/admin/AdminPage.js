@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { dialog } from '../../redux-store/slices/dialogSlice';
 import Dialogs from '../../components/Dialogs';
 import InfoTable from '../../components/InfoTable/InfoTable';
-
 import { productsActions, categoriesActions } from '../../redux-store/saga/sagaActions';
 
 const AdminPage = () => {
   const dispatch = useDispatch();
   const [editProduct, setEditProduct] = useState([]);
-  const products = useSelector((state) => state.products.products);
+  const { products, page, limit } = useSelector((state) => state.products);
   const headers = ['Товары', 'Название', 'Описание', 'Цена', 'Изображение', 'Тип', 'Бренд', 'Цвет', 'Действие'];
 
-  dispatch({ type: categoriesActions.GET_ALL_CAT });
+  useEffect(() => {
+    dispatch({ type: categoriesActions.GET_ALL_CAT });
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch({ type: productsActions.GET_ALL_PRODUCTS });
+  }, [dispatch, page]);
 
   const openDialog = (name) => {
     dispatch(
@@ -54,7 +58,13 @@ const AdminPage = () => {
             </Button>
           </Grid>
           <Grid item xs={3} md={1}>
-            <Button variant='contained' onClick={() => {openDialog('product');setEditProduct([])}} style={{ width: '100%' }}>
+            <Button
+              variant='contained'
+              onClick={() => {
+                openDialog('product');
+                setEditProduct([]);
+              }}
+              style={{ width: '100%' }}>
               Товар
             </Button>
           </Grid>
