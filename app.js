@@ -269,7 +269,6 @@ app.put('/api/products/:id', (req, res) => {
   res.status(200).json(products);
 });
 
-<<<<<<< HEAD
 app.put('/api/cart/:id', (req, res) => {
   const index = users[0].cart.findIndex(item => item.id === req.params.id);
   users[0].cart[index].count = req.body.count;
@@ -279,5 +278,3 @@ app.put('/api/cart/:id', (req, res) => {
 
 
 // app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
-=======
->>>>>>> origin/master
