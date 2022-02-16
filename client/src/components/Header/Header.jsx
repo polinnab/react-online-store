@@ -75,7 +75,7 @@ const Header = () => {
           <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
             {isAuth ? 
               <NavLink to={userCart_route}>
-                <ShoppingCartIcon/>
+                <ShoppingCartIcon className='header__cart-icon'/>
               </NavLink>
             : null}
           </Box>
