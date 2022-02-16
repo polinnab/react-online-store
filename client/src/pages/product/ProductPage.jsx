@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { userCart_route } from '../../shared/utils/_constans';
 import ImageGallery from 'react-image-gallery';
 import { fetchProduct } from '../../shared/utils/_apiRequests';
 import { categoriesActions, cartActions } from '../../redux-store/saga/sagaActions';
 import { IMAGE_URL } from '../../shared/utils/_constans';
 import Button from '../../components/Button/Button';
+import { dialog } from '../../redux-store/slices/dialogSlice';
+import Dialogs from '../../components/Dialogs';
 import 'react-image-gallery/styles/scss/image-gallery.scss'
 import '../../styles/productPage.scss'
+
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -44,6 +46,12 @@ const ProductPage = () => {
 
   const addToCart = () => {
     dispatch({ type: cartActions.ADD_TO_CART, product: product })
+    dispatch(
+      dialog({
+        visible: true,
+        name: 'addToCart',
+      })
+    );
   }
 
   return !isLoad ? (
@@ -59,6 +67,8 @@ const ProductPage = () => {
         <div className='product-page__price'>{product.price}</div>
         <button className='btn btn--orange' onClick={() => addToCart()}>Buy</button>
       </div>
+
+      <Dialogs readyData={true} />
     </div>
   ) : null;
 };
