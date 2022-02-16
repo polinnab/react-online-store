@@ -1,15 +1,29 @@
-export const categoriesActions = {
+const categoriesActions = {
   ADD_CAT: "ADD_CAT",
   GET_CAT: "GET_CAT",
   GET_ALL_CAT: "GET_ALL_CAT",
   REMOVE_CAT: "REMOVE_CAT"
 };
 
-export const productsActions = {
+const productsActions = {
   GET_ALL_PRODUCTS: "GET_ALL_PRODUCTS",
   GET_PRODUCT: "GET_PRODUCT",
   ADD_PRODUCT: "ADD_PRODUCT",
   EDIT_PRODUCT: "EDIT_PRODUCT",
   REMOVE_PRODUCT: "REMOVE_PRODUCT",
   FILTER_PRODUCT: "FILTER_PRODUCT"
+}
+
+const cartActions = {
+  ADD_TO_CART: "ADD_TO_CAR",
+  GET_CART: "GET_CART",
+  REMOVE_FROM_CART: "REMOVE_FROM_CART",
+  EMPTY_CART: "EMPTY_CART",
+  CHANGE_COUNT: "CHANGE_COUNT"
+}
+
+export {
+  categoriesActions,
+  productsActions,
+  cartActions
 }

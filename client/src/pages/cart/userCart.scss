@@ -1,0 +1,28 @@
+.Cart {
+    &_container {
+        display: flex;
+        flex-direction: column;
+        max-width: 60%;
+    }
+
+    &_header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    &_count {
+        &-text {
+            padding: 0 10px;
+        }
+
+        &-plus, &-minus {
+            border-radius: 6px;
+            border: none;
+        }
+
+        &-plus:not([disabled]):hover, &-minus:not([disabled]):hover {
+            background-color: #dbd9d9;
+        }
+    }
+}

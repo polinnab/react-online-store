@@ -131,6 +131,23 @@ app.get('/api/colors', (req, res) => {
   res.status(200).json(colors);
 });
 
+app.get('/api/cart', (req, res) => {
+  let cart = []
+  products.map(product => {
+    const prod = users[0].cart.find(item => item.id === product.id)
+    if (prod) {
+      const cartProduct = {
+        id: product.id,
+        name: product.name,
+        image: product.images[0].thumbnail,
+        count: prod.count
+      }
+      cart.push(cartProduct)
+    }
+  })
+  res.status(200).json(cart)
+})
+
 // POST
 
 app.post('/api/types', (req, res) => {
@@ -175,6 +192,23 @@ app.post('/api/image', type, (req, res) => {
   res.status(201).json(files);
 });
 
+app.post('/api/cart/:id', (req, res) => {
+  const product = users[0].cart.find(item => item.id === req.params.id);
+
+  if (users[0].cart.length >= 1 && product) {
+    product.count = product.count + 1
+  } else  {
+    const product = {
+      id: req.params.id, 
+      count: 1
+    }
+    users[0].cart.push(product);
+  }
+
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+  res.status(201).json(users[0].cart);
+});
+
 // DELETE
 
 app.delete('/api/products', (req, res) => {
@@ -201,6 +235,19 @@ app.delete('/api/colors', (req, res) => {
   res.status(200).json({ massage: 'Цвет был удален' });
 });
 
+app.delete('/api/cart', (req, res) => {
+  users[0].cart = []
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+  res.status(200).json({ message: 'The cart is empty' })
+})
+
+app.delete('/api/cart/:id', (req, res) => {
+  const newCart = users[0].cart.filter(item => item.id !== req.params.id);
+  users[0].cart = newCart
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+  res.status(200).json({ message: 'Product deleted' })
+})
+
 // PUT
 
 app.put('/api/products/:id', (req, res) => {
@@ -210,3 +257,15 @@ app.put('/api/products/:id', (req, res) => {
   res.status(200).json(products);
 });
 
+<<<<<<< HEAD
+app.put('/api/cart/:id', (req, res) => {
+  const index = users[0].cart.findIndex(item => item.id === req.params.id);
+  users[0].cart[index].count = req.body.count;
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+  res.status(200).json({ message: 'Product count has changed' })
+})
+
+
+// app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
+=======
+>>>>>>> origin/master
