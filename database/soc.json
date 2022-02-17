@@ -1,22 +1,18 @@
 [
 	{
 		"id": 1,
-		"name": "Facebook",
-		"icon": "FacebookRounded"
+		"name": "Facebook"
 	},
 	{
 		"id": 2,
-		"name": "Twitter",
-		"icon": "Twitter"
+		"name": "Twitter"
 	},
 	{
 		"id": 3,
-		"name": "Instagram",
-		"icon": "Instagram"
+		"name": "Instagram"
 	},
 	{
 		"id": 4,
-		"name": "Telegram",
-		"icon": "Telegram"
+		"name": "Telegram"
 	}
 ]

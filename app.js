@@ -63,16 +63,6 @@ function pagination(data, page, limit) {
 
 // GET
 
-app.get('/api/soc', (req, res) => {
-  res.status(200).json(socList);
-});
-
-app.get('/api/soc', (req, res) => {
-  const id = req.query.id;
-  const soc = socList.filter((elem) => elem.id === id);
-  res.status(200).json(...soc);
-});
-
 app.get('/api/products', (req, res) => {
   const { page, limit } = req.query;
   res.status(200).json(pagination(products, page, limit));
@@ -159,6 +149,17 @@ app.get('/api/cart', (req, res) => {
   })
   res.status(200).json(cart)
 })
+
+app.get('/api/soc', (req, res) => {
+  res.status(200).json(socList);
+});
+
+app.get('/api/user', (req, res) => {
+  const id = req.query.id;
+  const user = users.filter((elem) => elem.id === Number(id));
+  delete user.password;
+  res.status(200).json(...user);
+});
 
 // POST
 
@@ -275,6 +276,15 @@ app.put('/api/cart/:id', (req, res) => {
   fs.writeFileSync(usersFile, JSON.stringify(users));
   res.status(200).json({ message: 'Product count has changed' })
 })
+
+app.put('/api/user/:id', (req, res) => {
+  const index = users.findIndex((user) => user.id === Number(req.params.id));
+  for (const key in req.body) {
+    users[index][key] = req.body[key]
+  }
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+  res.status(200).json(users[index]);
+});
 
 
 // app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
