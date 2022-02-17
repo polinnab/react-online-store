@@ -140,6 +140,7 @@ app.get('/api/cart', (req, res) => {
         id: product.id,
         name: product.name,
         image: product.images[0].thumbnail,
+        price: product.price,
         count: prod.count
       }
       cart.push(cartProduct)
