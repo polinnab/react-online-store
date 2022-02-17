@@ -5,12 +5,12 @@ import ImageGallery from 'react-image-gallery';
 import { fetchProduct } from '../../shared/utils/_apiRequests';
 import { categoriesActions, cartActions } from '../../redux-store/saga/sagaActions';
 import { IMAGE_URL } from '../../shared/utils/_constans';
-import Button from '../../components/Button/Button';
 import { dialog } from '../../redux-store/slices/dialogSlice';
 import Dialogs from '../../components/Dialogs';
 import { moneyFormatter } from '../../shared/utils/_methods';
 import 'react-image-gallery/styles/scss/image-gallery.scss'
-import '../../styles/productPage.scss'
+import '../../styles/productPage.scss';
+import '../../components/Button/button.scss';
 
 
 const ProductPage = () => {

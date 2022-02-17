@@ -13,8 +13,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { moneyFormatter } from "../../shared/utils/_methods";
 
 import './userCart.scss';
+import { useState } from 'react';
 
 const UserCartPage = () => {
+
+    const [totalAmount, setTotalAmount] = useState(0);
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.cart.cart);
@@ -23,13 +26,19 @@ const UserCartPage = () => {
         dispatch({ type: cartActions.GET_CART })
     }, [dispatch]);
 
+    useEffect(() => {
+        let total = 0;
+        products.forEach(product => total = total + Number(product.count) * Number(product.price))
+        setTotalAmount(total)
+    }, [products]);
+
     const emptyCart = () => {
         dispatch({ type: cartActions.EMPTY_CART })
-    }
+    };
 
     const deleteProduct = (product) => {
         dispatch({type: cartActions.REMOVE_FROM_CART, product: product })
-    }
+    };
 
     const minusProduct = (product) => {
         const payload = {
@@ -37,7 +46,7 @@ const UserCartPage = () => {
             count: product.count - 1
         }
         dispatch({type: cartActions.CHANGE_COUNT, payload})
-    }
+    };
 
     const plusProduct = (product) => {
         const payload = {
@@ -45,7 +54,7 @@ const UserCartPage = () => {
             count: product.count + 1
         }
         dispatch({type: cartActions.CHANGE_COUNT, payload})
-    }
+    };
 
     return(
         <div className='Cart_container'>
@@ -108,6 +117,7 @@ const UserCartPage = () => {
                      ))} 
                    </TableBody>
                  </Table>
+                 <p className='Cart_totalamount'>Total amount: ${moneyFormatter(totalAmount)}</p>
                  </TableContainer>
                 : <h3>The cart is empty</h3>}
 
