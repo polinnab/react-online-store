@@ -5,11 +5,13 @@ import ImageGallery from 'react-image-gallery';
 import { fetchProduct } from '../../shared/utils/_apiRequests';
 import { categoriesActions, cartActions } from '../../redux-store/saga/sagaActions';
 import { IMAGE_URL } from '../../shared/utils/_constans';
-import Button from '../../components/Button/Button';
 import { dialog } from '../../redux-store/slices/dialogSlice';
 import Dialogs from '../../components/Dialogs';
+import { moneyFormatter } from '../../shared/utils/_methods';
 import 'react-image-gallery/styles/scss/image-gallery.scss'
-import '../../styles/productPage.scss'
+import '../../styles/productPage.scss';
+import '../../components/Button/button.scss';
+
 
 
 const ProductPage = () => {
@@ -64,7 +66,7 @@ const ProductPage = () => {
         <div className='product-page__brand'>{brandName}</div>
         <h2 className='product-page__name'>{product.name}</h2>
         <div className='product-page__desc'>{product.desc}</div>
-        <div className='product-page__price'>{product.price}</div>
+        <div className='product-page__price'>${moneyFormatter(product.price)}</div>
         <button className='btn btn--orange' onClick={() => addToCart()}>Buy</button>
       </div>
 
