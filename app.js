@@ -25,12 +25,14 @@ const typesFile = './database/categories/types.json';
 const colorsFile = './database/categories/colors.json';
 const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
+const socFile = './database/soc.json';
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 let brands = JSON.parse(fs.readFileSync(brandsFile));
 let types = JSON.parse(fs.readFileSync(typesFile));
 let colors = JSON.parse(fs.readFileSync(colorsFile));
 let users = JSON.parse(fs.readFileSync(usersFile));
+let socList = JSON.parse(fs.readFileSync(socFile));
 let products = JSON.parse(fs.readFileSync(productsFile));
 app.use(
   bodyParser.urlencoded({
@@ -149,6 +151,17 @@ app.get('/api/cart', (req, res) => {
   res.status(200).json(cart)
 })
 
+app.get('/api/soc', (req, res) => {
+  res.status(200).json(socList);
+});
+
+app.get('/api/user', (req, res) => {
+  const id = req.query.id;
+  const user = users.filter((elem) => elem.id === Number(id));
+  delete user.password;
+  res.status(200).json(...user);
+});
+
 // POST
 
 app.post('/api/types', (req, res) => {
@@ -264,6 +277,15 @@ app.put('/api/cart/:id', (req, res) => {
   fs.writeFileSync(usersFile, JSON.stringify(users));
   res.status(200).json({ message: 'Product count has changed' })
 })
+
+app.put('/api/user/:id', (req, res) => {
+  const index = users.findIndex((user) => user.id === Number(req.params.id));
+  for (const key in req.body) {
+    users[index][key] = req.body[key]
+  }
+  fs.writeFileSync(usersFile, JSON.stringify(users));
+  res.status(200).json(users[index]);
+});
 
 
 // app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));

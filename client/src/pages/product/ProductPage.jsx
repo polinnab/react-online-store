@@ -13,6 +13,7 @@ import '../../styles/productPage.scss';
 import '../../components/Button/button.scss';
 
 
+
 const ProductPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();

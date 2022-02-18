@@ -22,8 +22,15 @@ const cartActions = {
   CHANGE_COUNT: "CHANGE_COUNT"
 }
 
+const userActions = {
+  GET_USER: "GET_USER",
+  EDIT_USER: "EDIT_USER",
+  GET_ALL_SOC: "GET_ALL_SOC"
+}
+
 export {
   categoriesActions,
   productsActions,
-  cartActions
+  cartActions,
+  userActions
 }

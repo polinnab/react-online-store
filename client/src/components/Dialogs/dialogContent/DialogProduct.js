@@ -90,11 +90,6 @@ const DialogProduct = ({ hideDialog, showNoti, readyData }) => {
         </FormControl>
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
           <InputLabel>Картинка</InputLabel>
-          {/* {product?.images ? (<div>
-            {product.images.map((elem, idx) => <img key={idx} src={IMAGE_URL + elem.thumbnail} alt={elem.thumbnail}/>)}
-            
-          </div>): null} */}
-          
           <ImageUpload images={images} editImages={product?.images}/>
         </FormControl>
         <TextField label='Название' variant='standard' value={formik.values.name} type='text' name='name' onChange={formik.handleChange} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} fullWidth style={{ marginBottom: '20px' }} />
