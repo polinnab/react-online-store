@@ -32,13 +32,15 @@ const iconsList = [
 const UserInfo = () => {
   const dispatch = useDispatch();
   const { user, socList } = useSelector((state) => state.user);
-  const [soc, setSoc] = useState(user.soc || []);
-  console.log('user soc', user.soc);
+  const [soc, setSoc] = useState([]);
 
   useEffect(() => {
      dispatch({ type: userActions.GET_USER, id: 1 })
-     setSoc(user.soc || [])
   }, [dispatch]);
+
+  useEffect(() => {
+     setSoc(user.soc)
+  }, [user]);
 
   useEffect(() => {
     dispatch({ type: userActions.GET_ALL_SOC });
