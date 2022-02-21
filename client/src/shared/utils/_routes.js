@@ -3,7 +3,8 @@ import ProductsPage from "../../pages/dashboard/ProductsPage"
 import ProductPage from '../../pages/product/ProductPage'
 import UserPage from "../../pages/user/UserPage"
 import UserCartPage from "../../pages/cart/UserCartPage"
-import { admin_route, main_route, product_route, user_route, userCart_route } from './_constans'
+import ShopAccount from "../../pages/shop-account/ShopAccount"
+import { admin_route, main_route, product_route, user_route, userCart_route, shop_route } from './_constans'
 
 export const authRoutes = [
 	{
@@ -17,6 +18,10 @@ export const authRoutes = [
 	{
 		path: userCart_route,
 		Component: UserCartPage
+	},
+	{
+		path: shop_route,
+		Component: ShopAccount
 	}
 ]
 

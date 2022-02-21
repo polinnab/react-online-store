@@ -3,17 +3,25 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'userSlice',
   initialState: {
-    user: {},
+    user: {
+			id: '2',
+			login: 'login',
+			name: 'User',
+			email: 'user@email.com',
+			phone: '+38 (787) 878 78 99',
+			soc: [],
+      role: 'Shop'
+		},
     socList: [],
-    isAuth: true,
+		isAuth: true
   },
   reducers: {
     getUser(state, action) {
       state.user = action.payload;
     },
     getSoc(state, action) {
-      state.socList = action.payload;
-    },
+      state.socList = action.payload
+    } 
   },
 });
 

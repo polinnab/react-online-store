@@ -26,6 +26,8 @@ const colorsFile = './database/categories/colors.json';
 const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
 const socFile = './database/soc.json';
+const ordersFile = './database/users/orders.json'
+const historyFile = './database/users/history.json'
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 let brands = JSON.parse(fs.readFileSync(brandsFile));
@@ -34,6 +36,8 @@ let colors = JSON.parse(fs.readFileSync(colorsFile));
 let users = JSON.parse(fs.readFileSync(usersFile));
 let socList = JSON.parse(fs.readFileSync(socFile));
 let products = JSON.parse(fs.readFileSync(productsFile));
+let orders = JSON.parse(fs.readFileSync(ordersFile));
+let historyList = JSON.parse(fs.readFileSync(historyFile));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -162,6 +166,18 @@ app.get('/api/user', (req, res) => {
   res.status(200).json(...user);
 });
 
+app.get('/api/orders', (req, res) => {
+  const id = req.query.id;
+  const order = orders.filter((elem) => elem.userId === Number(id));
+  res.status(200).json(...order.orders);
+});
+
+app.get('/api/history', (req, res) => {
+  const id = req.query.id;
+  const history = historyList.filter((elem) => elem.userId === Number(id));
+  res.status(200).json(...history.history);
+});
+
 // POST
 
 app.post('/api/types', (req, res) => {
@@ -286,6 +302,7 @@ app.put('/api/user/:id', (req, res) => {
   fs.writeFileSync(usersFile, JSON.stringify(users));
   res.status(200).json(users[index]);
 });
+
 
 
 // app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));

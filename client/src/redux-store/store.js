@@ -7,6 +7,7 @@ import productSlice from './slices/productSlice';
 import userSlice from './slices/userSlice';
 import categoriesSlice from './slices/categoriesSlice';
 import cartSlice from './slices/cartSlice';
+import orderSlice from './slices/orderSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   products: productSlice,
   categories: categoriesSlice,
   user: userSlice,
-  cart: cartSlice
+  cart: cartSlice,
+  order: orderSlice
 });
 
 const store = configureStore({
