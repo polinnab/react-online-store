@@ -1,12 +1,10 @@
 import React from 'react';
 import { TextField, Button, DialogActions, FormControl, InputLabel, Select } from '@mui/material';
 import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { ordersActions } from '../../../redux-store/saga/sagaActions';
-import ImageUpload from '../../ImageUpload/ImageUpload';
-
-import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { orderActions } from '../../../redux-store/saga/sagaActions';
 import { IMAGE_URL } from '../../../shared/utils/_constans';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
   count: yup.string('Введите количество').required('Поле обязательно'),
@@ -15,20 +13,20 @@ const validationSchema = yup.object({
 const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
   const dispatch = useDispatch();
   const order = readyData || null;
-  console.log('order', order);
+  const { user } = useSelector((state) => state.user);
 
   const formik = useFormik({
     initialValues: {
       products: order?.products || [],
       status: order?.status || '',
     },
-    validationSchema: validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    //  validationSchema: validationSchema,
+    onSubmit: (values) => {
       values.id = order.id;
-      // dispatch({ type: productsActions.EDIT_PRODUCT, order: values });
+      dispatch({ type: orderActions.EDIT_ORDER, order: values });
       hideDialog();
       showNoti({ type: 'success', message: 'Товар успешно изменен!' });
-      resetForm();
+      dispatch({ type: orderActions.GET_ORDERS, id: user.id });
     },
   });
 
@@ -52,7 +50,7 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
                   readOnly: true,
                 }}
               />
-              <img src={IMAGE_URL + elem.image} alt={elem.name}  style={{ marginBottom: '20px' }} />
+              <img src={IMAGE_URL + elem.image} alt={elem.name} style={{ marginBottom: '20px' }} />
               <TextField
                 label='Цена'
                 variant='standard'
@@ -86,6 +84,7 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
           <Select native name='status' value={formik.values.status} label='Статус' onChange={formik.handleChange} error={formik.touched.status && Boolean(formik.errors.status)}>
             <option value='in_progress'>В работе</option>
             <option value='ready'>Выполнен</option>
+            <option value='canceled'>Отменен</option>
           </Select>
         </FormControl>
         <DialogActions style={{ marginTop: '20px' }}>

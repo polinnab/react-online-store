@@ -1,7 +1,7 @@
 import { get, edit } from './_apiRequests';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
 import { put, takeEvery } from 'redux-saga/effects';
-import { getOrders, getSoc } from '../slices/orderSlice';
+import { getOrders } from '../slices/orderSlice';
 import { orderActions } from './sagaActions';
 
 function* getAllOrders(action) {

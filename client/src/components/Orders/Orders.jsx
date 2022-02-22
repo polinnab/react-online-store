@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dialog } from '../../redux-store/slices/dialogSlice';
 import { orderActions } from '../../redux-store/saga/sagaActions';
 
-const Orders = ({ type }) => {
+const Orders = () => {
   const dispatch = useDispatch();
-
   const [editOrder, setEditOrder] = useState([]);
-  const { orderList, user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
+  const { orderList } = useSelector((state) => state.order);
   const headers = ['Заказы', 'Товары', 'Цена', 'Клиент', 'Статус', 'Действие'];
-  console.log('orderList', orderList);
 
 	useEffect(() => {
 		dispatch({type: orderActions.GET_ORDERS, id: user.id })
@@ -34,7 +33,7 @@ const Orders = ({ type }) => {
   return (
     <React.Fragment>
 			<br/>
-      {orderList ? <InfoTable headers={headers} body={orderList} dataType={'Orders'} editElem={editElem} /> : <p style={{ textAlign: 'center' }}>Список заказов пуст</p>}
+      {orderList.length ? <InfoTable headers={headers} body={orderList} dataType={'Orders'} editElem={editElem} /> : <p style={{ textAlign: 'center' }}>Список заказов пуст</p>}
 
       <Dialogs readyData={editOrder || null} />
     </React.Fragment>

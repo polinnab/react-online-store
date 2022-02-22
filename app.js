@@ -169,7 +169,7 @@ app.get('/api/user', (req, res) => {
 app.get('/api/orders', (req, res) => {
   const id = req.query.id;
   const order = orders.filter((elem) => elem.userId === Number(id));
-  res.status(200).json(...order.orders);
+  res.status(200).json(order);
 });
 
 app.get('/api/history', (req, res) => {
@@ -303,6 +303,14 @@ app.put('/api/user/:id', (req, res) => {
   res.status(200).json(users[index]);
 });
 
+
+app.put('/api/order/:id', (req, res) => {
+  const index = orders.findIndex((order) => order.id === Number(req.params.id));
+  orders[index] = req.body;
+  console.log('orders', orders);
+  // fs.writeFileSync(productsFile, JSON.stringify(products));
+ // res.status(200).json(products);
+});
 
 
 // app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
