@@ -28,9 +28,15 @@ const userActions = {
   GET_ALL_SOC: "GET_ALL_SOC"
 }
 
+const orderActions = {
+  GET_ORDERS: "GET_ORDERS",
+  EDIT_ORDER: "EDIT_ORDER"
+}
+
 export {
   categoriesActions,
   productsActions,
   cartActions,
-  userActions
+  userActions,
+  orderActions
 }

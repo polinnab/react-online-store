@@ -3,7 +3,7 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route, user_route, userCart_route } from '../../shared/utils/_constans';
+import { main_route, admin_route, login_route, user_route, shop_route, userCart_route } from '../../shared/utils/_constans';
 import { useSelector } from 'react-redux';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
@@ -111,7 +111,7 @@ const Header = () => {
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={handleCloseUserMenu}>
-                      <NavLink to={user_route}>
+                      <NavLink to={user.role === 'User' ? user_route : shop_route}>
                         <Typography textAlign='center'>Account</Typography>
                       </NavLink>
                     </MenuItem>

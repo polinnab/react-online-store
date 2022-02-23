@@ -35,7 +35,7 @@ const UserInfo = () => {
   const [soc, setSoc] = useState([]);
 
   useEffect(() => {
-     dispatch({ type: userActions.GET_USER, id: 1 })
+     dispatch({ type: userActions.GET_USER, id: user.id })
   }, [dispatch]);
 
   useEffect(() => {
@@ -56,10 +56,14 @@ const UserInfo = () => {
       phone: user.phone || '',
       email: user.email || '',
       soc,
+      address: user.address || ''
     },
     validationSchema,
     onSubmit: (values) => {
       values.soc = soc;
+      if (user.role !== 'Shop') {
+        delete values.address
+      }
       dispatch({ type: userActions.EDIT_USER, user: values });
     },
   });
@@ -94,6 +98,8 @@ const UserInfo = () => {
     setSoc(soc.filter((elem) => elem.id !== socId));
   };
 
+
+
   return user.name ? (
     <form onSubmit={formik.handleSubmit} className='user-form'>
       <Grid container direction='row' justifyContent='flex-start' alignItems='flex-start' flexWrap='nowrap' spacing={0} className='user-form__item'>
@@ -112,7 +118,8 @@ const UserInfo = () => {
             onChange={formik.handleChange}
             value={formik.values.login}
           />
-          <TextField label='ФИО' variant='standard' type='text' name='name' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.name} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} />
+          <TextField label={user.role === 'Shop' ? 'Название': 'ФИО'} variant='standard' type='text' name='name' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.name} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} />
+          {user.address ? <TextField label='Адрес' variant='standard' type='text' name='address' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.address}/> : null}
         </FormControl>
       </Grid>
       <Grid container direction='row' justifyContent='flex-start' alignItems='flex-start' flexWrap='nowrap' spacing={0} className='user-form__item'>
