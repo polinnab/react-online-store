@@ -9,7 +9,6 @@ import './infoTable.scss';
 const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
   const { brands, colors, types } = useSelector((state) => state.categories);
   const [page, setPage] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const tableHeaderCells = headers
     ? headers.map((elem, idx) => (
@@ -24,9 +23,17 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
       return name;
     }
   };
+
+  const status = {
+    in_progress: 'В работе',
+    ready: 'Выполнен',
+    canceled: 'Отменен'
+  }
+
   const tableBodyCells = body
     ? body.map((elem, idx) => {
         let productPrice = 0;
+       // const checkType = (dataType === 'Orders' && elem.status === 'in_progress') || (dataType === 'History' && elem.status !== 'in_progress') || !dataType
         return (
           <TableRow key={elem.id}>
             <TableCell align='left'>{idx + 1}</TableCell>
@@ -60,7 +67,7 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
               <div>{elem.clientInfo.phone}</div>
               <div>{elem.clientInfo.email}</div>
             </TableCell> : null}
-            {elem.status ? <TableCell align='right'>{elem.status}</TableCell> : null}
+            {elem.status ? <TableCell align='right'>{status[elem.status]}</TableCell> : null}
             {removeElem || editElem ? (
               <TableCell align='right' style={{ cursor: 'pointer' }}>
                 {editElem ? (
@@ -76,7 +83,7 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
               </TableCell>
             ) : null}
           </TableRow>
-        );
+        )
       })
     : null;
 

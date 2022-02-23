@@ -26,8 +26,7 @@ const colorsFile = './database/categories/colors.json';
 const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
 const socFile = './database/soc.json';
-const ordersFile = './database/users/orders.json'
-const historyFile = './database/users/history.json'
+const ordersFile = './database/users/orders.json';
 const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 let brands = JSON.parse(fs.readFileSync(brandsFile));
@@ -37,7 +36,6 @@ let users = JSON.parse(fs.readFileSync(usersFile));
 let socList = JSON.parse(fs.readFileSync(socFile));
 let products = JSON.parse(fs.readFileSync(productsFile));
 let orders = JSON.parse(fs.readFileSync(ordersFile));
-let historyList = JSON.parse(fs.readFileSync(historyFile));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -58,7 +56,7 @@ function pagination(data, page, limit) {
     };
   }
   const offset = page * limit - limit;
-  const products = data.slice(offset, offset + limit)
+  const products = data.slice(offset, offset + limit);
   return {
     products,
     totalCount: data.length,
@@ -85,7 +83,6 @@ app.get('/api/filter', (req, res) => {
   delete filter.limit;
   const allProducts = {};
   const checkEmpty = Object.keys(filter).length;
-
 
   if (checkEmpty) {
     for (const elem in filter) {
@@ -138,22 +135,22 @@ app.get('/api/colors', (req, res) => {
 });
 
 app.get('/api/cart', (req, res) => {
-  let cart = []
-  products.map(product => {
-    const prod = users[0].cart.find(item => item.id === product.id)
+  let cart = [];
+  products.map((product) => {
+    const prod = users[0].cart.find((item) => item.id === product.id);
     if (prod) {
       const cartProduct = {
         id: product.id,
         name: product.name,
         image: product.images[0].thumbnail,
         price: product.price,
-        count: prod.count
-      }
-      cart.push(cartProduct)
+        count: prod.count,
+      };
+      cart.push(cartProduct);
     }
-  })
-  res.status(200).json(cart)
-})
+  });
+  res.status(200).json(cart);
+});
 
 app.get('/api/soc', (req, res) => {
   res.status(200).json(socList);
@@ -170,12 +167,6 @@ app.get('/api/orders', (req, res) => {
   const id = req.query.id;
   const order = orders.filter((elem) => elem.userId === Number(id));
   res.status(200).json(order);
-});
-
-app.get('/api/history', (req, res) => {
-  const id = req.query.id;
-  const history = historyList.filter((elem) => elem.userId === Number(id));
-  res.status(200).json(...history.history);
 });
 
 // POST
@@ -223,15 +214,15 @@ app.post('/api/image', type, (req, res) => {
 });
 
 app.post('/api/cart/:id', (req, res) => {
-  const product = users[0].cart.find(item => item.id === req.params.id);
+  const product = users[0].cart.find((item) => item.id === req.params.id);
 
   if (users[0].cart.length >= 1 && product) {
-    product.count = product.count + 1
-  } else  {
+    product.count = product.count + 1;
+  } else {
     const product = {
-      id: req.params.id, 
-      count: 1
-    }
+      id: req.params.id,
+      count: 1,
+    };
     users[0].cart.push(product);
   }
 
@@ -266,17 +257,17 @@ app.delete('/api/colors', (req, res) => {
 });
 
 app.delete('/api/cart', (req, res) => {
-  users[0].cart = []
+  users[0].cart = [];
   fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json({ message: 'The cart is empty' })
-})
+  res.status(200).json({ message: 'The cart is empty' });
+});
 
 app.delete('/api/cart/:id', (req, res) => {
-  const newCart = users[0].cart.filter(item => item.id !== req.params.id);
-  users[0].cart = newCart
+  const newCart = users[0].cart.filter((item) => item.id !== req.params.id);
+  users[0].cart = newCart;
   fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json({ message: 'Product deleted' })
-})
+  res.status(200).json({ message: 'Product deleted' });
+});
 
 // PUT
 
@@ -288,29 +279,26 @@ app.put('/api/products/:id', (req, res) => {
 });
 
 app.put('/api/cart/:id', (req, res) => {
-  const index = users[0].cart.findIndex(item => item.id === req.params.id);
+  const index = users[0].cart.findIndex((item) => item.id === req.params.id);
   users[0].cart[index].count = req.body.count;
   fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json({ message: 'Product count has changed' })
-})
+  res.status(200).json({ message: 'Product count has changed' });
+});
 
 app.put('/api/user/:id', (req, res) => {
   const index = users.findIndex((user) => user.id === Number(req.params.id));
   for (const key in req.body) {
-    users[index][key] = req.body[key]
+    users[index][key] = req.body[key];
   }
   fs.writeFileSync(usersFile, JSON.stringify(users));
   res.status(200).json(users[index]);
 });
 
-
 app.put('/api/order/:id', (req, res) => {
   const index = orders.findIndex((order) => order.id === Number(req.params.id));
   orders[index] = req.body;
-  console.log('orders', orders);
-  // fs.writeFileSync(productsFile, JSON.stringify(products));
- // res.status(200).json(products);
+  fs.writeFileSync(ordersFile, JSON.stringify(orders));
+  res.status(200).json(orders);
 });
-
 
 // app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));

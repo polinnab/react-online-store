@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import AddProducts from '../../components/AddProducts/AddProducts';
 import Orders from '../../components/Orders/Orders';
+import UserInfo from '../../components/UserInfo/UserInfo';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,13 +42,13 @@ const ShopAccount = () => {
         <AddProducts />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Orders type='active' />
+        <Orders type='Orders' />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Orders type='history' />
+        <Orders type='History' />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Избранное
+        <UserInfo/>
       </TabPanel>
     </Box>
   );

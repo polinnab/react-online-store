@@ -10,7 +10,8 @@ function* getAllOrders(action) {
 }
 
 function* editOrder(action) {
-  yield edit(`${LOCAL_HOST}${PORT}/api/order`, { options: action.order });
+  const data = yield edit(`${LOCAL_HOST}${PORT}/api/order`, { options: action.order });
+  yield put(getOrders(data));
 }
 
 export function* orderSaga() {
