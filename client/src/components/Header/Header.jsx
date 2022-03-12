@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Avatar, Button, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route, user_route, shop_route, userCart_route } from '../../shared/utils/_constans';
-import { useSelector } from 'react-redux';
+import { main_route, admin_route, auth_route, user_route, shop_route, userCart_route } from '../../shared/utils/_constans';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
+import useAuth from '../../shared/hooks/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../redux-store/saga/sagaActions';
 
 const Header = () => {
-  const { isAuth, user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { isAuth, role, email, id } = useAuth();
+  const user = useSelector(state => state.user.user)
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+   const [anchorElUser, setAnchorElUser] = useState(null);
+  
+   console.log('user', user);
+
+  useEffect(() => {
+    const user = {
+      id,
+      email,
+      role,
+      isAuth
+    }
+    dispatch({type: userActions.SET_USER, user })
+  }, [isAuth, user.isAuth]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -24,8 +40,9 @@ const Header = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu =  () => {
     setAnchorElUser(null);
+    dispatch({type: userActions.LOGOUT})
   };
   return (
     <AppBar color='default' position='static'>
@@ -73,11 +90,11 @@ const Header = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
-            {isAuth ? 
+            {isAuth ? (
               <NavLink to={userCart_route}>
-                <ShoppingCartIcon className='header__cart-icon'/>
+                <ShoppingCartIcon className='header__cart-icon' />
               </NavLink>
-            : null}
+            ) : null}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -103,7 +120,7 @@ const Header = () => {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}>
-                  {user.role === 'Admin' ? (
+                  {role === 'Admin' ? (
                     <MenuItem onClick={handleCloseUserMenu}>
                       <NavLink to={admin_route}>
                         <Typography textAlign='center'>Admin</Typography>
@@ -111,7 +128,7 @@ const Header = () => {
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={handleCloseUserMenu}>
-                      <NavLink to={user.role === 'User' ? user_route : shop_route}>
+                      <NavLink to={role === 'User' ? user_route : shop_route}>
                         <Typography textAlign='center'>Account</Typography>
                       </NavLink>
                     </MenuItem>
@@ -123,7 +140,7 @@ const Header = () => {
                 </Menu>
               </React.Fragment>
             ) : (
-              <NavLink to={login_route}>
+              <NavLink to={auth_route}>
                 <Button color='inherit'>Login</Button>
               </NavLink>
             )}

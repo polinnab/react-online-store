@@ -24,8 +24,11 @@ const cartActions = {
 
 const userActions = {
   GET_USER: "GET_USER",
+  SET_USER: "SET_USER",
   EDIT_USER: "EDIT_USER",
-  GET_ALL_SOC: "GET_ALL_SOC"
+  GET_ALL_SOC: "GET_ALL_SOC",
+  AUTH_USER: "AUTH_USER",
+  LOGOUT: "LOGOUT"
 }
 
 const orderActions = {

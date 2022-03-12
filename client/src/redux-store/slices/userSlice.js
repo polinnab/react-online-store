@@ -4,20 +4,29 @@ const userSlice = createSlice({
   name: 'userSlice',
   initialState: {
     user: {
-			id: '2',
-			login: 'login',
-			name: 'User',
-			email: 'user@email.com',
-			phone: '+38 (787) 878 78 99',
-			soc: [],
-      role: 'Shop'
+      id: null,
+      token: null,
+      email: null,
+      role: 'User',
+      isAuth: false
+			// id: '2',
+			// name: 'User',
+			// email: 'user@email.com',
+			// phone: '+38 (787) 878 78 99',
+			// soc: [],
+      // role: 'Shop'
 		},
-    socList: [],
-		isAuth: true
+    socList: []
   },
   reducers: {
     getUser(state, action) {
-      state.user = action.payload;
+      //state.user = action.payload;
+    },
+    setUser(state, action) {
+      state.user.id = action.payload.id;
+      state.user.token = action.payload.token;
+      state.user.email = action.payload.email;
+      state.user.isAuth = !!action.payload.email;
     },
     getSoc(state, action) {
       state.socList = action.payload
@@ -26,4 +35,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { getUser, getSoc } = userSlice.actions;
+export const { getUser, getSoc, setUser, removeUser } = userSlice.actions;

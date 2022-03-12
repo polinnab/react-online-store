@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { authRoutes, publicRoutes } from './shared/utils/_routes';
+import { authRoutes, publicRoutes, unauthRoutes } from './shared/utils/_routes';
 import { main_route } from './shared/utils/_constans';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +8,7 @@ const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   return (
     <Routes>
-      {isAuth && authRoutes.map(({ path, Component }) => <Route key={path} path={path} element={<Component />} exact />)}
+      {isAuth && authRoutes ? authRoutes.map(({ path, Component }) => <Route key={path} path={path} element={<Component />} exact />) : unauthRoutes.map(({ path, Component }) => <Route key={path} path={path} element={<Component />} exact />)}
       {publicRoutes.map(({ path, Component }) => (
         <Route key={path} path={path} element={<Component />} exact />
       ))}
