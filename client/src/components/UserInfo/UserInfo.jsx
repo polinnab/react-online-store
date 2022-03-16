@@ -5,6 +5,7 @@ import { PersonRounded, LocalPhoneRounded, EmailRounded, AlternateEmailRounded, 
 import { useFormik } from 'formik';
 import InputMask from 'react-input-mask';
 import { userActions } from '../../redux-store/saga/sagaActions';
+import useAuth from '../../shared/hooks/useAuth.js'
 import * as yup from 'yup';
 import './userInfo.scss';
 
@@ -32,11 +33,12 @@ const iconsList = [
 const UserInfo = () => {
   const dispatch = useDispatch();
   const { user, socList } = useSelector((state) => state.user);
+  const {id} = useAuth();
   const [soc, setSoc] = useState([]);
 
   useEffect(() => {
-     dispatch({ type: userActions.GET_USER, id: user.id })
-  }, [dispatch]);
+     dispatch({ type: userActions.GET_USER, id })
+  }, [dispatch, id]);
 
   useEffect(() => {
      setSoc(user.soc)

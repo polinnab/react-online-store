@@ -5,8 +5,6 @@ export const AUTH_API = process.env.REACT_APP_AUTH_API
 
 export const admin_route = '/admin'
 export const user_route = '/account'
-export const login_route = '/login'
-export const register_route = '/registration'
 export const main_route = '/'
 export const product_route = '/product'
 export const basket_route = '/basket'

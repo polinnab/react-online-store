@@ -1,7 +1,7 @@
-import { get, post, edit } from './_apiRequests';
+import { get, edit } from './_apiRequests';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { getUser, getSoc, setUser } from '../slices/userSlice';
+import { getSoc, setUser } from '../slices/userSlice';
 import { userActions } from './sagaActions';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 
@@ -12,7 +12,10 @@ function* getAllSoc(action) {
 
 function* getUserInfo(action) {
   const data = yield get(`${LOCAL_HOST}${PORT}/api/user`, { id: action.id });
-  yield put(getUser(data));
+  console.log('data', data);
+  yield put(
+    setUser({...data})
+  );
 }
 
 function* authUser(action) {
@@ -23,47 +26,22 @@ function* authUser(action) {
   try {
     const auth = getAuth();
     const result = yield call(authFunc, auth, authEmail, password);
-
-    const { accessToken, email, uid } = result.user;
-    yield put(
-      setUser({
-        id: uid,
-        email,
-        token: accessToken,
-      })
-    );
+    const {uid } = result.user;
+    yield getUserInfo({id: uid})
   } catch (error) {
-    console.log('error', error);
-    // const error_message = { code: error.code, message: error.message };
+    console.log('auth error', error);
   }
 }
 
 function* logoutUser(action) {
-  try {
-    const auth = getAuth();
-    const emptyUser = {
+  const auth = getAuth();
+  yield call(signOut, auth);
+  yield put(
+    setUser({
       id: null,
       email: null,
       token: null,
       isAuth: false,
-    };
-    yield call(signOut, auth);
-    yield setUserData({user: emptyUser});
-  } catch (error) {
-    console.log('error', error);
-    // const error_message = { code: error.code, message: error.message };
-  }
-}
-
-function* setUserData(action) {
-  const { token, email, id, isAuth } = action.user;
-  console.log('setUserData', action.user);
-  yield put(
-    setUser({
-      id,
-      email,
-      token,
-      isAuth,
     })
   );
 }
@@ -75,7 +53,6 @@ function* editUser(action) {
 export function* userSaga() {
   yield takeEvery(userActions.GET_ALL_SOC, getAllSoc);
   yield takeEvery(userActions.GET_USER, getUserInfo);
-  yield takeEvery(userActions.SET_USER, setUserData);
   yield takeEvery(userActions.EDIT_USER, editUser);
   yield takeEvery(userActions.AUTH_USER, authUser);
   yield takeEvery(userActions.LOGOUT, logoutUser);

@@ -158,7 +158,7 @@ app.get('/api/soc', (req, res) => {
 
 app.get('/api/user', (req, res) => {
   const id = req.query.id;
-  const user = users.filter((elem) => elem.id === Number(id));
+  const user = users.filter((elem) => elem.id === id);
   delete user.password;
   res.status(200).json(...user);
 });
@@ -286,7 +286,7 @@ app.put('/api/cart/:id', (req, res) => {
 });
 
 app.put('/api/user/:id', (req, res) => {
-  const index = users.findIndex((user) => user.id === Number(req.params.id));
+  const index = users.findIndex((user) => user.id === req.params.id);
   for (const key in req.body) {
     users[index][key] = req.body[key];
   }

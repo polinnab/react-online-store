@@ -9,25 +9,24 @@ import logo from '../../assets/images/icons/logo.svg';
 import useAuth from '../../shared/hooks/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../redux-store/saga/sagaActions';
+import { setUser } from '../../redux-store/slices/userSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { isAuth, role, email, id } = useAuth();
-  const user = useSelector(state => state.user.user)
+  const userInfo = useSelector((state) => state.user.user);
   const [anchorElNav, setAnchorElNav] = useState(null);
-   const [anchorElUser, setAnchorElUser] = useState(null);
-  
-   console.log('user', user);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   useEffect(() => {
     const user = {
       id,
       email,
       role,
-      isAuth
-    }
-    dispatch({type: userActions.SET_USER, user })
-  }, [isAuth, user.isAuth]);
+      isAuth,
+    };
+    dispatch(setUser({...user}));
+  }, [isAuth]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,10 +39,14 @@ const Header = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu =  () => {
+  const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    dispatch({type: userActions.LOGOUT})
   };
+
+  const logout = () => {
+    handleCloseUserMenu();
+    dispatch({ type: userActions.LOGOUT });
+  }
   return (
     <AppBar color='default' position='static'>
       <Container maxWidth='xl'>
@@ -134,7 +137,7 @@ const Header = () => {
                     </MenuItem>
                   )}
 
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={ () => logout()}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>
                 </Menu>
