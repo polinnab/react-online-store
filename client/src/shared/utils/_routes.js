@@ -9,29 +9,36 @@ import { admin_route, main_route, product_route, user_route, userCart_route, sho
 export const authRoutes = [
 	{
 		path: admin_route,
-		Component: AdminPage
+		Component: AdminPage,
+		exact: true
 	},
 	{
 		path: user_route,
-		Component: UserPage
+		Component: UserPage,
+		exact: true
 	},
 	{
 		path: userCart_route,
-		Component: UserCartPage
+		Component: UserCartPage,
+		exact: true
+
 	},
 	{
 		path: shop_route,
-		Component: ShopAccount
+		Component: ShopAccount,
+		exact: true
 	}
 ]
 
 export const publicRoutes = [
 	{
 		path: main_route,
-		Component: ProductsPage
+		Component: ProductsPage,
+		exact: true
 	},
 	{
 		path: product_route + '/:id',
-		Component: ProductPage
+		Component: ProductPage,
+		exact: true
 	}
 ]
