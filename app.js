@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const { v4 } = require('uuid');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const sharp = require('sharp');
@@ -20,6 +21,7 @@ const type = upload.array('images');
 const path = require('path');
 const app = express();
 const fs = require('fs');
+const router = require('./server/router/router');
 const brandsFile = './database/categories/brands.json';
 const typesFile = './database/categories/types.json';
 const colorsFile = './database/categories/colors.json';
@@ -42,7 +44,9 @@ app.use(
   })
 );
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
+app.use('/api', router);
 
 const start = () => {
   try {
