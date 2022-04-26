@@ -4,7 +4,8 @@ import ProductPage from '../../pages/product/ProductPage'
 import UserPage from "../../pages/user/UserPage"
 import UserCartPage from "../../pages/cart/UserCartPage"
 import ShopAccount from "../../pages/shop-account/ShopAccount"
-import { admin_route, main_route, product_route, user_route, userCart_route, shop_route } from './_constans'
+import { admin_route, main_route, product_route, user_route, userCart_route, shop_route, login_route } from './_constans'
+import LoginPage from "../../pages/login/LoginPage"
 
 export const authRoutes = [
 	{
@@ -39,6 +40,11 @@ export const publicRoutes = [
 	{
 		path: product_route + '/:id',
 		Component: ProductPage,
+		exact: true
+	},
+	{
+		path: login_route,
+		Component: LoginPage,
 		exact: true
 	}
 ]
