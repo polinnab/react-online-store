@@ -4,12 +4,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
 import { main_route, admin_route, login_route, user_route, shop_route, userCart_route } from '../../shared/utils/_constans';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
+import { loginActions } from '../../redux-store/saga/sagaActions';
 
-const Header = () => {
+const Header = ({auth}) => {
   // const { isAuth, user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state) => state.login);
   console.log('user: ', user, 'isAuth: ', isAuth)
 
@@ -30,6 +32,13 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const onLogoutClick = () => {
+    const payload = {user};
+    dispatch({type: loginActions.LOGOUT, payload})
+    handleCloseUserMenu();
+  }
+
   return (
     <AppBar color='default' position='static'>
       <Container maxWidth='xl'>
@@ -106,7 +115,8 @@ const Header = () => {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}>
-                  {user.role === 'Admin' ? (
+
+                  {user.admin ? (
                     <MenuItem onClick={handleCloseUserMenu}>
                       <NavLink to={admin_route}>
                         <Typography textAlign='center'>Admin</Typography>
@@ -114,13 +124,13 @@ const Header = () => {
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={handleCloseUserMenu}>
-                      <NavLink to={user.role === 'User' ? user_route : shop_route}>
+                      <NavLink to={!user.admin ? user_route : shop_route}>
                         <Typography textAlign='center'>Account</Typography>
                       </NavLink>
                     </MenuItem>
                   )}
 
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={onLogoutClick}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>
                 </Menu>

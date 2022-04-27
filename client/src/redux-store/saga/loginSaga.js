@@ -1,14 +1,20 @@
 import axios from "axios";
-import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import { checkAuth, login, logout, registration, setError, setLoading } from "../slices/loginSlice";
-import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
 import { loginActions } from "./sagaActions";
-import { post } from './_apiRequests';
 
 
 export const API_URL = 'http://localhost:5001/api'
 
+const $api = axios.create({
+    withCredentials: true,
+    baseURL: API_URL
+})
 
+$api.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    return config;
+});
 
 
 function* loginWorker(action) {
@@ -17,7 +23,7 @@ function* loginWorker(action) {
     } = action;
 
     try {
-        const response = yield call(axios.post, `${LOCAL_HOST}${PORT}/api/login`, {email, password}); //TODO: need refactor for call request. delete ${LOCAL_HOST}${PORT}
+        const response = yield call($api.post, `${API_URL}/login`, {email, password}); //TODO: need refactor for call request. delete ${LOCAL_HOST}${PORT}
 
         localStorage.setItem('token', response.data.accessToken);
         yield put(login(response.data.user))
@@ -29,9 +35,9 @@ function* loginWorker(action) {
 
 function* logoutWorker() {
     try {
-        yield call(axios.get, `${LOCAL_HOST}${PORT}/api/logout`);
+        yield call($api.post, `${API_URL}/logout`);
         localStorage.removeItem('token');
-        yield logout();
+        yield put(logout());
     } catch(e) {
         console.log(e.response.data.message) // delete all error logs
         yield put(setError(e.response.data.message))
@@ -44,10 +50,9 @@ function* registrationWorker(action) {
     } = action;
 
     try {
-        const response = yield call(axios.post, `${LOCAL_HOST}${PORT}/api/registration`, {email, password}); //TODO: need refactor for call request. delete ${LOCAL_HOST}${PORT}
+        const response = yield call($api.post, `${API_URL}/registration`, {email, password}); //TODO: need refactor for call request. delete ${LOCAL_HOST}${PORT}
         localStorage.setItem('token', response.data.accessToken);
         yield put(registration(response.data.user));
-        // yield put(login(response.data.user));
     } catch(e) {
         console.log(e.response.data.message) //TODO: delete all error logs
         yield put(setError(e.response.data.message))
@@ -55,17 +60,15 @@ function* registrationWorker(action) {
 }
 
 function* checkAuthWorker() {
-    // yield put(setLoading(true));
+    yield put(setLoading(true));
     try {
         const response = yield call(axios.get, `${API_URL}/refresh`, {withCredentials: true}); //TODO: need refactor for call request. delete ${LOCAL_HOST}${PORT}
         localStorage.setItem('token', response.data.accessToken);
         yield put(checkAuth(response.data.user));
     } catch(e) {
-        console.log('e:', e.response)
         console.log(e.response.data.message) //TODO: delete all error logs
-        // yield put(setError(e.response.data.message))
     }
-    // yield put(setLoading(false))
+    yield put(setLoading(false))
 }
 
 export function* loginWatcher() {

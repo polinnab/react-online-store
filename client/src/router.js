@@ -7,11 +7,10 @@ import { loginActions } from './redux-store/saga/sagaActions';
 
 const Router = () => {
   // const isAuth = useSelector((state) => state.user.isAuth);
-  const isAuth = useSelector(state => state.login.isAuth);
+  const {isAuth} = useSelector(state => state.login);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('localStorage.getItem(token): ', localStorage.getItem('token'))
     if (localStorage.getItem('token')) {
       dispatch({type: loginActions.CHECK_AUTH})
     }
