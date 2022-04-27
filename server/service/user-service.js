@@ -18,7 +18,12 @@ class UserService {
             throw ApiError.BadRequest(`User with email: ${email} already exists`)
         }
         const hashPassword = await bcrypt.hash(password, 3);
-        const user = {id: v4(), email, password: hashPassword};
+        const user = {id: v4(), email, password: hashPassword, admin: false};
+
+        // temporary
+        user.admin = true;
+        // 
+
         users.push(user);
         fs.writeFileSync(usersPath, JSON.stringify(users));
 
@@ -51,7 +56,6 @@ class UserService {
     }
 
     async refresh(refreshToken) {
-        console.log('refreTTTT: ,', refreshToken)
         if (!refreshToken) {
             throw ApiError.UnauthorisedError()
         }
