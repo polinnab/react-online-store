@@ -8,7 +8,7 @@ import Pagination from '../Pagination/Pagination';
 
 export default function FetchedProducts() {
   const dispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { products, page, limit } = useSelector((state) => state.products);
   const filterQuery = new URLSearchParams(searchParams).toString();
 
@@ -16,7 +16,8 @@ export default function FetchedProducts() {
     if (!filterQuery.length) {
       dispatch({ type: productsActions.GET_ALL_PRODUCTS, page, limit });
     }
-  }, [dispatch, page, limit]);
+  }, [dispatch, page, limit, filterQuery]);
+  
   if (products) {
     return (
       <React.Fragment>

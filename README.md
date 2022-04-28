@@ -1,11 +1,14 @@
 # react-online-store
 This directory and its sub-directories contain the source code of a web-based full-stack application.
 
-### `npm install`
-- Run command in project directory to install server dependencies
-- Run command in client/ directory to install frontend dependencies
+### `npm run install-all`
+Run command for install all deps: server and client
 
+### `npm run client-install`
+Run command for install client deps
 
+### `npm run server-install`
+Run command for install server deps
 
 In the project directory, you can run:
 ### `npm run dev`

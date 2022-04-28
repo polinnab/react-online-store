@@ -8,9 +8,9 @@ const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   return (
     <Routes>
-      {isAuth && authRoutes.map(({ path, Component }) => <Route key={path} path={path} element={<Component />} exact />)}
-      {publicRoutes.map(({ path, Component }) => (
-        <Route key={path} path={path} element={<Component />} exact />
+      {isAuth && authRoutes.map(({ path, Component, exact }) => <Route key={path} path={path} element={<Component />} exact={exact} />)}
+      {publicRoutes.map(({ path, Component, exact }) => (
+        <Route key={path} path={path} element={<Component />} exact={exact} />
       ))}
       <Route path='*' element={<Navigate to={main_route} />} />
     </Routes>

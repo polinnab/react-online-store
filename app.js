@@ -43,9 +43,17 @@ app.use(
 );
 app.use(cors());
 app.use(express.json());
-httpServer.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
+
+const start = () => {
+  try {
+    httpServer.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+  } catch(e) {
+    console.log(e)
+  }
+}
+
+start()
+
 app.use('/upload', express.static('./upload'));
 
 function pagination(data, page, limit) {

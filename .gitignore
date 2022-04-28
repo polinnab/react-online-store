@@ -3,3 +3,5 @@
 
 node_modules/
 .DS_Store
+
+# TODO: need to add database users tokens and smth else
