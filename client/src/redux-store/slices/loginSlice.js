@@ -20,6 +20,7 @@ const loginSlice = createSlice({
         logout(state, action) {
             state.user = {};
             state.isAuth = false;
+            state.error = ''
         },
         checkAuth(state, action) {
             state.user = action.payload
