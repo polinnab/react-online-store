@@ -33,10 +33,18 @@ const orderActions = {
   EDIT_ORDER: "EDIT_ORDER"
 }
 
+const loginActions = {
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
+  REGISTRATION: "REGISTRATION",
+  CHECK_AUTH: "CHECK_AUTH"
+}
+
 export {
   categoriesActions,
   productsActions,
   cartActions,
   userActions,
-  orderActions
+  orderActions,
+  loginActions
 }

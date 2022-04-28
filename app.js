@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const { v4 } = require('uuid');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const sharp = require('sharp');
@@ -20,6 +22,9 @@ const type = upload.array('images');
 const path = require('path');
 const app = express();
 const fs = require('fs');
+const router = require('./server/router/router');
+const errorMiddleware = require('./server/middlewares/error-middleware');
+
 const brandsFile = './database/categories/brands.json';
 const typesFile = './database/categories/types.json';
 const colorsFile = './database/categories/colors.json';
@@ -41,12 +46,20 @@ app.use(
     extended: true,
   })
 );
-app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+// app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: process.env.CLIENT_URL
+})); 
+app.use('/api', router);
+app.use(errorMiddleware);
+app.use('/upload', express.static('./upload'));
 
 const start = () => {
   try {
-    httpServer.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
   } catch(e) {
     console.log(e)
   }
@@ -54,7 +67,6 @@ const start = () => {
 
 start()
 
-app.use('/upload', express.static('./upload'));
 
 function pagination(data, page, limit) {
   if (page === 'NaN' && limit === 'NaN') {
@@ -221,6 +233,7 @@ app.post('/api/image', type, (req, res) => {
   res.status(201).json(files);
 });
 
+// TODO: need to find exaxt user and update his cart
 app.post('/api/cart/:id', (req, res) => {
   const product = users[0].cart.find((item) => item.id === req.params.id);
 
@@ -270,6 +283,7 @@ app.delete('/api/cart', (req, res) => {
   res.status(200).json({ message: 'The cart is empty' });
 });
 
+// TODO: need to find exaxt user and update his cart
 app.delete('/api/cart/:id', (req, res) => {
   const newCart = users[0].cart.filter((item) => item.id !== req.params.id);
   users[0].cart = newCart;
@@ -309,4 +323,4 @@ app.put('/api/order/:id', (req, res) => {
   res.status(200).json(orders);
 });
 
-// app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
+
