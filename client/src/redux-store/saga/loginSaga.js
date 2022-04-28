@@ -1,21 +1,8 @@
 import axios from "axios";
 import { put, call, takeLatest } from "redux-saga/effects";
+import $api, { API_URL } from "../../http/index";
 import { checkAuth, login, logout, registration, setError, setLoading } from "../slices/loginSlice";
 import { loginActions } from "./sagaActions";
-
-
-export const API_URL = 'http://localhost:5001/api'
-
-const $api = axios.create({
-    withCredentials: true,
-    baseURL: API_URL
-})
-
-$api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return config;
-});
-
 
 function* loginWorker(action) {
     const { 

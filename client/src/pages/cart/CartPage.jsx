@@ -12,17 +12,22 @@ import Paper from '@mui/material/Paper';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { moneyFormatter } from "../../shared/utils/_methods";
 
-import './userCart.scss';
+import './cart.scss';
 import { useState } from 'react';
 
-const UserCartPage = () => {
+const CartPage = () => {
 
     const [totalAmount, setTotalAmount] = useState(0);
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.cart.cart);
+    const {user, isAuth} = useSelector(state => state.login);
+    console.log('user in CartPage: ', user)
 
     useEffect(() => {
+        // const payload = {
+        //     user: user.id
+        // }
         dispatch({ type: cartActions.GET_CART })
     }, [dispatch]);
 
@@ -125,4 +130,4 @@ const UserCartPage = () => {
     )
 }
 
-export default UserCartPage
+export default CartPage

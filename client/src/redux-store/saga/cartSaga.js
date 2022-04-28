@@ -1,12 +1,13 @@
 import { cartActions } from './sagaActions';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
 import { post, get, remove, edit } from './_apiRequests';
-import { put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { getCart } from '../slices/cartSlice';
+import axios from 'axios';
 
 function* getCartProducts(action) {
-    const data = yield get(`${LOCAL_HOST}${PORT}/api/cart`)
-    yield put(getCart(data))
+    const response = yield call(axios.get, `${LOCAL_HOST}${PORT}/api/cart`, {withCredentials: true});
+    yield put(getCart(response.data))
 }
 
 function* emptyCart(action) {

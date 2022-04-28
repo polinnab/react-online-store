@@ -48,7 +48,6 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors());
 app.use(cors({
   credentials: true,
   origin: process.env.CLIENT_URL
@@ -152,24 +151,6 @@ app.get('/api/brands', (req, res) => {
 
 app.get('/api/colors', (req, res) => {
   res.status(200).json(colors);
-});
-
-app.get('/api/cart', (req, res) => {
-  let cart = [];
-  products.map((product) => {
-    const prod = users[0].cart.find((item) => item.id === product.id);
-    if (prod) {
-      const cartProduct = {
-        id: product.id,
-        name: product.name,
-        image: product.images[0].thumbnail,
-        price: product.price,
-        count: prod.count,
-      };
-      cart.push(cartProduct);
-    }
-  });
-  res.status(200).json(cart);
 });
 
 app.get('/api/soc', (req, res) => {

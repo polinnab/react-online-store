@@ -3,14 +3,13 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route, user_route, shop_route, userCart_route } from '../../shared/utils/_constans';
+import { main_route, admin_route, login_route, user_route, shop_route, cart_route } from '../../shared/utils/_constans';
 import { useSelector, useDispatch } from 'react-redux';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
 import { loginActions } from '../../redux-store/saga/sagaActions';
 
-const Header = ({auth}) => {
-  // const { isAuth, user } = useSelector((state) => state.user);
+const Header = () => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state) => state.login);
   console.log('user: ', user, 'isAuth: ', isAuth)
@@ -85,11 +84,9 @@ const Header = ({auth}) => {
           </Box>
 
           <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
-            {isAuth ? 
-              <NavLink to={userCart_route}>
+              <NavLink to={cart_route}>
                 <ShoppingCartIcon className='header__cart-icon'/>
               </NavLink>
-            : null}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
