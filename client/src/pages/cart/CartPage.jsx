@@ -25,11 +25,10 @@ const CartPage = () => {
     console.log('user in CartPage: ', user)
 
     useEffect(() => {
-        // const payload = {
-        //     user: user.id
-        // }
         dispatch({ type: cartActions.GET_CART })
-    }, [dispatch]);
+    }, [dispatch, isAuth]);
+    
+    // TODO: need to get nullable cart when user logout
 
     useEffect(() => {
         let total = 0;

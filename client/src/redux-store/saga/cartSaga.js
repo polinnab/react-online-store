@@ -1,48 +1,64 @@
 import { cartActions } from './sagaActions';
 import { LOCAL_HOST, PORT } from '../../shared/utils/_constans';
-import { post, get, remove, edit } from './_apiRequests';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { getCart } from '../slices/cartSlice';
 import axios from 'axios';
+import $api from '../../http';
 
 function* getCartProducts(action) {
-    const response = yield call(axios.get, `${LOCAL_HOST}${PORT}/api/cart`, {withCredentials: true});
-    yield put(getCart(response.data))
+    try {
+        const response = yield call(axios.get, `${LOCAL_HOST}${PORT}/api/cart`, {withCredentials: true});
+        yield put(getCart(response.data))
+    } catch(e) {
+        console.log(e.response)
+    }
 }
 
 function* emptyCart(action) {
-    yield remove(`${LOCAL_HOST}${PORT}/api/cart`)
+    try {
+        yield call($api.delete, `${LOCAL_HOST}${PORT}/api/cart`)
+    } catch(e) {
+        console.log(e.response)
+    }
     yield getCartProducts()
 }
 
 function* addProductToCart(action) {
-    const option = {
-        product: action.product
+    const product = action.product;
+    try {
+        yield call($api.post, `${LOCAL_HOST}${PORT}/api/cart/${product.id}`);
+    } catch(e) {
+        console.log(e.response)
     }
-    yield post(`${LOCAL_HOST}${PORT}/api/cart/${option.product.id}`)
 }
 
 function* deleteProductFromCart(action) {
-    const option = {
-        product: action.product
+    const product = action.product;
+
+    try {
+        const response = yield call($api.delete, `${LOCAL_HOST}${PORT}/api/cart/${product.id}`)
+        yield put(getCart(response.data))
+    } catch(e) {
+        console.log(e.response)
     }
-    yield remove(`${LOCAL_HOST}${PORT}/api/cart/${option.product.id}`)
-    yield getCartProducts()
 }
 
 function* changeCount(action) {
-    const option = {
-        id: action.payload.product.id,
-        count: action.payload.count
+    const {product, count} = action.payload;
+
+    try {
+        const response = yield call($api.put, `${LOCAL_HOST}${PORT}/api/cart/${product.id}`, {count});
+        yield put(getCart(response.data))
+    } catch(e) {
+        console.log(e.response)
+        // TODO: handle errors
     }
-    yield edit(`${LOCAL_HOST}${PORT}/api/cart`, { options: option })
-    yield getCartProducts()
 }
 
 export function* cartSaga() {
-    yield takeEvery(cartActions.GET_CART, getCartProducts)
-    yield takeEvery(cartActions.ADD_TO_CART, addProductToCart)
-    yield takeEvery(cartActions.EMPTY_CART, emptyCart)
-    yield takeEvery(cartActions.REMOVE_FROM_CART, deleteProductFromCart)
-    yield takeEvery(cartActions.CHANGE_COUNT, changeCount)
+    yield takeLatest(cartActions.GET_CART, getCartProducts)
+    yield takeLatest(cartActions.ADD_TO_CART, addProductToCart)
+    yield takeLatest(cartActions.EMPTY_CART, emptyCart)
+    yield takeLatest(cartActions.REMOVE_FROM_CART, deleteProductFromCart)
+    yield takeLatest(cartActions.CHANGE_COUNT, changeCount)
 }

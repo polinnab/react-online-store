@@ -7,7 +7,8 @@ import { main_route, admin_route, login_route, user_route, shop_route, cart_rout
 import { useSelector, useDispatch } from 'react-redux';
 import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
-import { loginActions } from '../../redux-store/saga/sagaActions';
+import { loginActions, cartActions } from '../../redux-store/saga/sagaActions';
+import { cleanCart } from '../../redux-store/slices/cartSlice';
 
 const Header = () => {
   const dispatch = useDispatch();

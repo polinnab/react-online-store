@@ -214,24 +214,6 @@ app.post('/api/image', type, (req, res) => {
   res.status(201).json(files);
 });
 
-// TODO: need to find exaxt user and update his cart
-app.post('/api/cart/:id', (req, res) => {
-  const product = users[0].cart.find((item) => item.id === req.params.id);
-
-  if (users[0].cart.length >= 1 && product) {
-    product.count = product.count + 1;
-  } else {
-    const product = {
-      id: req.params.id,
-      count: 1,
-    };
-    users[0].cart.push(product);
-  }
-
-  fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(201).json(users[0].cart);
-});
-
 // DELETE
 
 app.delete('/api/products', (req, res) => {
@@ -258,20 +240,6 @@ app.delete('/api/colors', (req, res) => {
   res.status(200).json({ massage: 'Цвет был удален' });
 });
 
-app.delete('/api/cart', (req, res) => {
-  users[0].cart = [];
-  fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json({ message: 'The cart is empty' });
-});
-
-// TODO: need to find exaxt user and update his cart
-app.delete('/api/cart/:id', (req, res) => {
-  const newCart = users[0].cart.filter((item) => item.id !== req.params.id);
-  users[0].cart = newCart;
-  fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json({ message: 'Product deleted' });
-});
-
 // PUT
 
 app.put('/api/products/:id', (req, res) => {
@@ -279,13 +247,6 @@ app.put('/api/products/:id', (req, res) => {
   products[index] = req.body;
   fs.writeFileSync(productsFile, JSON.stringify(products));
   res.status(200).json(products);
-});
-
-app.put('/api/cart/:id', (req, res) => {
-  const index = users[0].cart.findIndex((item) => item.id === req.params.id);
-  users[0].cart[index].count = req.body.count;
-  fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json({ message: 'Product count has changed' });
 });
 
 app.put('/api/user/:id', (req, res) => {
