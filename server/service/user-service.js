@@ -5,6 +5,7 @@ const ApiError = require('../exeptions/api-error');
 const path = require('path');
 const fs = require('fs');
 const { v4 } = require('uuid');
+const cartService = require('./cart-service');
 
 const usersPath = path.resolve(__dirname, '../../database/users/users.json');
 let users = JSON.parse(fs.readFileSync(usersPath));
@@ -45,7 +46,7 @@ class UserService {
         }
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
-        
+        await cartService.dropZeroUser();
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto }
     }

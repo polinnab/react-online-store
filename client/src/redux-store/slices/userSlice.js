@@ -13,7 +13,7 @@ const userSlice = createSlice({
       role: 'Shop'
 		},
     socList: [],
-		isAuth: true
+		isAuth: false
   },
   reducers: {
     getUser(state, action) {
