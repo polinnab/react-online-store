@@ -96,6 +96,11 @@ class CartService {
 
         return {cart: users[userIndex].cart, message};
     }
+
+    async dropZeroUser() {
+        users[0].cart = [];
+        fs.writeFileSync(usersPath, JSON.stringify(users));
+    }
 }
 
 module.exports = new CartService()

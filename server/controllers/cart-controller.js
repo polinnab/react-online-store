@@ -41,8 +41,6 @@ class CartController {
         try {
             const {refreshToken} = req.cookies;
             const {id} = req.params;
-            console.log('req.cookies: ', req.cookies)
-            console.log('req.params: ', req.params)
             const data = await cartService.deleteFromCart(refreshToken, id);
             return res.json(data);
         } catch(e) {
@@ -53,7 +51,6 @@ class CartController {
     async cleanCart(req, res, next) {
         try {
             const {refreshToken} = req.cookies;
-            console.log('req.cookies: ', req.cookies);
             const data = await cartService.cleanCart(refreshToken);
             return res.json(data);
         } catch(e) {

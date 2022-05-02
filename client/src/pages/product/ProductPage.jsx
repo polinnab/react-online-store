@@ -47,7 +47,7 @@ const ProductPage = () => {
   }, [brands, product]);
 
   const addToCart = () => {
-    dispatch({ type: cartActions.ADD_TO_CART, product: product })
+    dispatch({ type: cartActions.ADD_TO_CART, payload: product })
     dispatch(
       dialog({
         visible: true,

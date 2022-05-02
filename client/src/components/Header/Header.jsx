@@ -13,7 +13,6 @@ import { cleanCart } from '../../redux-store/slices/cartSlice';
 const Header = () => {
   const dispatch = useDispatch();
   const { isAuth, user } = useSelector((state) => state.login);
-  console.log('user: ', user, 'isAuth: ', isAuth)
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
