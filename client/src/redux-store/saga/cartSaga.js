@@ -37,10 +37,10 @@ function* deleteProductFromCart(action) {
 
     try {
         const response = yield call($api.delete, `${LOCAL_HOST}${PORT}/api/cart/${product.id}`)
-        yield put(getCart(response.data))
     } catch(e) {
         console.log(e.response)
     }
+    yield getCartProducts()
 }
 
 function* changeCount(action) {
@@ -48,11 +48,12 @@ function* changeCount(action) {
 
     try {
         const response = yield call($api.put, `${LOCAL_HOST}${PORT}/api/cart/${product.id}`, {count});
-        yield put(getCart(response.data))
+        console.log('response in changeCount: ', response)
     } catch(e) {
         console.log(e.response)
         // TODO: handle errors
     }
+    yield getCartProducts()
 }
 
 export function* cartSaga() {

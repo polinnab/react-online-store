@@ -22,7 +22,8 @@ const CartPage = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.cart.cart);
     const {user, isAuth} = useSelector(state => state.login);
-    console.log('user in CartPage: ', user)
+    console.log('products in CartPage: ', products)
+
 
     useEffect(() => {
         dispatch({ type: cartActions.GET_CART })
