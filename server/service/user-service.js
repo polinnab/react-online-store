@@ -12,23 +12,20 @@ let users = JSON.parse(fs.readFileSync(usersPath));
 
 
 class UserService {
-    async registration(email, password) {
+    async registration(email, password, login, role) {
         const candidate = users.find(item => item.email === email);
 
         if (candidate) {
             throw ApiError.BadRequest(`User with email: ${email} already exists`)
         }
         const hashPassword = await bcrypt.hash(password, 3);
-        const user = {id: v4(), email, password: hashPassword, admin: false};
-
-        // temporary
-        user.admin = true;
-        // 
+        const admin = role === 'admin' ? true : false
+        const user = {id: v4(), email, password: hashPassword, admin, login};
 
         users.push(user);
         fs.writeFileSync(usersPath, JSON.stringify(users));
 
-        const userDto = new UserDto(user); // id, email
+        const userDto = new UserDto(user); // id, email, login, admin
         const tokens = tokenService.generateTokens({...userDto});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
