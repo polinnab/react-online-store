@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from './redux-store/saga/sagaActions';
 
 const Router = () => {
-  // const isAuth = useSelector((state) => state.user.isAuth);
   const {isAuth} = useSelector(state => state.login);
   const dispatch = useDispatch();
 
@@ -14,7 +13,7 @@ const Router = () => {
     if (localStorage.getItem('token')) {
       dispatch({type: loginActions.CHECK_AUTH})
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <Routes>

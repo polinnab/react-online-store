@@ -5,10 +5,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
 import { main_route, admin_route, login_route, user_route, shop_route, cart_route } from '../../shared/utils/_constans';
 import { useSelector, useDispatch } from 'react-redux';
-import './header.scss';
 import logo from '../../assets/images/icons/logo.svg';
-import { loginActions, cartActions } from '../../redux-store/saga/sagaActions';
-import { cleanCart } from '../../redux-store/slices/cartSlice';
+import { loginActions } from '../../redux-store/saga/sagaActions';
+
+import './header.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -90,7 +90,7 @@ const Header = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {isAuth ? (
+            {isAuth && (
               <React.Fragment>
                 <Tooltip title='Open settings'>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -132,7 +132,8 @@ const Header = () => {
                   </MenuItem>
                 </Menu>
               </React.Fragment>
-            ) : (
+            )} 
+            {!isAuth && (
               <NavLink to={login_route}>
                 <Button color='inherit'>Login</Button>
               </NavLink>

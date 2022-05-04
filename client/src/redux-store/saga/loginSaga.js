@@ -32,11 +32,11 @@ function* logoutWorker() {
 
 function* registrationWorker(action) {
     const { 
-        payload: {email, password} 
-    } = action;
+        candidate: {email, password, login, role} 
+    } = action.payload;
 
     try {
-        const response = yield call($api.post, `${API_URL}/registration`, {email, password});
+        const response = yield call($api.post, `${API_URL}/registration`, {email, password, login, role});
         localStorage.setItem('token', response.data.accessToken);
         yield put(registration(response.data.user));
     } catch(e) {
