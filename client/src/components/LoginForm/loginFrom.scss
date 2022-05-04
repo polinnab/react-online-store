@@ -1,0 +1,22 @@
+.LoginForm {
+
+  &--form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & div {
+      margin-top: 10px;
+    }
+  }
+
+  &--error {
+    color: red;
+    text-align: center;
+  }
+}
+
+// overrides
+button.LoginForm--button {
+  margin-top: 10px;
+}

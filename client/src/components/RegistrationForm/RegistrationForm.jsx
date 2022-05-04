@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginActions } from "../../redux-store/saga/sagaActions";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
+import {
+    InputLabel, 
+    MenuItem,
+    Select,
+    TextField,
+    FormControl,
+    OutlinedInput,
+    IconButton,
+    InputAdornment,
+    Button
+} from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import FormControl from '@mui/material/FormControl';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 import { login_route } from "../../shared/utils/_constans";
 
 import './registrationFrom.scss';
@@ -18,16 +25,26 @@ export default function RegistrationForm() {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const [login, setLogin] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const Registration = () => {
         const payload = {
             candidate: {email, password, login, role}
         };
+        console.log('payload: ', payload)
         dispatch({type: loginActions.REGISTRATION, payload})
     };
 
     const handleChangeRole = (event) => {
         setRole(event.target.value);
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };  
+    
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     return (
@@ -47,13 +64,29 @@ export default function RegistrationForm() {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                 />
-                <TextField
-                    required
-                    id="user-password"
-                    label="Password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                />
+                <FormControl sx={{ width: '100%' }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                      required
+                      id="outlined-adornment-password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                </FormControl>
                 <div className="RegistrationForm--select-block">
                 <FormControl fullWidth>
                     <InputLabel id="user-role">Role</InputLabel>
@@ -70,10 +103,12 @@ export default function RegistrationForm() {
                     </Select>
                 </FormControl>
                 </div>
+                {error && <p className="RegistrationForm--error">{error}</p>}
             </form>
-            <button className='RegistrationForm--button btn btn--orange' onClick={Registration}>Registration</button>
+                <button className='RegistrationForm--button btn btn--orange' onClick={Registration}>Registration</button>
             <NavLink to={login_route}><button className='RegistrationForm--button btn'>Back</button></NavLink>
-            {error && <p>{error}</p>}
         </div>
     )
 }
+
+// TODO: need validation 
