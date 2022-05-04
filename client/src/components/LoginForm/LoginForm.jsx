@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginActions } from "../../redux-store/saga/sagaActions";
 import { TextField, Button, FormControl, OutlinedInput, IconButton, InputAdornment, InputLabel } from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+
 import "./loginFrom.scss"
 
 export default function LoginForm() {
@@ -11,25 +12,48 @@ export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [validationError, setValidationError] = useState('');
 
-    const Login = () => {
+    function validateEmail(value) {
+      let error;
+      if (!value) {
+        error = 'Email is required';
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+        error = 'Invalid email address';
+      }
+      return error;
+    };
+
+    function validatePassword(value) {
+      let error;
+      if (!value) {
+        error = 'Password is required';
+      } 
+      return error;
+    };
+
+    const handleSubmit = (event) => {
+      const isValid = validateEmail(email) || validatePassword(password);
+      setValidationError(isValid);
+      if (!isValid) {
         const payload = {email, password};
         dispatch({type: loginActions.LOGIN, payload})
-    };
+      }
+      event.preventDefault();
+    }
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };  
     
     const handleMouseDownPassword = (event) => {
-        event.preventDefault();
+      event.preventDefault();
     };
 
     return (
         <div>
-            <form className="LoginForm--form">
+            <form onSubmit={handleSubmit} className="LoginForm--form">
                 <TextField
-                    required
                     id="user-email"
                     label="Email"
                     value={email}
@@ -38,7 +62,6 @@ export default function LoginForm() {
                 <FormControl sx={{ width: '100%' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
-                      required
                       id="outlined-adornment-password"
                       type={showPassword ? 'text' : 'password'}
                       value={password}
@@ -58,12 +81,14 @@ export default function LoginForm() {
                       label="Password"
                     />
                 </FormControl>
-                <Button className="LoginForm--button" 
-                    variant='contained' 
-                    onClick={Login}>
+              <Button className="LoginForm--button" 
+                    variant='contained'
+                    type='submit'>
                     Log in
-                </Button>
+              </Button>
             </form>
+            
+            {validationError && <p className="LoginForm--error">{validationError}</p>}
             {error && <p className="LoginForm--error">{error}</p>}
         </div>
     )
