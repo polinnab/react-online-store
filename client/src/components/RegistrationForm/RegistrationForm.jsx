@@ -9,14 +9,14 @@ import {
     FormControl,
     OutlinedInput,
     IconButton,
-    InputAdornment,
-    Button
+    InputAdornment
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import { login_route } from "../../shared/utils/_constans";
 
 import './registrationFrom.scss';
+import { validateEmail, validateLogin, validatePassword, validateRole } from "../../shared/validation/loginRegistration";
 
 export default function RegistrationForm() {
     const dispatch = useDispatch();
@@ -26,13 +26,18 @@ export default function RegistrationForm() {
     const [role, setRole] = useState('');
     const [login, setLogin] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [validationError, setValidationError] = useState('');
 
-    const Registration = () => {
+    const handleSubmit = (event) => {
+      const isValid = validateLogin(login) || validateEmail(email) || validatePassword(password) || validateRole(role);
+      setValidationError(isValid);
+      if (!isValid) {
         const payload = {
             candidate: {email, password, login, role}
         };
-        console.log('payload: ', payload)
         dispatch({type: loginActions.REGISTRATION, payload})
+      }
+      event.preventDefault();
     };
 
     const handleChangeRole = (event) => {
@@ -49,16 +54,14 @@ export default function RegistrationForm() {
 
     return (
         <div className="RegistrationForm--container">
-            <form className="RegistrationForm--form">
+            <form onSubmit={handleSubmit} className="RegistrationForm--form">
                 <TextField
-                    required
                     id="user-login"
                     label="Login"
                     value={login}
                     onChange={(event) => setLogin(event.target.value)}
                 />
                 <TextField
-                    required
                     id="user-email"
                     label="Email"
                     value={email}
@@ -67,7 +70,6 @@ export default function RegistrationForm() {
                 <FormControl sx={{ width: '100%' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
-                      required
                       id="outlined-adornment-password"
                       type={showPassword ? 'text' : 'password'}
                       value={password}
@@ -103,12 +105,11 @@ export default function RegistrationForm() {
                     </Select>
                 </FormControl>
                 </div>
+                {validationError && <p className="LoginForm--error">{validationError}</p>}
                 {error && <p className="RegistrationForm--error">{error}</p>}
+                <button type="submit" className='RegistrationForm--button btn btn--orange'>Registration</button>
             </form>
-                <button className='RegistrationForm--button btn btn--orange' onClick={Registration}>Registration</button>
             <NavLink to={login_route}><button className='RegistrationForm--button btn'>Back</button></NavLink>
         </div>
     )
 }
-
-// TODO: need validation 

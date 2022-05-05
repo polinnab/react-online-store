@@ -5,6 +5,7 @@ import { TextField, Button, FormControl, OutlinedInput, IconButton, InputAdornme
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 import "./loginFrom.scss"
+import { validateEmail, validatePassword } from "../../shared/validation/loginRegistration";
 
 export default function LoginForm() {
     const dispatch = useDispatch();
@@ -14,24 +15,6 @@ export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [validationError, setValidationError] = useState('');
 
-    function validateEmail(value) {
-      let error;
-      if (!value) {
-        error = 'Email is required';
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-        error = 'Invalid email address';
-      }
-      return error;
-    };
-
-    function validatePassword(value) {
-      let error;
-      if (!value) {
-        error = 'Password is required';
-      } 
-      return error;
-    };
-
     const handleSubmit = (event) => {
       const isValid = validateEmail(email) || validatePassword(password);
       setValidationError(isValid);
@@ -40,7 +23,7 @@ export default function LoginForm() {
         dispatch({type: loginActions.LOGIN, payload})
       }
       event.preventDefault();
-    }
+    };
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
