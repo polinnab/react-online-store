@@ -14,6 +14,7 @@ const validationSchema = yup.object({
   phone: yup.string().test('len', 'Введите номер телефона', (val) => val?.replace(new RegExp('_', 'g'), '').length >= 19),
 });
 
+
 const iconsList = [
   {
     Facebook,
