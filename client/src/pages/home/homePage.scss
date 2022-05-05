@@ -1,0 +1,56 @@
+.HomePage {
+    &--container {
+        padding: 0px 20px;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &--title {
+        &-block {
+            width: 40%;
+            height: 50vh;
+            margin-top: 260px;
+        }
+        font-size: 65px;
+    }
+
+    &--images {
+        width: 58%;
+        height: 80vh;
+        background-color: rgba(182, 223, 35, .8);
+        position: relative;
+    }
+
+    &--image {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+
+        &-first {
+            top: 30px;
+            left: 50px;
+        }
+
+        &-second {
+            bottom: 30px;
+            right: 10px;
+            width: 320px;
+            height: 320px;
+        }
+    }
+
+}
+
+button.HomePage--button {
+    font-weight: 900;
+    min-width: 200px;
+    background-color: rgba(182, 223, 35, .8);
+
+    &:hover {
+        background-color: #ff7e1b;
+    }
+}

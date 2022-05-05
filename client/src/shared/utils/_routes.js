@@ -4,9 +4,10 @@ import ProductPage from '../../pages/product/ProductPage'
 import UserPage from "../../pages/user/UserPage"
 import CartPage from "../../pages/cart/CartPage"
 import ShopAccount from "../../pages/shop-account/ShopAccount"
-import { admin_route, main_route, product_route, user_route, cart_route, shop_route, login_route, registration_route } from './_constans'
+import { admin_route, main_route, product_route, user_route, cart_route, shop_route, login_route, registration_route, products_route } from './_constans'
 import LoginPage from "../../pages/login/LoginPage"
 import RegistrationPage from "../../pages/registration/RegistrationPage"
+import HomePage from "../../pages/home/HomePage"
 
 export const authRoutes = [
 	{
@@ -23,18 +24,29 @@ export const authRoutes = [
 		path: shop_route,
 		Component: ShopAccount,
 		exact: true
-	}
-]
-
-export const publicRoutes = [
+	},
 	{
-		path: main_route,
+		path: cart_route,
+		Component: CartPage,
+		exact: true
+
+	},
+	{
+		path: products_route,
 		Component: ProductsPage,
 		exact: true
 	},
 	{
 		path: product_route + '/:id',
 		Component: ProductPage,
+		exact: true
+	}
+]
+
+export const publicRoutes = [
+	{
+		path: main_route,
+		Component: HomePage,
 		exact: true
 	},
 	{
@@ -46,11 +58,5 @@ export const publicRoutes = [
 		path: registration_route,
 		Component: RegistrationPage,
 		exact: true
-	},
-	{
-		path: cart_route,
-		Component: CartPage,
-		exact: true
-
-	},
+	}
 ]

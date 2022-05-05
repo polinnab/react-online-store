@@ -3,7 +3,7 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route, user_route, shop_route, cart_route } from '../../shared/utils/_constans';
+import { main_route, admin_route, login_route, user_route, shop_route, cart_route, products_route } from '../../shared/utils/_constans';
 import { useSelector, useDispatch } from 'react-redux';
 import logo from '../../assets/images/icons/logo.svg';
 import { loginActions } from '../../redux-store/saga/sagaActions';
@@ -79,15 +79,19 @@ const Header = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <MenuItem onClick={handleCloseNavMenu} className='header__link'>
-              <NavLink to={main_route}>Products</NavLink>
+              <NavLink to={main_route}>Home</NavLink>
             </MenuItem>
+            {isAuth &&
+            <MenuItem onClick={handleCloseNavMenu} className='header__link'>
+              <NavLink to={products_route}>Products</NavLink>
+            </MenuItem>}
           </Box>
 
-          <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
+          {isAuth && <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
               <NavLink to={cart_route}>
                 <ShoppingCartIcon className='header__cart-icon'/>
               </NavLink>
-          </Box>
+          </Box>}
 
           <Box sx={{ flexGrow: 0 }}>
             {isAuth && (
