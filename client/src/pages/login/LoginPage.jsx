@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import { NavLink } from 'react-router-dom';
-import { registration_route } from "../../shared/utils/_constans";
+import { main_route, registration_route } from "../../shared/utils/_constans";
 
 import './login.scss';
 
@@ -10,8 +10,9 @@ export default function LoginPage() {
   const { isAuth, user } = useSelector((state) => state.login);
 
   if (isAuth) return(
-    <div>
-      <h1>{isAuth ? `Welcome, ${user.email}!` : 'Log in, please'}</h1>
+    <div className="LoginPage--container">
+      <h1 className="LoginPage--title">{isAuth ? `Welcome, ${user.email}!` : 'Log in, please'}</h1>
+      <NavLink to={main_route}><button className='btn btn--orange'>Let's Shopping!</button></NavLink>
     </div>
   )
 
@@ -21,7 +22,7 @@ export default function LoginPage() {
       <>
         <LoginForm/>
         <p>Don't have account? Register please</p>
-        <NavLink to={registration_route}><button className='btn btn--orange'>Let Registrated!</button></NavLink></>
+        <NavLink to={registration_route}><button className='btn btn--orange'>Let's Registrated!</button></NavLink></>
     </div>
   );
 }
