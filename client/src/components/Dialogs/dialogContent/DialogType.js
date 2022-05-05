@@ -7,13 +7,13 @@ import InfoTable from '../../InfoTable/InfoTable';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
-  type: yup.string('Введите тип').required('Поле обязательно'),
+  type: yup.string('Enter type').required('Required'),
 });
 
 const DialogType = ({ hideDialog, showNoti }) => {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.categories.types)
-  const headers = ['Типы', 'Название', 'Действие']
+  const headers = ['Types', 'Noun', 'Action']
 
   useEffect(() => {
     dispatch({type: categoriesActions.GET_CAT, category_name: 'types'})
@@ -26,7 +26,7 @@ const DialogType = ({ hideDialog, showNoti }) => {
     validationSchema: validationSchema,
     onSubmit: (values, {resetForm}) => {
       dispatch({type: categoriesActions.ADD_CAT, category_name: 'types', val: values.type})
-      showNoti({ type: 'success', message: 'Тип успешно добавлен!' })
+      showNoti({ type: 'success', message: 'Type added successfully!' })
       resetForm();
     },
   });
@@ -38,13 +38,13 @@ const DialogType = ({ hideDialog, showNoti }) => {
   return (
     <div>
       <InfoTable headers={headers} body={types} removeElem={removeElem}/>
-      <p>Добавить тип</p>
+      <p>Added type</p>
       <form onSubmit={formik.handleSubmit}>
-        <TextField label='Тип' variant='standard' value={formik.values.type} type='text' name='type' onChange={formik.handleChange} error={formik.touched.type && Boolean(formik.errors.type)} helperText={formik.touched.type && formik.errors.type} fullWidth />
+        <TextField label='Type' variant='standard' value={formik.values.type} type='text' name='type' onChange={formik.handleChange} error={formik.touched.type && Boolean(formik.errors.type)} helperText={formik.touched.type && formik.errors.type} fullWidth />
         <DialogActions style={{ marginTop: '20px' }}>
-          <Button onClick={() => hideDialog()}>Закрыть</Button>
+          <Button onClick={() => hideDialog()}>Close</Button>
           <Button variant='contained' type='submit'>
-            Добавить тип
+            Added type
           </Button>
         </DialogActions>
       </form>

@@ -32,7 +32,7 @@ const productsFile = './database/products/products.json';
 const usersFile = './database/users/users.json';
 const socFile = './database/soc.json';
 const ordersFile = './database/users/orders.json';
-const httpServer = http.createServer(app);
+const httpServer = http.createServer(app); //TODO: for what????  httpServer.listen...
 const PORT = process.env.PORT || 5001;
 let brands = JSON.parse(fs.readFileSync(brandsFile));
 let types = JSON.parse(fs.readFileSync(typesFile));
@@ -219,25 +219,25 @@ app.post('/api/image', type, (req, res) => {
 app.delete('/api/products', (req, res) => {
   products = products.filter((product) => product.id !== req.body.id);
   fs.writeFileSync(productsFile, JSON.stringify(products));
-  res.status(200).json({ massage: 'Товар был удален' });
+  res.status(200).json({ massage: 'Product was deleted' });
 });
 
 app.delete('/api/types', (req, res) => {
   types = types.filter((elem) => elem.id !== req.body.id);
   fs.writeFileSync(typesFile, JSON.stringify(types));
-  res.status(200).json({ massage: 'Тип был удален' });
+  res.status(200).json({ massage: 'Type was deleted' });
 });
 
 app.delete('/api/brands', (req, res) => {
   brands = brands.filter((elem) => elem.id !== req.body.id);
   fs.writeFileSync(brandsFile, JSON.stringify(brands));
-  res.status(200).json({ massage: 'Бренд был удален' });
+  res.status(200).json({ massage: 'Brand was deleted' });
 });
 
 app.delete('/api/colors', (req, res) => {
   colors = colors.filter((elem) => elem.id !== req.body.id);
   fs.writeFileSync(colorsFile, JSON.stringify(colors));
-  res.status(200).json({ massage: 'Цвет был удален' });
+  res.status(200).json({ massage: 'Color was deleted' });
 });
 
 // PUT

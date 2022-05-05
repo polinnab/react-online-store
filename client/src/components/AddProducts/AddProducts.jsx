@@ -10,7 +10,7 @@ const AddProducts = () => {
   const dispatch = useDispatch();
   const [editProduct, setEditProduct] = useState([]);
   const { products, page } = useSelector((state) => state.products);
-  const headers = ['Товары', 'Название', 'Описание', 'Цена', 'Изображение', 'Тип', 'Бренд', 'Цвет', 'Действие'];
+  const headers = ['Products', 'Noun', 'Description', 'Price', 'Image', 'Type', 'Brand', 'Color', 'Action'];
 
   useEffect(() => {
     dispatch({ type: categoriesActions.GET_ALL_CAT });
@@ -44,17 +44,17 @@ const AddProducts = () => {
         <Grid container spacing={2}>
           <Grid item xs={3} md={1}>
             <Button variant='contained' onClick={() => openDialog('type')} style={{ width: '100%' }}>
-              Тип
+              Type
             </Button>
           </Grid>
           <Grid item xs={3} md={1}>
             <Button variant='contained' onClick={() => openDialog('brand')} style={{ width: '100%' }}>
-              Бренд
+              Brand
             </Button>
           </Grid>
           <Grid item xs={3} md={1}>
             <Button variant='contained' onClick={() => openDialog('color')} style={{ width: '100%' }}>
-              Цвет
+              Color
             </Button>
           </Grid>
           <Grid item xs={3} md={1}>
@@ -65,7 +65,7 @@ const AddProducts = () => {
                 setEditProduct([]);
               }}
               style={{ width: '100%' }}>
-              Товар
+              Product
             </Button>
           </Grid>
         </Grid>

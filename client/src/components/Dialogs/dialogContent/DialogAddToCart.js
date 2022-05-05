@@ -8,11 +8,11 @@ const DialogAddToCart = ({ hideDialog, showNoti }) => {
 
   return (
     <div>
-      <p style={{textAlign: 'center'}}>Товар успешно добавлен в корзину!</p>
+      <p style={{textAlign: 'center'}}>Product has been added to cart successfully!</p>
         <DialogActions style={{ marginTop: '20px' }}>
-          <Button onClick={() => hideDialog()}>Продолжить покупки</Button>
+          <Button onClick={() => hideDialog()}>Continue shopping</Button>
           <NavLink to={cart_route}>
-            <Button onClick={() => hideDialog()}>Перейти в корзину</Button>
+            <Button onClick={() => hideDialog()}>Go to cart</Button>
           </NavLink>
         </DialogActions>
     </div>

@@ -32,10 +32,10 @@ const ShopAccount = () => {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-          <Tab label='Товары' {...a11yProps(0)} />
-          <Tab label='Активные заказы' {...a11yProps(1)} />
-          <Tab label='История заказов' {...a11yProps(2)} />
-          <Tab label='Информация' {...a11yProps(3)} />
+          <Tab label='Products' {...a11yProps(0)} />
+          <Tab label='Active orders' {...a11yProps(1)} />
+          <Tab label='Orders history' {...a11yProps(2)} />
+          <Tab label='Information' {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>

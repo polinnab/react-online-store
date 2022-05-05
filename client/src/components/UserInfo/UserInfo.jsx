@@ -9,9 +9,9 @@ import * as yup from 'yup';
 import './userInfo.scss';
 
 const validationSchema = yup.object({
-  name: yup.string().matches(/^[aA-zZа-яА-Я\s]+$/, 'Введите имя'),
-  email: yup.string().email('Введите email').required('Поле обязательно'),
-  phone: yup.string().test('len', 'Введите номер телефона', (val) => val?.replace(new RegExp('_', 'g'), '').length >= 19),
+  name: yup.string().matches(/^[aA-zZа-яА-Я\s]+$/, 'Enter name'),
+  email: yup.string().email('Enter email').required('Required'),
+  phone: yup.string().test('len', 'Enter phone', (val) => val?.replace(new RegExp('_', 'g'), '').length >= 19),
 });
 
 const iconsList = [
@@ -118,8 +118,8 @@ const UserInfo = () => {
             onChange={formik.handleChange}
             value={formik.values.login}
           />
-          <TextField label={user.role === 'Shop' ? 'Название': 'ФИО'} variant='standard' type='text' name='name' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.name} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} />
-          {user.address ? <TextField label='Адрес' variant='standard' type='text' name='address' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.address}/> : null}
+          <TextField label={user.role === 'Shop' ? 'Store name': 'First/Last Name'} variant='standard' type='text' name='name' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.name} error={formik.touched.name && Boolean(formik.errors.name)} helperText={formik.touched.name && formik.errors.name} />
+          {user.address ? <TextField label='Address' variant='standard' type='text' name='address' fullWidth style={{ marginBottom: '20px' }} onChange={formik.handleChange} value={formik.values.address}/> : null}
         </FormControl>
       </Grid>
       <Grid container direction='row' justifyContent='flex-start' alignItems='flex-start' flexWrap='nowrap' spacing={0} className='user-form__item'>
@@ -128,7 +128,7 @@ const UserInfo = () => {
           <InputMask
             mask='+38 (999) 999 99 99'
             value={formik.values.phone}
-            label='Телефон'
+            label='Phone'
             style={{ marginBottom: '20px' }}
             name='phone'
             type='tel'
@@ -166,7 +166,7 @@ const UserInfo = () => {
             {soc.map((elem) => {
               return (
                 <FormControl key={elem.id} variant='standard' fullWidth style={{ marginBottom: '20px' }} className='user-form__item-soc'>
-                  <Select label='Соцсеть' name='soc' value={elem.id} onChange={(e) => changeSoc(e, elem.id, socList)}>
+                  <Select label='Social network' name='soc' value={elem.id} onChange={(e) => changeSoc(e, elem.id, socList)}>
                     {socList.map((item) => {
                       const Icon = iconsList.find((elem) => elem[item.name])[item.name];
                       const disabled = soc.filter((elem) => elem.id === item.id).length;
@@ -177,7 +177,7 @@ const UserInfo = () => {
                       );
                     })}
                   </Select>
-                  <TextField label='Ссылка' variant='standard' type='text' name='soc' style={{ marginBottom: '14px' }} value={elem.link || ''} onChange={(e) => changeSocLink(e, elem.id)} />
+                  <TextField label='Link' variant='standard' type='text' name='soc' style={{ marginBottom: '14px' }} value={elem.link || ''} onChange={(e) => changeSocLink(e, elem.id)} />
                   <Delete onClick={() => removeSoc(elem.id)} />
                 </FormControl>
               );
@@ -185,7 +185,7 @@ const UserInfo = () => {
             {soc.length !== socList?.length ? (
               <FormControl variant='standard' fullWidth style={{ marginBottom: '20px', marginTop: '14px', display: 'flex' }}>
                 <Button variant='contained' onClick={addSoc}>
-                  Добавить соцсеть
+                  Add Social network
                 </Button>
               </FormControl>
             ) : null}
@@ -194,7 +194,7 @@ const UserInfo = () => {
       ) : null}
 
       <Button variant='contained' type='submit'>
-        Сохранить
+        Save
       </Button>
     </form>
   ) : null;

@@ -33,9 +33,9 @@ const UserPage = () => {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-          <Tab label='Личные данные' {...a11yProps(0)} />
-          <Tab label='История заказов' {...a11yProps(1)} />
-          <Tab label='Избранное' {...a11yProps(2)} />
+          <Tab label='Personal information' {...a11yProps(0)} />
+          <Tab label='Orders history' {...a11yProps(1)} />
+          <Tab label='Favorites' {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -47,7 +47,7 @@ const UserPage = () => {
         <UserHistory />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Избранное
+        Favorites
       </TabPanel>
     </Box>
   );

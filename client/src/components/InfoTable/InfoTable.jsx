@@ -7,7 +7,7 @@ import { moneyFormatter } from '../../shared/utils/_methods';
 import './infoTable.scss';
 
 const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
-  const { brands, colors, types } = useSelector((state) => state.categories);
+  const { brands, types } = useSelector((state) => state.categories);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const tableHeaderCells = headers
@@ -25,9 +25,9 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
   };
 
   const status = {
-    in_progress: 'В работе',
-    ready: 'Выполнен',
-    canceled: 'Отменен'
+    in_progress: 'In process',
+    ready: 'Succeed',
+    canceled: 'Canceled'
   }
 
   const tableBodyCells = body
@@ -104,7 +104,7 @@ const InfoTable = ({ headers, body, dataType, editElem, removeElem }) => {
         <TableBody>{rowsPerPage > 0 ? tableBodyCells.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : tableBodyCells}</TableBody>
         <TableFooter className={'table-footer'}>
           <TableRow>
-            <TablePagination rowsPerPageOptions={[5, 10, 25]} count={tableBodyCells.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} labelRowsPerPage={'Товаров на странице'} />
+            <TablePagination rowsPerPageOptions={[5, 10, 25]} count={tableBodyCells.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} labelRowsPerPage={'Products on page'} />
           </TableRow>
         </TableFooter>
       </Table>

@@ -27,7 +27,7 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
 
       dispatch({ type: orderActions.EDIT_ORDER, order: newOrder });
       hideDialog();
-      showNoti({ type: 'success', message: 'Товар успешно изменен!' });
+      showNoti({ type: 'success', message: 'Product chenged successfully!' });
     },
   });
 
@@ -47,14 +47,14 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
 
   return (
     <div>
-      <p>Изменить заказ</p>
+      <p>Change order</p>
       <form onSubmit={formik.handleSubmit}>
-        <InputLabel>Товары</InputLabel>
+        <InputLabel>Products</InputLabel>
         {formik.values.products.map((elem, idx) => {
           return (
             <FormControl key={elem.id} variant='standard' fullWidth style={{ marginBottom: '20px' }}>
               <TextField
-                label='Название'
+                label='Name'
                 variant='standard'
                 value={elem.name}
                 type='text'
@@ -67,7 +67,7 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
               />
               <img src={IMAGE_URL + elem.image} alt={elem.name} style={{ marginBottom: '20px' }} />
               <TextField
-                label='Цена'
+                label='Price'
                 variant='standard'
                 value={elem.price}
                 type='text'
@@ -79,7 +79,7 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
                 }}
               />
               <TextField
-                label='Количество'
+                label='Count'
                 variant='standard'
                 value={count[idx]}
                 type='text'
@@ -92,7 +92,7 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
               />
               {formik.values.products.length > 1 ? (
                 <Button variant='contained' onClick={() => removeProduct(elem.id)}>
-                  Удалить товар
+                  Delete product
                 </Button>
               ) : null}
             </FormControl>
@@ -100,17 +100,17 @@ const DialogOrder = ({ hideDialog, showNoti, readyData }) => {
         })}
 
         <FormControl variant='standard' fullWidth style={{ marginBottom: '20px' }}>
-          <InputLabel>Статус</InputLabel>
+          <InputLabel>Status</InputLabel>
           <Select native name='status' value={formik.values.status} label='Статус' onChange={formik.handleChange} error={formik.touched.status && Boolean(formik.errors.status)}>
-            <option value='in_progress'>В работе</option>
-            <option value='ready'>Выполнен</option>
-            <option value='canceled'>Отменен</option>
+            <option value='in_progress'>In process</option>
+            <option value='ready'>Done</option>
+            <option value='canceled'>Canceled</option>
           </Select>
         </FormControl>
         <DialogActions style={{ marginTop: '20px' }}>
-          <Button onClick={() => hideDialog()}>Закрыть</Button>
+          <Button onClick={() => hideDialog()}>Close</Button>
           <Button variant='contained' type='submit'>
-            Изменить заказ
+            Change order
           </Button>
         </DialogActions>
       </form>

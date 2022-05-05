@@ -10,7 +10,7 @@ const Orders = ({type}) => {
   const [editOrder, setEditOrder] = useState([]);
   const { user } = useSelector((state) => state.user);
   const { orderList } = useSelector((state) => state.order);
-  const headers = ['Заказы', 'Товары', 'Цена', 'Клиент', 'Статус', 'Действие'];
+  const headers = ['Orders', 'Products', 'Price', 'Client', 'Status', 'Action'];
 
   if (type === 'History' && user.role === 'User') {
     headers.pop()
