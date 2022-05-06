@@ -1,5 +1,8 @@
 .user-form {
+	width: 500px;
 	padding-top: 40px;
+	margin: 0 auto;
+	margin-bottom: 20px;
 
 	&__item {
 		margin-bottom: 20px;
@@ -11,11 +14,38 @@
 		}
 
 		&-soc {
-			display: grid !important;
-			grid-template-columns: repeat(3, 1fr);
-			align-items: center;
-			vertical-align: middle !important;
-			grid-gap: 20px;
+			display: flex !important; //TODO: delete all importants!!
+			flex-direction: row !important;
+			align-items: center !important;
+			justify-content: space-between !important;
 		}
 	}
+}
+
+.mb-2 {
+	margin-bottom: 20px;
+}
+
+.socialList {
+	&-block {
+	width: 100%;
+	}
+
+	&-delete {
+		cursor: pointer;
+	}
+
+	&-button {
+		margin-bottom: 20px;
+		margin-top: 14px; 
+		display: flex; 
+	}
+}
+
+div.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+	margin-bottom: 14px;
+}
+
+div.css-1480iag-MuiInputBase-root-MuiInput-root {
+	width: 200px;
 }

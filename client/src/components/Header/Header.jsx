@@ -70,8 +70,12 @@ const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}>
               <MenuItem onClick={handleCloseNavMenu} className='header__link'>
-                <NavLink to={main_route}>Products</NavLink>
+                <NavLink to={main_route}>Home</NavLink>
               </MenuItem>
+              {isAuth &&
+              <MenuItem onClick={handleCloseNavMenu} className='header__link'>
+                <NavLink to={products_route}>Products</NavLink>
+              </MenuItem>}
             </Menu>
           </Box>
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

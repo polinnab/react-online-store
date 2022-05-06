@@ -4,7 +4,6 @@ import { rootSaga } from './saga/rootSaga';
 
 import dialogSlice from './slices/dialogSlice';
 import productSlice from './slices/productSlice';
-import userSlice from './slices/userSlice';
 import categoriesSlice from './slices/categoriesSlice';
 import cartSlice from './slices/cartSlice';
 import orderSlice from './slices/orderSlice';
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   dialog: dialogSlice,
   products: productSlice,
   categories: categoriesSlice,
-  user: userSlice,
   cart: cartSlice,
   order: orderSlice,
   login: loginSlice

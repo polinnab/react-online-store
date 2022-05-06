@@ -57,10 +57,21 @@ function* checkAuthWorker() {
     yield put(setLoading(false))
 }
 
+function* editUserWorker(action) {
+    const user = action.payload;
+    try {
+        console.log('user in editUserWorker: ', user);
+        // put(login(response.data.user))
+    } catch(e) {
+        console.log(e.response.data.message); 
+    }
+}
+
 export function* loginWatcher() {
     yield takeLatest(loginActions.LOGIN, loginWorker);
     yield takeLatest(loginActions.LOGOUT, logoutWorker);
     yield takeLatest(loginActions.REGISTRATION, registrationWorker);
     yield takeLatest(loginActions.CHECK_AUTH, checkAuthWorker);
+    yield takeLatest(loginActions.EDIT_USER, editUserWorker)
 }
 
