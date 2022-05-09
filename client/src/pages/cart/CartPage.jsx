@@ -8,11 +8,10 @@ import './cart.scss';
 const CartPage = () => {
     const dispatch = useDispatch();
     const {products} = useSelector((state) => state.cart);
-    const {isAuth} = useSelector(state => state.login);
 
     useEffect(() => {
         dispatch({ type: cartActions.GET_CART })
-    }, [dispatch, isAuth]);
+    }, [dispatch]);
 
     return(
         <div className='Cart_container'>

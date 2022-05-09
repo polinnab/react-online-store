@@ -136,7 +136,9 @@ const Header = () => {
                   )}
 
                   <MenuItem onClick={onLogoutClick}>
+                    <NavLink to={main_route}>
                     <Typography textAlign='center'>Logout</Typography>
+                    </NavLink>
                   </MenuItem>
                 </Menu>
               </React.Fragment>

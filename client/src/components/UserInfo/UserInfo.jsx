@@ -30,8 +30,6 @@ const UserInfo = () => {
   const { user } = useSelector((state) => state.login);
   const [soc, setSoc] = useState(user.soc || []); // temporary ?? if we need it at all
 
-  console.log(soc)
-
   //useEffect(() => {
   //  dispatch({ type: userActions.GET_ALL_SOC }); //[{id: 1, name: 'Facebook'},{id: 2, name: 'Twitter'},{id: 3, name: 'Instagram'},{id: 4, name: 'Telegram'}]
   // }, [dispatch]); // we realy need to get massive of socials from API request??

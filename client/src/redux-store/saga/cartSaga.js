@@ -1,12 +1,11 @@
 import { cartActions } from './sagaActions';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { getCart } from '../slices/cartSlice';
-import axios from 'axios';
 import $api, { API_URL } from '../../http';
 
 function* getCartProducts(action) {
     try {
-        const response = yield call(axios.get, `${API_URL}/cart`, {withCredentials: true}); //here need exactly axios request
+        const response = yield call($api.get, `${API_URL}/cart`); 
         yield put(getCart(response.data))
     } catch(e) {
         console.log(e.response)
@@ -54,7 +53,7 @@ function* changeCount(action) {
 }
 
 export function* cartSaga() {
-    yield takeLatest(cartActions.GET_CART, getCartProducts);
+    yield takeEvery(cartActions.GET_CART, getCartProducts);
     yield takeLatest(cartActions.ADD_TO_CART, addProductToCart);
     yield takeLatest(cartActions.EMPTY_CART, emptyCart);
     yield takeLatest(cartActions.REMOVE_FROM_CART, deleteProductFromCart);
