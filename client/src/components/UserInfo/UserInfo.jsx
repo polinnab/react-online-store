@@ -30,6 +30,8 @@ const UserInfo = () => {
   const { user } = useSelector((state) => state.login);
   const [soc, setSoc] = useState(user.soc || []); // temporary ?? if we need it at all
 
+  console.log(soc)
+
   //useEffect(() => {
   //  dispatch({ type: userActions.GET_ALL_SOC }); //[{id: 1, name: 'Facebook'},{id: 2, name: 'Twitter'},{id: 3, name: 'Instagram'},{id: 4, name: 'Telegram'}]
   // }, [dispatch]); // we realy need to get massive of socials from API request??
@@ -58,7 +60,7 @@ const UserInfo = () => {
   });
 
   const addSoc = () => {
-    setSoc([...soc, { id: '', name: '', link: '' }]);
+    setSoc([...soc, { id: soc.length + 1, name: '', link: '' }]);
   };
 
   const changeSoc = (e, current, socialNetworks) => {
@@ -85,8 +87,6 @@ const UserInfo = () => {
   const removeSoc = (socId) => {
     setSoc(soc.filter((elem) => elem.id !== socId));
   };
-
-  // TODO: fix soc case: add new soc, dont choose Select option, add second soc, choose select option - first select option dublicated
 
   return (
     <form onSubmit={formik.handleSubmit} className='user-form'>
