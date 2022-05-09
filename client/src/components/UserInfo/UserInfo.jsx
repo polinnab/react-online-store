@@ -9,6 +9,7 @@ import InputMask from 'react-input-mask';
 
 import * as yup from 'yup';
 import './userInfo.scss';
+import { dialog } from '../../redux-store/slices/dialogSlice';
 
 const validationSchema = yup.object({
   name: yup.string().matches(/^[aA-zZа-яА-Я\s]+$/, "Name must contain only letters"),
@@ -47,6 +48,12 @@ const UserInfo = () => {
     onSubmit: (values) => {
       const editedData = {...values, soc};
       dispatch({ type: loginActions.EDIT_USER, payload: editedData });
+      dispatch(
+        dialog({
+          visible: true,
+          name: 'userEdited',
+        })
+      );
     },
   });
 
