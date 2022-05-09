@@ -13,7 +13,7 @@ import './userInfo.scss';
 const validationSchema = yup.object({
   name: yup.string().matches(/^[aA-zZа-яА-Я\s]+$/, "Name must contain only letters"),
   email: yup.string().email('Enter email').required('Required'),
-  phone: yup.string().matches(/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/, "Incorrect phone number"),
+  phone: yup.string().matches(/^((8|\+7)?)?(\(?\d{3}\)??)?[\d\- ]{7,10}$/, "Incorrect phone number"),
 });
 
 const socialNetworks = [

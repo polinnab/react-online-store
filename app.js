@@ -249,15 +249,6 @@ app.put('/api/products/:id', (req, res) => {
   res.status(200).json(products);
 });
 
-app.put('/api/user/:id', (req, res) => {
-  const index = users.findIndex((user) => user.id === Number(req.params.id));
-  for (const key in req.body) {
-    users[index][key] = req.body[key];
-  }
-  fs.writeFileSync(usersFile, JSON.stringify(users));
-  res.status(200).json(users[index]);
-});
-
 app.put('/api/order/:id', (req, res) => {
   const index = orders.findIndex((order) => order.id === Number(req.params.id));
   orders[index] = req.body;

@@ -73,6 +73,21 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto }
     }
+
+    async edit(id, newUserData) {
+        const index = users.findIndex((user) => user.id === id);
+        if (!index) {
+            throw ApiError.BadRequest('User does not exist');
+        }
+        const user = users[index];
+        for (const key in newUserData) {
+            user[key] = newUserData[key];
+        }
+        users[index] = user;
+        fs.writeFileSync(usersPath, JSON.stringify(users));
+        const userDto = new UserDto(user)
+        return {user: userDto}
+    }
 }
 
 module.exports = new UserService();

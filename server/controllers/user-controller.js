@@ -50,6 +50,17 @@ class UserController {
             next(e)
         }
     }
+
+    async edit(req, res, next) {
+        try {
+            const {user} = req.body;
+            const userId = req.params.id;
+            const userData = await userService.edit(userId, user);
+            return res.json(userData)
+        } catch(e) {
+            next(e)
+        }
+    }
 }
 
 module.exports = new UserController();
