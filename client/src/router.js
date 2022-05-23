@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { authRoutes, publicRoutes } from './shared/utils/_routes';
 import { useSelector } from 'react-redux';
 import { main_route } from './shared/utils/_constans';
+import NotFoundPage from './pages/404/NotFoundPage';
 
 const Router = () => {
   const {isAuth} = useSelector(state => state.login);
@@ -14,6 +15,7 @@ const Router = () => {
         <Route key={path} path={path} element={<Component />} exact={exact} />
       ))}
       <Route path='/' element={<Navigate to={main_route} />} exact />
+      <Route path='*' element={<NotFoundPage />} exact />
     </Routes>
   );
 };
