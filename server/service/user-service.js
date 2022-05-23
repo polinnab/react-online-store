@@ -53,27 +53,6 @@ class UserService {
         return token
     }
 
-    async refresh(refreshToken) {
-        if (!refreshToken) {
-            throw ApiError.UnauthorisedError()
-        }
-        const userData = tokenService.validateRefreshToken(refreshToken);
-
-
-        const tokenFromDb = await tokenService.findToken(refreshToken);
-
-
-        if (!userData || !tokenFromDb) {
-            throw ApiError.UnauthorisedError()
-        }
-        const user = users.find(user => user.id === userData.id)
-        const userDto = new UserDto(user);
-        const tokens = tokenService.generateTokens({...userDto});
-        
-        await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        return { ...tokens, user: userDto }
-    }
-
     async edit(id, newUserData) {
         const index = users.findIndex((user) => user.id === id);
         if (!index) {

@@ -1,11 +1,11 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken');
 const { v4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
 
-//TODO: temporary. need to remove to .env - use path.resolve(__dirname)
-const JWT_ACCESS_SECRET = 'polinnab-secret-key'
-const JWT_REFRESH_SECRET = 'polinnab-refresh-secret-key'
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
 const tokensPath = path.resolve(__dirname, '../../database/users/tokens.json');
 let tokens = JSON.parse(fs.readFileSync(tokensPath))

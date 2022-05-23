@@ -1,7 +1,6 @@
-import axios from "axios";
 import { put, call, takeLatest } from "redux-saga/effects";
 import $api, { API_URL } from "../../http/index";
-import { checkAuth, editUser, login, logout, registration, setError, setLoading } from "../slices/loginSlice";
+import { editUser, login, logout, registration, setError } from "../slices/loginSlice";
 import { loginActions } from "./sagaActions";
 
 function* loginWorker(action) {
@@ -45,18 +44,6 @@ function* registrationWorker(action) {
     }
 }
 
-function* checkAuthWorker() {
-    yield put(setLoading(true));
-    try {
-        const response = yield call(axios.get, `${API_URL}/refresh`, {withCredentials: true});
-        localStorage.setItem('token', response.data.accessToken);
-        yield put(checkAuth(response.data.user));
-    } catch(e) {
-        console.log(e.response.data.message); 
-    }
-    yield put(setLoading(false))
-}
-
 function* editUserWorker(action) {
     const user = action.payload;
     try {
@@ -71,7 +58,6 @@ export function* loginWatcher() {
     yield takeLatest(loginActions.LOGIN, loginWorker);
     yield takeLatest(loginActions.LOGOUT, logoutWorker);
     yield takeLatest(loginActions.REGISTRATION, registrationWorker);
-    yield takeLatest(loginActions.CHECK_AUTH, checkAuthWorker);
     yield takeLatest(loginActions.EDIT_USER, editUserWorker)
 }
 
