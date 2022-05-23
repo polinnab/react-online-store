@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { authRoutes, publicRoutes } from './shared/utils/_routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from './redux-store/saga/sagaActions';
+import { main_route } from './shared/utils/_constans';
 
 const Router = () => {
   const {isAuth} = useSelector(state => state.login);
@@ -20,6 +21,7 @@ const Router = () => {
       {publicRoutes.map(({ path, Component, exact }) => (
         <Route key={path} path={path} element={<Component />} exact={exact} />
       ))}
+      <Route path='/' element={<Navigate to={main_route} />} />
     </Routes>
   );
 };
