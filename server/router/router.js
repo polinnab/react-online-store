@@ -10,7 +10,6 @@ router.post('/registration',
         userController.registaration);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-router.get('/refresh', userController.refresh);
 router.put('/user/:id', userController.edit);
 router.get('/cart', cartController.getCart);
 router.post('/cart/:id', cartController.addToCart);
