@@ -1,12 +1,11 @@
 import { cartActions } from './sagaActions';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { getCart } from '../slices/cartSlice';
-import axios from 'axios';
-import $api, { API_URL } from '../../http';
+import $api from '../../http';
 
 function* getCartProducts(action) {
     try {
-        const response = yield call(axios.get, `${API_URL}/cart`, {withCredentials: true}); //here need exactly axios request
+        const response = yield call($api.get, `/cart`); 
         yield put(getCart(response.data))
     } catch(e) {
         console.log(e.response)

@@ -11,6 +11,7 @@ router.post('/registration',
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/refresh', userController.refresh);
+router.put('/user/:id', userController.edit);
 router.get('/cart', cartController.getCart);
 router.post('/cart/:id', cartController.addToCart);
 router.put('/cart/:id', cartController.changeCount);

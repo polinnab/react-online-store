@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import { NavLink } from 'react-router-dom';
-import { main_route, products_route, registration_route } from "../../shared/utils/_constans";
+import { products_route, registration_route } from "../../shared/utils/_constans";
 
 import './login.scss';
 

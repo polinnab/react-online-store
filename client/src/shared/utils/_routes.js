@@ -47,7 +47,7 @@ export const publicRoutes = [
 	{
 		path: main_route,
 		Component: HomePage,
-		exact: true
+		exact: false
 	},
 	{
 		path: login_route,

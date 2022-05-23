@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import UserHistory from '../../components/UserHistory/UserHistory';
+import Dialogs from '../../components/Dialogs';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,6 +50,8 @@ const UserPage = () => {
       <TabPanel value={value} index={2}>
         Favorites
       </TabPanel>
+
+      <Dialogs readyData={true} />
     </Box>
   );
 };

@@ -22,12 +22,6 @@ const cartActions = {
   CHANGE_COUNT: "CHANGE_COUNT"
 }
 
-const userActions = {
-  GET_USER: "GET_USER",
-  EDIT_USER: "EDIT_USER",
-  GET_ALL_SOC: "GET_ALL_SOC"
-}
-
 const orderActions = {
   GET_ORDERS: "GET_ORDERS",
   EDIT_ORDER: "EDIT_ORDER"
@@ -37,14 +31,14 @@ const loginActions = {
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
   REGISTRATION: "REGISTRATION",
-  CHECK_AUTH: "CHECK_AUTH"
+  CHECK_AUTH: "CHECK_AUTH",
+  EDIT_USER: "EDIT_USER"
 }
 
 export {
   categoriesActions,
   productsActions,
   cartActions,
-  userActions,
   orderActions,
   loginActions
 }

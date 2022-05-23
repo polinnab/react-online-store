@@ -8,6 +8,7 @@ import DialogType from './dialogContent/DialogType';
 import DialogProduct from './dialogContent/DialogProduct';
 import DialogAddToCart from './dialogContent/DialogAddToCart';
 import DialogOrder from './dialogContent/DialogOrder';
+import DialogUserEdited from './dialogContent/DialogUserEdited';
 
 const Dialogs = ({readyData}) => {
   const [open, setOpen] = useState(false);
@@ -22,7 +23,8 @@ const Dialogs = ({readyData}) => {
     product: DialogProduct,
     color: DialogColor,
     addToCart: DialogAddToCart,
-    order: DialogOrder
+    order: DialogOrder,
+    userEdited: DialogUserEdited 
   };
 
   const DialogShow = dialogList[dialogName];
