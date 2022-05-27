@@ -1,11 +1,11 @@
 import { cartActions } from './sagaActions';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { getCart } from '../slices/cartSlice';
-import $api from '../../http';
+import $api, { get } from '../../http';
 
 function* getCartProducts(action) {
     try {
-        const response = yield call($api.get, `/cart`); 
+        const response = yield get('/cart');
         yield put(getCart(response.data))
     } catch(e) {
         console.log(e.response)
