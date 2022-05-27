@@ -20,4 +20,6 @@ const Router = () => {
   );
 };
 
+// TODO: create separate routes.map for different roles fexmp: 'user', 'admin'. now user can go to /admin route
+
 export default Router;

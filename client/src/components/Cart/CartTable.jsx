@@ -12,6 +12,8 @@ import { cartActions } from "../../redux-store/saga/sagaActions";
 import { IMAGE_URL } from "../../shared/utils/_constans";
 import { moneyFormatter } from "../../shared/utils/_methods";
 
+// TODO: need refactor component to styled-components
+
 export default function CartTable({products}) {
     const dispatch = useDispatch();
 

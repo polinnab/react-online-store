@@ -1,7 +1,7 @@
 import { cartActions } from './sagaActions';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import { getCart } from '../slices/cartSlice';
-import $api, { get } from '../../http';
+import { get, post, remove, edit } from '../../http';
 
 function* getCartProducts(action) {
     try {
@@ -14,7 +14,7 @@ function* getCartProducts(action) {
 
 function* emptyCart(action) {
     try {
-        yield call($api.delete, `/cart`)
+        yield remove(`/cart`)
     } catch(e) {
         console.log(e.response)
     }
@@ -24,7 +24,7 @@ function* emptyCart(action) {
 function* addProductToCart(action) {
     const product = action.payload;
     try {
-        yield call($api.post, `/cart/${product.id}`);
+        yield post(`/cart/${product.id}`);
     } catch(e) {
         console.log(e.response)
     }
@@ -34,7 +34,7 @@ function* deleteProductFromCart(action) {
     const product = action.payload;
 
     try {
-        yield call($api.delete, `/cart/${product.id}`);
+        yield remove(`/cart/${product.id}`);
     } catch(e) {
         console.log(e.response)
     }
@@ -45,7 +45,7 @@ function* changeCount(action) {
     const {product, count} = action.payload;
 
     try {
-        yield call($api.put, `/cart/${product.id}`, {count});
+        yield edit(`/cart/${product.id}`, {count});
     } catch(e) {
         console.log(e.response)
     }

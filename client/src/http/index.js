@@ -38,4 +38,11 @@ export function* edit(url, data, headers) {
     })
 }
 
-export default $api;
+export function* remove(url, data, headers) {
+    return yield call($api.delete, url, data, {
+        headers: {
+            'Content-Type': 'application/json',
+            ...headers
+        }
+    })
+}
