@@ -1,9 +1,14 @@
 .LoginForm {
+  &-container {
+    width: 300px;
+  }
 
   &--form {
     width: 100%;
     display: flex;
     flex-direction: column;
+    max-width: 270px;
+    margin: 0 auto;
 
     & div {
       margin-top: 10px;

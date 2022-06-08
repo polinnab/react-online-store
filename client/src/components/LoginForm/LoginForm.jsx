@@ -34,7 +34,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div>
+        <div className="LoginForm-container">
             <form onSubmit={handleSubmit} className="LoginForm--form">
                 <TextField
                     id="user-email"
