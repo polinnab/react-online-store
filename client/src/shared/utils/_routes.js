@@ -4,10 +4,11 @@ import ProductPage from '../../pages/product/ProductPage'
 import UserPage from "../../pages/user/UserPage"
 import CartPage from "../../pages/cart/CartPage"
 import ShopAccount from "../../pages/shop-account/ShopAccount"
-import { admin_route, main_route, product_route, user_route, cart_route, shop_route, login_route, registration_route, products_route } from './_constans'
+import { admin_route, main_route, product_route, user_route, cart_route, shop_route, login_route, registration_route, products_route, charts_route } from './_constans'
 import LoginPage from "../../pages/login/LoginPage"
 import RegistrationPage from "../../pages/registration/RegistrationPage"
 import HomePage from "../../pages/home/HomePage"
+import ChartPage from "../../pages/charts/ChartPage"
 
 export const authRoutes = [
 	{
@@ -39,6 +40,11 @@ export const authRoutes = [
 	{
 		path: product_route + '/:id',
 		Component: ProductPage,
+		exact: true
+	},
+	{
+		path: charts_route,
+		Component: ChartPage,
 		exact: true
 	}
 ]
