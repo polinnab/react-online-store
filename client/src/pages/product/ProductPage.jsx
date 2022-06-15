@@ -11,6 +11,7 @@ import { moneyFormatter } from '../../shared/utils/_methods';
 import 'react-image-gallery/styles/scss/image-gallery.scss'
 import '../../styles/productPage.scss';
 import '../../components/Button/button.scss';
+import { useTranslation } from "react-i18next";
 
 
 
@@ -22,6 +23,7 @@ const ProductPage = () => {
   const [isLoad, setIsLoad] = useState(true);
   const [brandName, setBrandName] = useState();
   const [gallery, setGallery] = useState();
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch({ type: categoriesActions.GET_CAT, category_name: 'brands' });
@@ -67,7 +69,7 @@ const ProductPage = () => {
         <h2 className='product-page__name'>{product.name}</h2>
         <div className='product-page__desc'>{product.desc}</div>
         <div className='product-page__price'>${moneyFormatter(product.price)}</div>
-        <button className='btn btn--orange' onClick={() => addToCart()}>Buy</button>
+        <button className='btn btn--orange' onClick={() => addToCart()}>{t('buy')}</button>
       </div>
 
       <Dialogs readyData={true} />

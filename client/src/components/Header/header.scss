@@ -45,3 +45,14 @@ header {
 .MuiBox-root > a {
   transition: unset;
 }
+
+.language-button {
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: transparent;
+
+  &:not(:disabled):hover {
+    border-bottom: 1px solid;
+  }
+}
