@@ -11,8 +11,8 @@ import { useDispatch } from "react-redux";
 import { cartActions } from "../../redux-store/saga/sagaActions";
 import { IMAGE_URL } from "../../shared/utils/_constans";
 import { moneyFormatter } from "../../shared/utils/_methods";
+import styled from 'styled-components';
 
-// TODO: need refactor component to styled-components
 
 export default function CartTable({products}) {
     const dispatch = useDispatch();
@@ -49,8 +49,8 @@ export default function CartTable({products}) {
             Empty Cart
         </button>
 
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainerStyled component={Paper}>
+            <Table aria-label="simple table">
                <TableHead>
                  <TableRow>
                    <TableCell></TableCell>
@@ -75,12 +75,10 @@ export default function CartTable({products}) {
                          <p>${moneyFormatter(product.price)}</p>
                         </TableCell>
                      <TableCell align="left">
-                        <button onClick={() => minusProduct(product)}
-                            disabled={product.count <= 1} 
-                            className='Cart_count-minus'>-</button> 
-                        <span className='Cart_count-text' >{product.count}</span>
-                        <button onClick={() => plusProduct(product)}
-                            className='Cart_count-plus'>+</button>
+                        <CountButton onClick={() => minusProduct(product)}
+                            disabled={product.count <= 1}>-</CountButton> 
+                        <CountText>{product.count}</CountText>
+                        <CountButton onClick={() => plusProduct(product)}>+</CountButton>
                     </TableCell>
                      <TableCell>
                         <DeleteForeverIcon 
@@ -93,8 +91,28 @@ export default function CartTable({products}) {
                </TableBody>
             </Table>
 
-            <p className='Cart_totalamount'>Total amount: ${calculateTotalAmount()}</p>
-        </TableContainer>
+            <Paragraph>Total amount: ${calculateTotalAmount()}</Paragraph>
+        </TableContainerStyled>
         </>
     )
 }
+
+const TableContainerStyled = styled(TableContainer)`
+    margin-top: 20px
+`
+
+const CountText = styled.span`
+    padding: 0 10px;
+`
+
+const CountButton = styled.button`
+    border-radius: 6px;
+    border: none;
+    background-color: ${props => props.disabled ? '#ebe8e8' : 'rgba(182, 223, 35, .8)'};
+
+`
+
+const Paragraph = styled.p`
+    padding: 10px 0 5px 20px;
+    font-weight: bold;
+`
