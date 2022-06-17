@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import store from "./redux-store/store"
 import './styles/main.scss'
+import "./i18n"
 
 render(
     <Provider store={store}>

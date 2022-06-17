@@ -7,8 +7,14 @@ import { main_route, admin_route, login_route, user_route, shop_route, cart_rout
 import { useSelector, useDispatch } from 'react-redux';
 import logo from '../../assets/images/icons/logo.svg';
 import { loginActions } from '../../redux-store/saga/sagaActions';
+import { useTranslation } from "react-i18next";
 
 import './header.scss';
+
+const lngs = {
+  en: {nativeName: 'En'},
+  ua: {nativeName: 'Ukr'}
+}
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -16,6 +22,8 @@ const Header = () => {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const { t, i18n } = useTranslation()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -70,11 +78,11 @@ const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}>
               <MenuItem onClick={handleCloseNavMenu} className='header__link'>
-                <NavLink to={main_route}>Home</NavLink>
+                <NavLink to={main_route}>{t('home')}</NavLink>
               </MenuItem>
               {isAuth &&
               <MenuItem onClick={handleCloseNavMenu} className='header__link'>
-                <NavLink to={products_route}>Products</NavLink>
+                <NavLink to={products_route}>{t('products')}</NavLink>
               </MenuItem>}
             </Menu>
           </Box>
@@ -83,13 +91,23 @@ const Header = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <MenuItem onClick={handleCloseNavMenu} className='header__link'>
-              <NavLink to={main_route}>Home</NavLink>
+              <NavLink to={main_route}>{t('home')}</NavLink>
             </MenuItem>
             {isAuth &&
             <MenuItem onClick={handleCloseNavMenu} className='header__link'>
-              <NavLink to={products_route}>Products</NavLink>
+              <NavLink to={products_route}>{t('products')}</NavLink>
             </MenuItem>}
           </Box>
+
+          {Object.keys(lngs).map((lng) => (
+            <button 
+              className='language-button'
+              type='submit' 
+              key={lng} 
+              onClick={() => i18n.changeLanguage(lng)} disabled={i18n.resolvedLanguage === lng}>
+                {lngs[lng].nativeName}
+              </button>
+          ))}
 
           {isAuth && <Box sx={{ flexGrow: 0, marginRight: '10px' }}>
               <NavLink to={cart_route}>
@@ -124,20 +142,20 @@ const Header = () => {
                   {user.admin ? (
                     <MenuItem onClick={handleCloseUserMenu}>
                       <NavLink to={admin_route}>
-                        <Typography textAlign='center'>Admin</Typography>
+                        <Typography textAlign='center'>{t('admin')}</Typography>
                       </NavLink>
                     </MenuItem>
                   ) : (
                     <MenuItem onClick={handleCloseUserMenu}>
                       <NavLink to={!user.admin ? user_route : shop_route}>
-                        <Typography textAlign='center'>Account</Typography>
+                        <Typography textAlign='center'>{t('account')}</Typography>
                       </NavLink>
                     </MenuItem>
                   )}
 
                   <MenuItem onClick={onLogoutClick}>
                     <NavLink to={main_route}>
-                    <Typography textAlign='center'>Logout</Typography>
+                    <Typography textAlign='center'>{t('logout')}</Typography>
                     </NavLink>
                   </MenuItem>
                 </Menu>
@@ -145,7 +163,7 @@ const Header = () => {
             )} 
             {!isAuth && (
               <NavLink to={login_route}>
-                <Button color='inherit'>Login</Button>
+                <Button color='inherit'>{t('login')}</Button>
               </NavLink>
             )}
           </Box>
