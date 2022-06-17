@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { cartActions } from '../../redux-store/saga/sagaActions';
 import CartTable from '../../components/Cart/CartTable';
-
-import './cart.scss';
+import styled from 'styled-components';
 
 const CartPage = () => {
     const dispatch = useDispatch();
@@ -14,15 +13,27 @@ const CartPage = () => {
     }, [dispatch]);
 
     return(
-        <div className='Cart_container'>
-            <div className='Cart_header'>
+        <Container>
+            <Header>
                 <h1>Cart</h1>
-            </div>
+            </Header>
 
             <CartTable products={products}/>
 
-        </div>
+        </Container>
     )
 }
 
 export default CartPage
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    max-width: 60%;
+`
+
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+`
