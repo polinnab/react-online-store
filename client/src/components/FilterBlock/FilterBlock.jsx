@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Checkbox, FormGroup, FormControlLabel, Button } from '@mui/material';
 import { categoriesActions, productsActions } from '../../redux-store/saga/sagaActions';
+import { useTranslation } from "react-i18next";
 import './filterblock.scss';
 
 const addCheckField = (categories) => {
@@ -73,6 +74,8 @@ const FilterBlock = () => {
   const { brands, colors, types } = state;
   const filterQuery = new URLSearchParams(searchParams).toString();
 
+  const { t } = useTranslation();
+
   setChecked(searchParams, state);
 
   useEffect(() => {
@@ -125,7 +128,7 @@ const FilterBlock = () => {
     <div className='filter-block'>
       {brands?.length ? (
         <React.Fragment>
-          <h3>Brand</h3>
+          <h3>{t('brand')}</h3>
           <div className='filter-block__item'>
             <FormGroup>
               {brands.map((elem, idx) => {
@@ -138,7 +141,7 @@ const FilterBlock = () => {
 
       {types?.length ? (
         <React.Fragment>
-          <h3>Type</h3>
+          <h3>{t('type')}</h3>
           <div className='filter-block__item'>
             <FormGroup>
               {types.map((elem, idx) => {
@@ -151,7 +154,7 @@ const FilterBlock = () => {
 
       {colors?.length ? (
         <React.Fragment>
-          <h3>Color</h3>
+          <h3>{t('color')}</h3>
           <div className='filter-block__item'>
             <FormGroup>
               {colors.map((elem, idx) => {
@@ -162,7 +165,7 @@ const FilterBlock = () => {
         </React.Fragment>
       ) : null}
       <Button variant='contained' onClick={clearFilters}>
-        Clear filters
+        {t('clearFilters')}
       </Button>
     </div>
   );
