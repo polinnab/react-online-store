@@ -1,0 +1,220 @@
+// utils
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+// 
+
+.Form {
+    &--container {
+        width: 100%;
+        height: 613px;
+        padding: 25px;
+        background-color: #2F80ED;
+        color: #FFFFFF;
+        border-radius: 15px;
+        display: flex;
+        font-family: 'Stem Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    &--text-block {
+        width: 60%;
+        height: 100%;
+        padding-top: 28px;
+        padding-left: 5%;
+    }
+
+    &--title {
+        font-size: 40px;
+        font-weight: bold;
+        max-width: 422px;
+        line-height: 48px;
+        letter-spacing: 0px;
+        text-align: left;
+    }
+
+    &--description {
+        margin-top: 10px;
+        max-width: 472px;
+        font-size: 22px;
+        line-height: 34px;
+    }
+
+    &--form-block {
+        width: 40%;
+        height: 100%;
+        padding: 14px 25px 25px 25px;
+    }
+
+    &--input-group {
+        border-bottom: 1px solid hsla(0,0%,100%,.5);
+        display: flex;
+        height: 60px;
+        position: relative;
+        transition: border-color 0.3s linear;
+    }
+
+    &--input-label {
+        display: flex;
+        height: 100%;
+        order: 1;
+        transition: .2s;
+        align-items: center;
+    }
+
+    &--input-input {
+        height: 100%;
+        order: 2;
+        width: 100%;
+    }
+
+    &--input-attach {
+        justify-content: end;
+        border: none;
+        margin-top: 8px;
+        height: 40px;
+    }
+
+    &--alternative-block {
+        margin-top: 63px;
+        width: 100%;
+    }
+
+    &--icons {
+        display: flex;
+        margin-top: 15px;
+    }
+
+    &--icon-shell {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        border: 1px solid #FFFFFF;
+        margin-right: 10px;
+        cursor: pointer;
+
+        img {
+            width: 18px;
+            height: auto;
+        }
+    }
+
+    &--icon-active {
+        background-color: #FFFFFF;
+        border: 1px solid #2F80ED;
+    }
+
+    &--button {
+        margin-top: 38px;
+    }
+
+    &--successMessage {
+        justify-content: end;
+        margin-top: 5px;
+        font-size: 14px;
+        display: none;
+        position: absolute;
+        right: 25px;
+
+        &-show {
+            display: flex;
+        }
+    }
+
+    &--invalidAttach {
+        position: absolute;
+        font-size: 12px;
+        right: 25px;
+        opacity: 0;
+
+        p:nth-child(2) {
+            text-align: end;
+        }
+        
+        &-show {
+            opacity: 1;
+        }
+    }
+}
+
+.Input {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    display: block;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    height: 100%;
+    line-height: 100%;
+    margin: 0;
+    outline: none;
+    padding: 10px;
+    padding-left: 7%;
+    width: 100%;
+    color: #FFFFFF;
+
+    &::placeholder {
+        opacity: .5;
+        color: #FFFFFF;
+    }
+
+    &--alternative {
+        padding-left: 0;
+        padding-bottom: 0;
+    }
+}
+
+.Label {
+    min-width: 60px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 32px;
+    white-space: nowrap;
+}
+
+.Attach {
+    cursor: pointer;
+    padding: 10px 0 10px;
+}
+
+@media screen and (max-width: 490px) {
+    .Form {
+        &--description {
+            font-size: 20px;
+        }
+
+        &--container {    
+            flex-direction: column;
+            height: auto;
+        }
+
+        &--text-block {
+            padding: 4px;
+            width: 100%;
+        }
+
+        &--form-block {
+            width: 100%;
+            padding: 14px 0;
+            margin-top: 20px;
+        }
+    }
+
+    .Input {
+        padding-left: 3%;
+
+        &--alternative {
+            padding-left: 0;
+        }
+    }
+}

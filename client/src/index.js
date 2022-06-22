@@ -6,6 +6,7 @@ import App from './App';
 import store from "./redux-store/store"
 import './styles/main.scss'
 import "./i18n"
+import './static/fonts/fonts.css';
 
 render(
     <Provider store={store}>

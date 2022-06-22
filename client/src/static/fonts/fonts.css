@@ -1,0 +1,21 @@
+@font-face {
+  font-display: swap;
+  font-family: 'Stem Text';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Stem Text'),
+    url('STT55.woff2') format('woff2'),
+    url('STT55.woff') format('woff'),
+    url('STT55.otf') format('opentype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Stem Text';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Stem Text Bold'),
+    url('STT75.woff2') format('woff2'),
+    url('STT75.woff') format('woff'),
+    url('STT75.otf') format('opentype');
+}
