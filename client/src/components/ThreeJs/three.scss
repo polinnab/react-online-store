@@ -1,0 +1,9 @@
+
+.canvas-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+    position: absolute;
+    top: 64px;
+    left: 0;
+    background-color: rgb(24, 24, 24);
+}

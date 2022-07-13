@@ -15,6 +15,7 @@ export const products_route = '/catalogue'
 export const basket_route = '/basket'
 export const cart_route = '/cart'
 export const shop_route = '/shop-account'
+export const three_route = '/three-sphere'
 
 // ----- errors -----
 export const BAD_REQUEST_MESSAGE = 'Bad request from server';

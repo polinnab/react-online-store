@@ -3,7 +3,7 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { NavLink } from 'react-router-dom';
-import { main_route, admin_route, login_route, user_route, shop_route, cart_route, products_route } from '../../shared/utils/_constans';
+import { main_route, admin_route, login_route, user_route, shop_route, cart_route, products_route, three_route } from '../../shared/utils/_constans';
 import { useSelector, useDispatch } from 'react-redux';
 import logo from '../../assets/images/icons/logo.svg';
 import { loginActions } from '../../redux-store/saga/sagaActions';
@@ -84,6 +84,9 @@ const Header = () => {
               <MenuItem onClick={handleCloseNavMenu} className='header__link'>
                 <NavLink to={products_route}>{t('products')}</NavLink>
               </MenuItem>}
+              <MenuItem onClick={handleCloseNavMenu} className='header__link'>
+                <NavLink to={three_route}>Three JS</NavLink>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -97,6 +100,9 @@ const Header = () => {
             <MenuItem onClick={handleCloseNavMenu} className='header__link'>
               <NavLink to={products_route}>{t('products')}</NavLink>
             </MenuItem>}
+            <MenuItem onClick={handleCloseNavMenu} className='header__link'>
+                <NavLink to={three_route}>Three JS</NavLink>
+              </MenuItem>
           </Box>
 
           {Object.keys(lngs).map((lng) => (
