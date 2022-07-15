@@ -7,6 +7,8 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
+import texturePath from '../../static/textures/NormalMap.png'
+
 function ThreeJsSphere() {
 
     const refContainer = useRef();
@@ -14,6 +16,7 @@ function ThreeJsSphere() {
     const [renderer, setRenderer] = useState()
 
     useEffect(() => {
+        console.log('ty', renderer)
         const { current: container } = refContainer;
         if (container && !renderer ) {
             const width = container.clientWidth;
@@ -37,8 +40,7 @@ function ThreeJsSphere() {
 
 
         // Loader
-        const textureLoader = new THREE.TextureLoader()
-        const normalTexture = textureLoader.load('/textures/NormalMap.png');
+        const normalTexture = new THREE.TextureLoader().load(texturePath);
         // Debug
         const gui = new dat.GUI()
         // Scene
@@ -50,26 +52,26 @@ function ThreeJsSphere() {
         material.metalness = 0.7
         material.roughness = 0.2
         material.normalMap = normalTexture; 
-        material.color = new THREE.Color(0x000000)
+        material.color = new THREE.Color(0x292929)
         // Mesh
         const sphere = new THREE.Mesh(geometry,material)
         scene.add(sphere)
         // Lights
         const pointLight = new THREE.PointLight(0xffffff, 0.1)
-        pointLight.position.x = 0.17
-        pointLight.position.y = 0.09
-        pointLight.position.z = -0.2
+        pointLight.position.x = 2
+        pointLight.position.y = 3
+        pointLight.position.z = 4
         scene.add(pointLight)
         //Light2
         const pointLight2 = new THREE.PointLight(0xff0000, 2)
-        pointLight2.position.set(-0.56,0.3,-0.61)
-        pointLight2.intensity = 9
+        pointLight2.position.set(-1.86,1,-1,65)
+        pointLight2.intensity = 10
         scene.add(pointLight2)
 
         //Light3
         const pointLight3 = new THREE.PointLight(0x75de, 2)
-        pointLight3.position.set(0.09,-0.93,-1.76)
-        pointLight3.intensity = 5
+        pointLight3.position.set(1.6,-1.52,-1.589)
+        pointLight3.intensity = 10
         scene.add(pointLight3)
 
         /**
